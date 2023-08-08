@@ -46,11 +46,11 @@ const Navbar = () => {
           <i class="fa-solid fa-link" style={{marginRight:"1.2rem",color:"#747e81"}}></i>
              How To Use</Typography>
         </a>
-        <a>
+        <Link to='/contact'>
         <Typography variant="body1" color="initial" className="nav_item">
           <i class="fa-regular fa-comment" style={{marginRight:"1.2rem",color:"#747e81"}}></i>
              Contact Us</Typography>
-        </a>
+        </Link>
 
         <Divider sx={{marginTop:"29vh"}}/>
        
@@ -92,11 +92,11 @@ const Navbar = () => {
           <i class="fa-solid fa-link" style={{marginRight:"1.2rem",color:"#747e81"}}></i>
              How To Use</Typography>
         </a>
-        <a>
+        <Link to='/contact'>
         <Typography variant="body1" color="initial" className="nav_item">
           <i class="fa-regular fa-comment" style={{marginRight:"1.2rem",color:"#747e81"}}></i>
              Contact Us</Typography>
-        </a>
+        </Link>
         <Divider sx={{marginTop:"27vh"}}/>
         
         <Typography variant="body1" color="initial" onClick={()=>navigate('/')} sx={{marginTop:"2vh",cursor:"pointer"}}>

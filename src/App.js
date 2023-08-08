@@ -6,6 +6,7 @@ import Register from './components/Register/Register'
 import ViewAPI from './components/ViewAPI/ViewAPI'
 import API from './components/API/API'
 import Collection from './components/Collection/Collection'
+import Contact from './components/Contact/Contact'
 import { Route, Routes } from "react-router";
 import { BrowserRouter as Router, Outlet, Navigate } from "react-router-dom";
 
@@ -22,6 +23,7 @@ function App() {
           <Route path="/viewapi" element={<ViewAPI />} />
           <Route path="/api" element={<API />} />
           <Route path="/collection" element={<Collection />} />
+          <Route path="/contact" element={<Contact />} />
         </Routes>
       </div>
     </Router>

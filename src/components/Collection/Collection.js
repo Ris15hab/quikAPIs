@@ -6,9 +6,26 @@ import Grid from "@mui/material/Grid";
 import './Collection.css'
 import copy from "copy-to-clipboard";
 import Tooltip from '@mui/material/Tooltip';
+import Button from '@mui/material/Button'
+import Modal from '@mui/material/Modal';
+
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: "20vw",
+  bgcolor: 'background.paper',
+  borderRadius:"25px",
+  boxShadow: 24,
+  p: 4,
+};
 
 
 const Collection = () => {
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => {setOpen(true)};
+  const handleClose = () => {setOpen(false)};
   return (
     <>
     <Navbar/>
@@ -48,6 +65,29 @@ const Collection = () => {
             <span style={{fontSize:"13px"}}>INDEXES</span>
         </Grid>
         <Grid item xs={11} md={8} lg={8} className="collection-box" sx={{marginBottom:"3vh !important",  marginTop:"3vh"}}>
+                  <Typography variant="body1" align="right" color="initial" sx={{color:"#5A5A5A",fontWeight:"bold",fontFamily:"League Spartan",marginRight:"1vw"}}>
+                              <Button variant="text" color="primary">
+                              <i className="fa-regular fa-pen-to-square" style={{fontSize:"1.1rem",color:"green"}}></i>
+                              </Button>
+                               <Button variant="text" color="primary" onClick={handleOpen}>
+                               <i class="fa-regular fa-trash-can" style={{fontSize:"1.1rem",color:"red"}}></i>
+                              </Button>
+                              <Modal
+                                open={open}
+                                onClose={handleClose}
+                                aria-labelledby="modal-modal-title"
+                                aria-describedby="modal-modal-description"
+                              >
+                                <Box sx={style} className="modal-box-delete">
+                                  <Typography id="modal-modal-title" variant="h6" component="h2">
+                                    Are you sure you want to delete this document?
+                                  </Typography>
+                                  <Typography id="modal-modal-description" align="right" sx={{ mt: 2 }}>
+                                  <Button sx={{color:"red"}} onClick={handleClose}>YES</Button> <Button onClick={handleClose} sx={{color:"gray"}}>Cancel</Button>
+                                  </Typography>
+                                </Box>
+                              </Modal>
+                  </Typography>
                   <Typography variant="body1" align="left" color="initial" sx={{marginLeft:"4vw",color:"#5A5A5A",fontWeight:"bold",fontFamily:"League Spartan"}}>
                     _id: <span style={{color:"#438C8E"}}> 64b500ffb3519eb573027f26</span>
                   </Typography>
@@ -66,25 +106,10 @@ const Collection = () => {
                   
         </Grid>
 
+        
 
-        <Grid item xs={11} md={8} lg={8} className="collection-box" sx={{marginBottom:"3vh !important",  marginTop:"3vh"}}>
-                  <Typography variant="body1" align="left" color="initial" sx={{marginLeft:"4vw",color:"#5A5A5A",fontWeight:"bold",fontFamily:"League Spartan"}}>
-                    _id: <span style={{color:"#438C8E"}}> 64b500ffb3519eb573027f26</span>
-                  </Typography>
-                  <Typography variant="body1" align="left" color="initial" sx={{marginLeft:"4vw",color:"#5A5A5A",fontWeight:"bold",fontFamily:"League Spartan"}}>
-                    name: <span style={{color:"#438C8E"}}> "rishab pendam"</span>
-                  </Typography>
-                  <Typography variant="body1" align="left" color="initial" sx={{marginLeft:"4vw",color:"#5A5A5A",fontWeight:"bold",fontFamily:"League Spartan"}}>
-                    email: <span style={{color:"#438C8E"}}> "mahek@gmail.com"</span>
-                  </Typography>
-                  <Typography variant="body1" align="left" color="initial" sx={{marginLeft:"4vw",color:"#5A5A5A",fontWeight:"bold",fontFamily:"League Spartan"}}>
-                    phone: <span style={{color:"#438C8E"}}>829107890</span>
-                  </Typography>
-                  <Typography variant="body1" align="left" color="initial" sx={{marginLeft:"4vw",color:"#5A5A5A",fontWeight:"bold",fontFamily:"League Spartan"}}>
-                    __v: <span style={{color:"#438C8E"}}>0</span>
-                  </Typography>
-                  
-        </Grid>
+
+        
 
        
         </Grid>  

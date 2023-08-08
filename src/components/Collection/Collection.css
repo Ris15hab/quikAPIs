@@ -16,7 +16,7 @@
     float: left;
     font-size:16px;
     color:#5A5A5A;
-    padding-top:4vh;
+    padding-top:2vh;
     padding-bottom:4vh;
 } 
 .count-collection{
@@ -41,6 +41,9 @@
     }
     .count-collection{
         font-size:11px;
+    }
+    .modal-box-delete{
+        width:50vw !important
     }
    
    

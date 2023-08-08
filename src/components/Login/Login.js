@@ -9,11 +9,12 @@ import { ToastContainer, toast } from "react-toastify";
 import Modal from "@mui/material/Modal";
 import "react-toastify/dist/ReactToastify.css";
 import PropTypes from 'prop-types';
-
+import axios from "axios";
 
 
 function Login() {
 
+  const navigate = useNavigate();
   const [email, setEmail] = useState('')
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const [password, setPassword] = useState('')
@@ -36,7 +37,7 @@ function Login() {
 
   const [open, setOpen] = React.useState(false);
   const [validate,setValidate]=useState('')
-  const handleOpen = (e) => {
+  const handleSubmit = async (e) => {
     if(!emailRegex.test(email)){
       console.log("correct email")
       setValidate('email')
@@ -45,11 +46,33 @@ function Login() {
       setValidate('password')
     }
     else{
-      setValidate('correct')
+      try{
+        const response = await axios.post("http://localhost:8000/user/login", {
+          email,
+          password,
+        });
+        if(response.status == 200){
+          localStorage.setItem("token",response.data.token)
+          setValidate('correct')
+          setTimeout(() => {
+            navigate('/profile')
+          }, 1500);
+        }else{
+          setValidate('unknown')
+          setTimeout(() => {
+            navigate('/')
+          }, 1500);
+        }
+      }catch(err){
+        // console.log(err)
+        setValidate('incorrect')
+      }
     }
     setOpen(true);
     setTimeout(() => {
       setOpen(false);
+        setEmail('');
+        setPassword('');
     }, 1000);
   };
 
@@ -66,9 +89,9 @@ function Login() {
   const handleShow=(e)=>{
         setShow(!show)
   }
-  const handleSubmit=(e)=>{
-    setSucc(false)
-  }
+  // const handleSubmit=(e)=>{
+  //   setSucc(false)
+  // }
 
   return (
     <div
@@ -116,7 +139,7 @@ function Login() {
    
               <>
               <Typography
-                variant="body1"
+                // variant="body1"
                 align="left"
                 className="heading_signup"
                 variant="h4"
@@ -128,17 +151,17 @@ function Login() {
                 variant="body1"
                 align="left"
                 className="heading_signup"
-                sx={{ fontFamily: "sans-serif", marginTop: "1vh"}}
-                sx={{ color: "gray" }}
+                sx={{ fontFamily: "sans-serif", marginTop: "1vh",color: "gray" }}
+                // sx={{ color: "gray" }}
               >
                 Don't have an account?{" "}
                 <span style={{ color: "#37BEC1" }}><Link to='/register' style={{textDecoration:"none",color:"#37BEC1"}}>Signup</Link></span>{" "}
               </Typography>
               
              
-              <input value={email} onChange={(e)=>{setEmail(e.target.value)}} type="text" name="text" className="input_signup_1" placeholder="Email" />
+              <input value={email} onChange={(e)=>{setEmail(e.target.value)}} type="text" name="text" className="input_signup_1" placeholder="Email" autoComplete="off" />
 
-              <input type={show?"text":"password"} value={password} onChange={(e)=>{setPassword(e.target.value)}} name="password" className="input_signup_2" placeholder="Password">
+              <input type={show?"text":"password"} value={password} onChange={(e)=>{setPassword(e.target.value)}} name="password" className="input_signup_2" placeholder="Password" autoComplete="off">
               </input>
               
               <Grid>
@@ -153,7 +176,7 @@ function Login() {
               </Grid>
               </Grid> 
               <Grid sx={{marginTop:"3vh"}}>
-              <button className="btn" onClick={handleOpen} style={{marginRight:"5vw"}} >   Submit
+              <button className="btn" onClick={handleSubmit} style={{marginRight:"5vw"}} >   Login
               </button>
             {validate=='email'&&<Modal
                 open={open}
@@ -193,6 +216,34 @@ function Login() {
                 <Typography id="modal-modal-title" variant="h6" component="h3" sx={{margin:"1vh",fontSize:"1.2rem"}}>
                 <i class="fa-regular fa-circle-xmark" style={{color: "#37bec1",marginRight:"1vw"}}></i>
                  Enter password<span style={{marginRight:"1vw !important"}}></span>
+                </Typography>
+              </Box>
+            </Modal>
+            }
+            {validate=='incorrect'&&<Modal
+                open={open}
+                sx={{border:"none !important"}}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+              >
+              <Box sx={style}>
+                <Typography id="modal-modal-title" variant="h6" component="h3" sx={{margin:"1vh",fontSize:"1.1rem"}}>
+                <i class="fa-regular fa-circle-xmark" style={{color: "#37bec1",marginRight:"1vw"}}></i>
+                Invalid Login Credentials<span style={{marginRight:"1vw !important"}}></span>
+                </Typography>
+              </Box>
+            </Modal>
+            }
+            {validate=='unknown'&&<Modal
+                open={open}
+                sx={{border:"none !important"}}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+              >
+              <Box sx={style}>
+                <Typography id="modal-modal-title" variant="h6" component="h3" sx={{margin:"1vh",fontSize:"1.1rem"}}>
+                <i class="fa-regular fa-circle-xmark" style={{color: "#37bec1",marginRight:"1vw"}}></i>
+                Oops! An Error Occurred  <span style={{marginRight:"1vw !important"}}></span>
                 </Typography>
               </Box>
             </Modal>

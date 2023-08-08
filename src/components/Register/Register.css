@@ -16,7 +16,8 @@
     }
     
     .input_signup{
-        width:60vw !important
+        width:60vw !important;
+        font-size: 14px !important;
     }
     .otp_mobile{
   

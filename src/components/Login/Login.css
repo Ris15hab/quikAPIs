@@ -14,10 +14,12 @@
     }
     
     .input_signup_1{
-        width:60vw !important
+        width:60vw !important;
+        font-size: 14px !important;
     }
     .input_signup_2{
-        width:60vw !important
+        width:60vw !important;
+        font-size: 14px !important;
     }
     .otp_mobile{
         padding-left:0px !important;

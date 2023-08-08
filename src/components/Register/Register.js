@@ -10,13 +10,16 @@ import OtpInput from 'react-otp-input';
 import Modal from "@mui/material/Modal";
 import "react-toastify/dist/ReactToastify.css";
 import PropTypes from 'prop-types';
+import axios from "axios";
 
 
 
 
 function Register() {
+  const navigate = useNavigate()
   const Ref = useRef(null);
   const [email, setEmail] = useState('')
+  const [userEmail, setUserEmail] = useState('')
   const [name, setName] = useState('')
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const [password, setPassword] = useState('')
@@ -38,12 +41,13 @@ function Register() {
   };
   const [open, setOpen] = React.useState(false);
   const [validate,setValidate]=useState('')
-  const handleOpen = (e) => {
+
+  const handleOpen = async (e) => {
     if(name.length==0){
       setValidate('name')
     }
     else if(!emailRegex.test(email)){
-      console.log("correct email")
+      // console.log("correct email")
       setValidate('email')
     }
     else if(password.length==0){
@@ -51,14 +55,36 @@ function Register() {
     }
 
     else{
-      setSucc(false)
-      setValidate('correct')
+      try{
+        const response = await axios.post("http://localhost:8000/user/register", {
+          username:name,
+          email,
+          password,
+        });
+        if(response.status==201){
+          localStorage.setItem("token",response.data.id)
+          setValidate('otp_sent')
+          setSucc(false)
+          setUserEmail(email)
+        }else{
+          setValidate('unknown')
+          setTimeout(() => {
+            navigate('/')
+          }, 1500);
+        }
+      }catch(err){
+        setValidate('incorrect_email')
+      }
     }
     setOpen(true);
     setTimeout(() => {
       setOpen(false);
+      setEmail('');
+      setName('');
+      setPassword('');
     }, 1000);
   };
+
   const [timer, setTimer] = useState('00:00');
   const [show, setShow] = useState(false)
   const getTimeRemaining = (e) => {
@@ -94,9 +120,35 @@ function Register() {
       deadline.setSeconds(deadline.getSeconds() + 60);
       return deadline;
     }
-    const onClickReset = () => {
-      clearTimer(getDeadTime());
 
+    const onClickReset = async() => {
+      try{
+        clearTimer(getDeadTime());
+        const token = localStorage.getItem('token');
+        const response = await axios.post("http://localhost:8000/user/resendOtp", {
+        _id:token
+      });
+      if(response.status==200){
+        localStorage.setItem("token",response.data._id)
+        setValidate('otp_sent')
+      }else{
+        setValidate('unknown')
+        setTimeout(() => {
+          navigate('/')
+        }, 1500);
+      }
+      }catch(err){
+        setValidate('unknown')
+        setTimeout(() => {
+          navigate('/')
+        }, 1500);
+      }
+
+      setOpen(true);
+      setTimeout(() => {
+      setOpen(false);
+      setOtp('')
+    }, 1000);
   }
 
     useEffect(() => {
@@ -112,8 +164,34 @@ function Register() {
     const handleShow=(e)=>{
       setShow(!show)
   }
-  const handleSubmit=(e)=>{
-   
+  const handleSubmit = async(e)=>{
+    try{
+      const token = localStorage.getItem('token');
+      const response = await axios.post("http://localhost:8000/user/verifyOtp", {
+        otpnumber:otp,
+        userID:token
+      });
+      if(response.status==200){
+        localStorage.setItem("token",response.data.token)
+        setValidate('correct');
+        setTimeout(() => {
+          navigate('/profile')
+        }, 1500);
+      }else{
+        setValidate('unknown')
+        setTimeout(() => {
+          navigate('/')
+        }, 1500);
+      }
+    }catch(err){
+      setValidate('incorrect_otp')
+      // setValidate('unknown')
+    }
+    setOpen(true);
+    setTimeout(() => {
+      setOpen(false);
+      setOtp('')
+    }, 1000);
   }
 
   return (
@@ -162,7 +240,7 @@ function Register() {
             {succ?(
               <>
               <Typography
-                variant="body1"
+                // variant="body1"
                 align="left"
                 className="heading_signup"
                 variant="h4"
@@ -174,21 +252,21 @@ function Register() {
                 variant="body1"
                 align="left"
                 className="heading_signup"
-                sx={{ fontFamily: "sans-serif", marginTop: "1vh" }}
-                sx={{ color: "gray" }}
+                sx={{ fontFamily: "sans-serif", marginTop: "1vh" , color: "gray" }}
+                // sx={{ color: "gray" }}
               >
                 Already have an account?{" "}
                 <span style={{ color: "#37BEC1" }}><Link to='/' style={{textDecoration:"none",color:"#37BEC1"}}>Login</Link></span>{" "}
               </Typography>
               
-              <input type="text" value={name} onChange={e=>setName(e.target.value)} name="text" class="input_signup" placeholder="Name" required/>
-              <input type="text" value={email} onChange={e=>setEmail(e.target.value)} name="text" class="input_signup" placeholder="Email" required/>
-              <input  value={password} onChange={e=>setPassword(e.target.value)} type={show?"text":"password"} name="password" class="input_signup" placeholder="Password" ></input>
+              <input type="text" value={name} onChange={e=>setName(e.target.value)} name="text" className="input_signup" placeholder="Name" autoComplete="off"/>
+              <input type="text" value={email} onChange={e=>setEmail(e.target.value)} name="text" className="input_signup" placeholder="Email" autoComplete="off" required/>
+              <input  value={password} onChange={e=>setPassword(e.target.value)} type={show?"text":"password"} name="password" autoComplete="off" className="input_signup" placeholder="Password" ></input>
               <Grid  >
               <Grid item className="checkbox-wrapper" md={3}>
               <label>   
                 <input type="checkbox" onClick={handleShow} />
-                <span class="checkbox"></span>
+                <span className="checkbox"></span>
               </label>
               </Grid>
               <Grid item xs={9} md={9}>
@@ -196,7 +274,7 @@ function Register() {
               </Grid>
               </Grid> 
               <Grid sx={{marginTop:"3vh"}}>
-              <button class="btn" style={{marginRight:"5vw"}} onClick={handleOpen}> Submit
+              <button className="btn" style={{marginRight:"5vw"}} onClick={handleOpen}> Register
               </button>
               {validate=='email'&&<Modal
                 open={open}
@@ -206,7 +284,7 @@ function Register() {
               >
               <Box sx={style}>
                 <Typography id="modal-modal-title" variant="h6" component="h3" sx={{margin:"1vh",fontSize:"1.2rem"}}>
-                <i class="fa-regular fa-circle-xmark" style={{color: "#37bec1",marginRight:"1vw"}}></i>
+                <i className="fa-regular fa-circle-xmark" style={{color: "#37bec1",marginRight:"1vw"}}></i>
                 Enter correct email <span style={{marginRight:"1vw !important"}}></span>
                 </Typography>
               </Box>
@@ -220,7 +298,7 @@ function Register() {
               >
               <Box sx={style}>
                 <Typography id="modal-modal-title" variant="h6" component="h3" sx={{margin:"1vh",fontSize:"1.2rem"}}>
-                <i class="fa-regular fa-circle-xmark" style={{color: "#37bec1",marginRight:"1vw"}}></i>
+                <i className="fa-regular fa-circle-xmark" style={{color: "#37bec1",marginRight:"1vw"}}></i>
                 Enter name <span style={{marginRight:"1vw !important"}}></span>
                 </Typography>
               </Box>
@@ -235,16 +313,93 @@ function Register() {
               >
               <Box sx={style}>
                 <Typography id="modal-modal-title" variant="h6" component="h3" sx={{margin:"1vh",fontSize:"1.2rem"}}>
-                <i class="fa-regular fa-circle-xmark" style={{color: "#37bec1",marginRight:"1vw"}}></i>
+                <i className="fa-regular fa-circle-xmark" style={{color: "#37bec1",marginRight:"1vw"}}></i>
                  Enter password<span style={{marginRight:"1vw !important"}}></span>
                 </Typography>
               </Box>
             </Modal>
             }
+
+            {validate=='incorrect_email'&&<Modal
+                open={open}
+                sx={{border:"none !important"}}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+              >
+              <Box sx={style}>
+                <Typography id="modal-modal-title" variant="h6" component="h3" sx={{margin:"1vh",fontSize:"1.2rem"}}>
+                <i className="fa-regular fa-circle-xmark" style={{color: "#37bec1",marginRight:"1vw"}}></i>
+                 Email already in use<span style={{marginRight:"1vw !important"}}></span>
+                </Typography>
+              </Box>
+            </Modal>
+            }
+
+            {validate=='unknown'&&<Modal
+                    open={open}
+                    sx={{border:"none !important"}}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                  >
+                  <Box sx={style}>
+                    <Typography id="modal-modal-title" variant="h6" component="h3" sx={{margin:"1vh",fontSize:"1.1rem"}}>
+                    <i className="fa-regular fa-circle-xmark" style={{color: "#37bec1",marginRight:"1vw"}}></i>
+                    Oops! An Error Occurred <span style={{marginRight:"1vw !important"}}></span>
+                    </Typography>
+                  </Box>
+                </Modal>
+            }
+
               </Grid> 
               </>
               ):(
                 <>
+                {validate=='otp_sent'&&<Modal
+                    open={open}
+                    sx={{border:"none !important"}}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                  >
+                  <Box sx={style}>
+                    <Typography id="modal-modal-title" variant="h6" component="h3" sx={{margin:"1vh",fontSize:"1.2rem"}}>
+                    <i className="fa-regular fa-circle-check" style={{color: "#37bec1",marginRight:"1vw"}}></i>
+                    OTP sent <span style={{marginRight:"1vw !important"}}></span>
+                    </Typography>
+                  </Box>
+                </Modal>
+                }
+
+                {validate=='unknown'&&<Modal
+                    open={open}
+                    sx={{border:"none !important"}}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                  >
+                  <Box sx={style}>
+                    <Typography id="modal-modal-title" variant="h6" component="h3" sx={{margin:"1vh",fontSize:"1.1rem"}}>
+                    <i className="fa-regular fa-circle-xmark" style={{color: "#37bec1",marginRight:"1vw"}}></i>
+                    Oops! An Error Occurred <span style={{marginRight:"1vw !important"}}></span>
+                    </Typography>
+                  </Box>
+                </Modal>
+                }
+
+                {validate=='incorrect_otp'&&<Modal
+                    open={open}
+                    sx={{border:"none !important"}}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                  >
+                  <Box sx={style}>
+                    <Typography id="modal-modal-title" variant="h6" component="h3" sx={{margin:"1vh",fontSize:"1.2rem"}}>
+                    <i className="fa-regular fa-circle-xmark" style={{color: "#37bec1",marginRight:"1vw"}}></i>
+                    Invalid OTP <span style={{marginRight:"1vw !important"}}></span>
+                    </Typography>
+                  </Box>
+                </Modal>
+                }
+
+
                 {validate=='correct'&&<Modal
                     open={open}
                     sx={{border:"none !important"}}
@@ -253,15 +408,15 @@ function Register() {
                   >
                   <Box sx={style}>
                     <Typography id="modal-modal-title" variant="h6" component="h3" sx={{margin:"1vh",fontSize:"1.2rem"}}>
-                    <i class="fa-regular fa-circle-check" style={{color: "#37bec1",marginRight:"1vw"}}></i>
+                    <i className="fa-regular fa-circle-check" style={{color: "#37bec1",marginRight:"1vw"}}></i>
                     Successful Signup <span style={{marginRight:"1vw !important"}}></span>
                     </Typography>
                   </Box>
                 </Modal>
                 }
-                <Typography sx={{color:"black",paddingTop:"5vh",fontSize:"1.1rem"}}>
+                <Typography sx={{color:"black",paddingTop:"2vh",fontSize:"1.1rem"}}>
                 <img src={Email} className="otp_img" style={{height:"10vh",marginBottom:"3vh"}}alt="email img here.."/><br/>
-                An email has been sent to <span style={{color:"#37A6A9",fontWeight:"bold"}}>mahekupadhye123@gmail.com</span>
+                An email has been sent to <span style={{color:"#37A6A9",fontWeight:"bold"}}>{`${userEmail}`}</span>
                 </Typography>
                 <Typography style={{color:"black",marginTop:"4vh",fontWeight:"bold"}}>
                 Enter Otp:
@@ -301,6 +456,8 @@ function Register() {
                  )
                 } 
                 </Typography>
+                <button className="btn" onClick ={handleSubmit} style={{marginRight:"0vw",marginTop:"4vh"}}> Submit
+                </button>
                 </>
               )
             }
