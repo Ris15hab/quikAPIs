@@ -37,21 +37,21 @@ const style = {
 };
 
 const CreateDB = () => {
+  const [preview, setPreview] = React.useState(false);
+  const [validate,setValidate]=useState('');
+  const [name, setName] = React.useState('');
+  const [description, setDescription] = React.useState('');  
   const [open, setOpen] = React.useState(false);
+  const [disabled, setDisabled] = React.useState(true);
   const handleOpen = (e) => {
    
+    console.log(final)
+    setValidate('correct')
     setOpen(true);
     setTimeout(() => {
       setOpen(false);
     }, 1500);
   };
-
-  // const showToastMessage = () => {
-  //   toast.success("Success! Databse created", {
-  //     position: toast.POSITION.TOP_RIGHT,
-  //     className: "toast-message",
-  //   });
-  // };
 
   const [inpval, setInpval] = useState({
     name: "",
@@ -67,6 +67,7 @@ const CreateDB = () => {
   const getdata = (e) => {
     const { value, name } = e.target;
 
+    // console.log(value)
     setInpval((preval) => {
       return {
         ...preval,
@@ -75,12 +76,24 @@ const CreateDB = () => {
     });
   };
   const handleSubmit = (e) => {
-    const newRecords = { ...inpval, id: new Date().getTime().toString() };
-    setFinal([...final, newRecords]);
+    // console.log(inpval.required.length)
+    if(inpval.name.length!=0 && inpval.type.length!=0 && inpval.required.length!=0 && inpval.unique.length!=0){
+      const newRecords = { ...inpval, id: new Date().getTime().toString() };
+      setFinal([...final, newRecords]);
+      setPreview(true)
+    }else{
+      setValidate('empty');
+      setOpen(true);
+      setTimeout(() => {
+        setOpen(false);
+      }, 1500);
+      }
   };
   const handleDelete = (index, e) => {
     setFinal(final.filter((v, i) => i !== index));
-    console.log(final);
+    // console.log(final);
+    // console.log("hiii " + final.length)
+    if(final.length==1){setPreview(false)}
   };
 
   return (
@@ -108,7 +121,7 @@ const CreateDB = () => {
               {" "}
               Database Name
             </Typography>
-            <input type="text" name="text" class="input_create" required  style={{color:"gray"}} />
+            <input type="text" value={name} onChange={(e)=>setName(e.target.value)} name="text" class="input_create" required  style={{color:"gray"}} />
           </Grid>
         </Grid>
         <Grid container className="home">
@@ -124,6 +137,8 @@ const CreateDB = () => {
               Database Description
             </Typography>
             <textarea
+              value={description}
+              onChange={(e)=>setDescription(e.target.value)}
               rows="4"
               cols="100"
               type="text"
@@ -295,7 +310,11 @@ const CreateDB = () => {
             </button>
           </Grid>
         </Grid>
-        <Typography
+        {
+         
+       preview?
+
+        (<><Typography
           variant="body1"
           color="initial"
           className="field-create"
@@ -324,8 +343,7 @@ const CreateDB = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {final.length !== 0 ? (
-                final.map((final, index) => {
+                {final.map((final, index) => {
                   return (
                     <TableRow
                       key={index}
@@ -355,34 +373,18 @@ const CreateDB = () => {
                       </TableCell>
                     </TableRow>
                   );
-                })
-              ) : (
-                <TableRow
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <TableCell component="th" scope="row"></TableCell>
-                  <TableCell
-                    sx={{
-                      paddingLeft: "12vw",
-                      color: "gray",
-                      fontSize: "1rem",
-                    }}
-                  >
-                    No preview
-                  </TableCell>
-                  <TableCell align="center"></TableCell>
-                  <TableCell align="right"></TableCell>
-                  <TableCell align="right"></TableCell>
-                </TableRow>
-              )}
+                })}
             </TableBody>
           </Table>
-        </TableContainer>
-
+        </TableContainer></>):(" ")
+      
+         }
+      {name.length==0||description.length==0||!preview?
+      (
+        <>
         <button
-          onClick={handleOpen}
-          className="btn-1"
-          style={{ marginBottom: "5vh", marginTop:"2vh", marginRight: "53vw" }}
+          className="btn-1-disabled"
+          style={{ marginBottom: "5vh", marginTop:"12vh", marginRight: "53vw" }}
         >
           <i
             className="fa-solid fa-database"
@@ -390,7 +392,38 @@ const CreateDB = () => {
           ></i>
           Generate APIs
         </button>
-        <Modal
+        </>
+      ):(
+        <>
+        <button
+          onClick={handleOpen}
+          className="btn-1"
+          style={{ marginBottom: "5vh", marginTop:"6vh", marginRight: "53vw" }}
+        >
+          <i
+            className="fa-solid fa-database"
+            style={{ marginRight: "1vw" }}
+          ></i>
+          Generate APIs
+        </button>
+        </>
+      )
+      }
+      {validate=='empty'&&<Modal
+          open={open}
+          sx={{border:"none !important"}}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h3" sx={{margin:"1vh",fontSize:"1.1rem"}}>
+          <i class="fa-regular fa-circle-xmark" style={{color: "#37bec1",marginRight:"1vw"}}></i>
+          Please enter all fields <span style={{marginRight:"1vw !important"}}></span>
+          </Typography>
+        </Box>
+        </Modal>}
+
+        {validate=='correct'&&<Modal
           open={open}
           sx={{border:"none !important"}}
           aria-labelledby="modal-modal-title"
@@ -402,7 +435,7 @@ const CreateDB = () => {
             Success! <span style={{marginRight:"1vw !important"}}>Database Created</span>
             </Typography>
           </Box>
-        </Modal>
+        </Modal>}
 
         <Grid sx={{ marginTop: "3vh" }}></Grid>
       </div>
