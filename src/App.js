@@ -22,7 +22,7 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/viewapi" element={<ViewAPI />} />
           <Route path="/api" element={<API />} />
-          <Route path="/collection" element={<Collection />} />
+          <Route path="/collection/:id" element={<Collection />} />
           <Route path="/contact" element={<Contact />} />
         </Routes>
       </div>

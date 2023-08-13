@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import Navbar from "../Navbar/Navbar";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
@@ -8,6 +8,8 @@ import copy from "copy-to-clipboard";
 import Tooltip from '@mui/material/Tooltip';
 import Button from '@mui/material/Button'
 import Modal from '@mui/material/Modal';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
 
 const style = {
   position: 'absolute',
@@ -21,11 +23,60 @@ const style = {
   p: 4,
 };
 
+const style_modal_popup = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 300,
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  pt: 2,
+  px: 4,
+  pb: 3,
+  borderRadius:"15px",
+  border:"none !important",
+  transition:" all .4s"
+};
+
 
 const Collection = () => {
+  const {id} = useParams();
+  const [validate,setValidate]=useState('');
   const [open, setOpen] = React.useState(false);
+  const [open_modal_popup, setOpen_modal_popup] = React.useState(false);
+  const [datadb,setDatadb] = useState([]);
+  const [datadbcount,setDatadbcount] = useState([]);
+  const [datadbname,setDatadbName] = useState('');
   const handleOpen = () => {setOpen(true)};
   const handleClose = () => {setOpen(false)};
+  
+  useEffect(()=>{
+    const fetchData = async()=>{
+      try{
+        const token = localStorage.getItem('token')
+          const result = await axios.get("http://localhost:8000/userDB/getUserDBCollection?_id="+id,{
+              headers: {
+                'authentication':token,
+              }
+          });
+          // console.log(result)
+          setDatadb(result.data.response.data)
+          setDatadbName(result.data.name)
+          setDatadbcount(result.data.response.count)
+      }catch(err){
+        setValidate('unknown')
+        setOpen_modal_popup(true)
+        setTimeout(() => {
+          setOpen_modal_popup(false);
+        }, 2000);
+      }
+    }
+
+    fetchData();
+  },[])
+
   return (
     <>
     <Navbar/>
@@ -53,18 +104,19 @@ const Collection = () => {
                     marginRight: "1vw",
                   }}
                 ></i>    
-                Database Name
+                {datadbname}
               </Typography>
         </Grid>
         <Grid item xs={3} lg={1} md={1} className="count-collection">
-             2 <br/>
+             {datadbcount} <br/>
             <span style={{fontSize:"13px"}}>DOCUMENTS</span>
         </Grid>
-        <Grid item xs={3} lg={1} md={1} className="count-collection">
+        {/* <Grid item xs={3} lg={1} md={1} className="count-collection">
              2 <br/>
             <span style={{fontSize:"13px"}}>INDEXES</span>
-        </Grid>
-        <Grid item xs={11} md={8} lg={8} className="collection-box" sx={{marginBottom:"3vh !important",  marginTop:"3vh"}}>
+          </Grid> */}
+          {datadb.map((obj, index) => (
+        <Grid item xs={11} md={8} lg={8} className="collection-box" sx={{marginBottom:"3vh !important",  marginTop:"3vh"}} key={datadb[index]._id}>
                   <Typography variant="body1" align="right" color="initial" sx={{color:"#5A5A5A",fontWeight:"bold",fontFamily:"League Spartan",marginRight:"1vw"}}>
                               <Button variant="text" color="primary">
                               <i className="fa-regular fa-pen-to-square" style={{fontSize:"1.1rem",color:"green"}}></i>
@@ -88,31 +140,35 @@ const Collection = () => {
                                 </Box>
                               </Modal>
                   </Typography>
-                  <Typography variant="body1" align="left" color="initial" sx={{marginLeft:"4vw",color:"#5A5A5A",fontWeight:"bold",fontFamily:"League Spartan"}}>
-                    _id: <span style={{color:"#438C8E"}}> 64b500ffb3519eb573027f26</span>
-                  </Typography>
-                  <Typography variant="body1" align="left" color="initial" sx={{marginLeft:"4vw",color:"#5A5A5A",fontWeight:"bold",fontFamily:"League Spartan"}}>
-                    name: <span style={{color:"#438C8E"}}> "mahek upadhye"</span>
-                  </Typography>
-                  <Typography variant="body1" align="left" color="initial" sx={{marginLeft:"4vw",color:"#5A5A5A",fontWeight:"bold",fontFamily:"League Spartan"}}>
-                    email: <span style={{color:"#438C8E"}}> "rishab@gmail.com"</span>
-                  </Typography>
-                  <Typography variant="body1" align="left" color="initial" sx={{marginLeft:"4vw",color:"#5A5A5A",fontWeight:"bold",fontFamily:"League Spartan"}}>
-                    phone: <span style={{color:"#438C8E"}}>8291002606</span>
-                  </Typography>
-                  <Typography variant="body1" align="left" color="initial" sx={{marginLeft:"4vw",color:"#5A5A5A",fontWeight:"bold",fontFamily:"League Spartan"}}>
-                    __v: <span style={{color:"#438C8E"}}>0</span>
-                  </Typography>
                   
-        </Grid>
 
-        
-
-
-        
-
-       
-        </Grid>  
+                      {Object.entries(obj).map(([key, value]) => (
+                        <Typography
+                          key={key}
+                          variant="body1"
+                          align="left"
+                          color="initial"
+                          sx={{ marginLeft: "4vw", color: "#5A5A5A", fontWeight: "bold", fontFamily: "League Spartan" }}
+                        >
+                          {key}: <span style={{color:"#438C8E"}}> {value}</span>
+                        </Typography>
+                      ))}
+                  
+        </Grid>))}
+        </Grid> 
+        {validate=='unknown'&&<Modal
+          open={open_modal_popup}
+          sx={{border:"none !important"}}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style_modal_popup}>
+            <Typography id="modal-modal-title" variant="h6" component="h3" sx={{margin:"1vh",fontSize:"1.1rem"}}>
+            <i class="fa-regular fa-circle-xmark" style={{color: "#37bec1",marginRight:"1vw"}}></i>
+            Oops! An Error Occurred  <span style={{marginRight:"1vw !important"}}></span>
+            </Typography>
+          </Box>
+        </Modal>} 
     </div>
     </>
   )

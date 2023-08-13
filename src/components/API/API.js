@@ -13,7 +13,7 @@ import Tooltip from '@mui/material/Tooltip';
 
 
 const API = () => {
-  const [api, setApi] = useState('localhost:8000/user/updateUser/64aeec8heyc456783hey2622');
+  const [api, setApi] = useState('localhost:8000/testing1_205434_64c372e1ed9a2a7153c5010d/updateDataById');
   // const [copy,setCopy]=useState(false)
   const copyToClipboard = () => {
     copy(api);
@@ -68,8 +68,8 @@ const [open, setOpen] = React.useState(false);
         
         <Grid container className="thirdd" >     
                  <Grid  item xs={2} lg={2} md={2} sx={{padding:"10px",paddingLeft:"4vw",borderRight: "2px solid #D3D3D3"}}>
-                  <Typography className="operation" align="left" sx={{color:'purple',fontSize:"17px"}}>
-                    PATCH
+                  <Typography className="operation" align="left" sx={{color:'blue',fontSize:"17px"}}>
+                    PUT
                   </Typography>
                  </Grid>
                  <Grid item xs={9} lg={9} md={9} sx={{padding:"10px",borderRight: "2px solid #D3D3D3"}}>

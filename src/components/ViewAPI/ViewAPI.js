@@ -1,14 +1,61 @@
-import React from "react";
+import React ,{ useEffect, useState } from "react";
 import Navbar from "../Navbar/Navbar";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import "./ViewAPI.css";
-import {Link,useNavigate} from 'react-router-dom'
+import {Link,useFetcher,useNavigate} from 'react-router-dom'
+import Modal from "@mui/material/Modal";
+import axios from "axios";
+
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 300,
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  pt: 2,
+  px: 4,
+  pb: 3,
+  borderRadius:"15px",
+  border:"none !important",
+  transition:" all .4s"
+};
 
 const ViewAPI = () => {
   const navigate=useNavigate()
+  const [validate,setValidate]=useState('');
+  const [open, setOpen] = React.useState(false);
+  const [datadb,setDatadb] = useState([])
+
+
+  useEffect(()=>{
+    const fetchData = async() =>{
+      try{
+        const token = localStorage.getItem('token')
+          const response = await axios.get("http://localhost:8000/userDB/getUserDB",{
+              headers: {
+                'authentication':token,
+              }
+          });
+          setDatadb(response.data.response)
+          console.log(datadb)
+      }catch(err){
+        setValidate('unknown')
+        setOpen(true)
+        setTimeout(() => {
+          setOpen(false);
+        }, 2000);
+      }
+    }
+
+    fetchData();
+  },[])
+
   return (
     <>
       <Navbar />
@@ -22,7 +69,10 @@ const ViewAPI = () => {
           My <span style={{ color: "#37BEC1" }}>quikDB</span>
         </Typography>
 
-        <Grid className="api-box">
+        {
+        datadb.map((data)=>{ 
+          return(
+        <Grid className="api-box" key={data._id} >
           <Grid container>
             <Grid item xs={12} lg={7} md={7}>
               <Typography
@@ -32,7 +82,7 @@ const ViewAPI = () => {
                   marginLeft: "3vw",
                   fontFamily: "League Spartan",
                   marginTop: "5vh",
-                 
+                  
                   fontWeight: "bold",
                   fontSize: "1.5rem",
                 }}
@@ -45,12 +95,12 @@ const ViewAPI = () => {
                     marginRight: "1vw",
                   }}
                 ></i>
-                Database 2
+                {data.modelName}
               </Typography>
             </Grid>
             <Grid item xs={5} lg={5} md={5}>
 
-              <button class="btn-api" onClick={()=>{navigate('/collection')}}>
+              <button class="btn-api" onClick={()=>{navigate(`/collection/${data._id}`)}}>
                 <i
                   class="fa-solid fa-database"
                   style={{ color: "#ffffff", marginRight: "2vw" }}
@@ -68,14 +118,12 @@ const ViewAPI = () => {
                 sx={{
                   marginLeft: "5vw",
                   fontFamily: "League Spartan",
-                  marginTop: "-2vh",
+                  marginTop: "-3vh",
                   color:"gray",
                   fontSize: "1rem",
                 }}
               >
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius
-                doloremque nemo vero laudantium vel quidem? Accusamus enim
-                minima at
+                {data.modelDescription}
               </Typography>
               <Typography
                 align="left"
@@ -88,7 +136,7 @@ const ViewAPI = () => {
                   fontSize: "1rem",
                 }}
               >
-                No of Entries : 3
+                No of Entries : {data.count}
               </Typography>
               <Typography
                 align="left"
@@ -100,7 +148,7 @@ const ViewAPI = () => {
                   fontSize: "1rem",
                 }}
               >
-                Created At: -
+                Created At: {data.dateTime}
               </Typography>
             </Grid>
             <Grid item xs={5} lg={5} md={5}>
@@ -139,15 +187,21 @@ const ViewAPI = () => {
               </Grid>
             </Grid>
           </Grid>
-        </Grid>
+        </Grid> )})}
 
-
-
-        
-
-       
-
-        
+        {validate=='unknown'&&<Modal
+          open={open}
+          sx={{border:"none !important"}}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style}>
+            <Typography id="modal-modal-title" variant="h6" component="h3" sx={{margin:"1vh",fontSize:"1.1rem"}}>
+            <i class="fa-regular fa-circle-xmark" style={{color: "#37bec1",marginRight:"1vw"}}></i>
+            Oops! An Error Occurred  <span style={{marginRight:"1vw !important"}}></span>
+            </Typography>
+          </Box>
+        </Modal>}
       </div>
     </>
   );
