@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect} from "react";
 import Box from "@mui/material/Box";
 import Navbar from "../Navbar/Navbar";
 import "./CreateDB.css";
@@ -18,6 +18,7 @@ import Paper from "@mui/material/Paper";
 import { ToastContainer, toast } from "react-toastify";
 import Modal from "@mui/material/Modal";
 import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
 
 const style = {
   position: "absolute",
@@ -43,14 +44,53 @@ const CreateDB = () => {
   const [description, setDescription] = React.useState('');  
   const [open, setOpen] = React.useState(false);
   const [disabled, setDisabled] = React.useState(true);
-  const handleOpen = (e) => {
-   
-    console.log(final)
-    setValidate('correct')
-    setOpen(true);
-    setTimeout(() => {
-      setOpen(false);
-    }, 1500);
+
+
+  const handleOpen = async (e) => {
+    const space = /\s/.test(name);;
+    if(space){
+      setValidate('whitespace')
+      setOpen(true);
+      setTimeout(() => {
+        setOpen(false);
+      }, 2000);
+    }else{
+      const modelSchema ={};
+      final.map((final)=>{
+        modelSchema[final.name]={};
+        modelSchema[final.name].type=final.type;
+        modelSchema[final.name].unique=final.unique;
+        modelSchema[final.name].required=final.required;
+      })
+      try{
+        const token = localStorage.getItem('token')
+        const response = await axios.post("http://localhost:8000/crud/createcrud", {
+            modelName:name,
+            modelDescription:description,
+            modelSchema,
+          },{
+            headers: {
+              'authentication':token,
+            }
+          });
+        if(response.status==200){
+          setValidate('correct')
+        }else{
+          setValidate('unknown')
+        }
+      }catch(err){
+        setValidate('unknown')
+      }
+      setName('')
+      setDescription('')
+      setFinal([])
+      setPreview(false)
+      setOpen(true);
+      setTimeout(() => {
+        setOpen(false);
+      }, 1500);
+    }
+
   };
 
   const [inpval, setInpval] = useState({
@@ -81,6 +121,12 @@ const CreateDB = () => {
       const newRecords = { ...inpval, id: new Date().getTime().toString() };
       setFinal([...final, newRecords]);
       setPreview(true)
+      setInpval({
+        name: "",
+        type: "",
+        unique: "",
+        required: "",
+      })
     }else{
       setValidate('empty');
       setOpen(true);
@@ -89,6 +135,15 @@ const CreateDB = () => {
       }, 1500);
       }
   };
+
+  const handleDisableSubmit = () =>{
+    setValidate('empty');
+      setOpen(true);
+      setTimeout(() => {
+        setOpen(false);
+      }, 1500);
+  }
+
   const handleDelete = (index, e) => {
     setFinal(final.filter((v, i) => i !== index));
     // console.log(final);
@@ -121,7 +176,7 @@ const CreateDB = () => {
               {" "}
               Database Name
             </Typography>
-            <input type="text" value={name} onChange={(e)=>setName(e.target.value)} name="text" class="input_create" required  style={{color:"gray"}} />
+            <input type="text" value={name} onChange={(e)=>setName(e.target.value)} name="text" class="input_create" required  style={{color:"gray"}} autoComplete="off"/>
           </Grid>
         </Grid>
         <Grid container className="home">
@@ -167,6 +222,7 @@ const CreateDB = () => {
               onChange={getdata}
               name="name"
               class="input_field"
+              autoComplete="off"
               placeholder="Name"
               required
             />
@@ -385,6 +441,7 @@ const CreateDB = () => {
         <button
           className="btn-1-disabled"
           style={{ marginBottom: "5vh", marginTop:"12vh", marginRight: "53vw" }}
+          onClick={handleDisableSubmit}
         >
           <i
             className="fa-solid fa-database"
@@ -418,7 +475,7 @@ const CreateDB = () => {
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h3" sx={{margin:"1vh",fontSize:"1.1rem"}}>
           <i class="fa-regular fa-circle-xmark" style={{color: "#37bec1",marginRight:"1vw"}}></i>
-          Please enter all fields <span style={{marginRight:"1vw !important"}}></span>
+          Please fill all fields <span style={{marginRight:"1vw !important"}}></span>
           </Typography>
         </Box>
         </Modal>}
@@ -433,6 +490,34 @@ const CreateDB = () => {
             <Typography id="modal-modal-title" variant="h6" component="h3" sx={{margin:"1vh",fontSize:"1.2rem"}}>
             <i class="fa-regular fa-circle-check" style={{color: "#37bec1",marginRight:"1vw"}}></i>
             Success! <span style={{marginRight:"1vw !important"}}>Database Created</span>
+            </Typography>
+          </Box>
+        </Modal>}
+
+        {validate=='unknown'&&<Modal
+          open={open}
+          sx={{border:"none !important"}}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style}>
+            <Typography id="modal-modal-title" variant="h6" component="h3" sx={{margin:"1vh",fontSize:"1.1rem"}}>
+            <i class="fa-regular fa-circle-xmark" style={{color: "#37bec1",marginRight:"1vw"}}></i>
+            Oops! An Error Occurred  <span style={{marginRight:"1vw !important"}}></span>
+            </Typography>
+          </Box>
+        </Modal>}
+
+        {validate=='whitespace'&&<Modal
+          open={open}
+          sx={{border:"none !important"}}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style}>
+            <Typography id="modal-modal-title" variant="h6" component="h3" sx={{margin:"1vh",fontSize:"1.1rem"}}>
+            <i class="fa-regular fa-circle-xmark" style={{color: "#37bec1",marginRight:"1vw"}}></i>
+            Database name cannot contain a space!  <span style={{marginRight:"1vw !important"}}></span>
             </Typography>
           </Box>
         </Modal>}
