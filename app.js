@@ -13,10 +13,10 @@ app.use(cors())
 //setting port
 const PORT = process.env.PORT || 8000
 
-// //importing routes
-// const userRoute = require('./routes/user')
+// // //importing routes
+// const userRoute = require('./routes/contact')
 
-// //setting routes
+// // //setting routes
 // app.use('/user',userRoute)
 
 // Route Define

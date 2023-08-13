@@ -1,4 +1,5 @@
 const User = require('../models/user')
+const Contact = require('../models/contact')
 const Otp = require('../models/otp')
 const bcrypt = require('bcrypt')
 const { createError } = require('../middleware/error')
@@ -106,10 +107,28 @@ const login = async (req, res, next) => {
     }
 }
 
+const contact = async (req, res, next) => {
+    const { email, subject, message } = req.body
+    try {
+
+        const contactData = new Contact({
+            email,
+            subject,
+            message
+        })
+        const result = await contactData.save()
+        res.status(201).json({ message: "Form data successfully added to db!" })
+    }
+    catch (err) {
+        next(err)
+    }
+}
+
 module.exports = {
     register,
     login,
     verifyOtp,
     resendOtp,
-    getUserById
+    getUserById,
+    contact
 }

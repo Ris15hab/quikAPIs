@@ -74,13 +74,14 @@ const createCRUD = async (req, res, next) => {
         // const istDate = new Date(istTimeInMilliseconds);
 
         // Format the date and time
-        const options = { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' };
+        const options = { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric' };
 
         const formattedDate = date.toLocaleDateString('en-IN', options);
 
         //saving model
         const userDB = new UserDB({
             modelName,
+            modelStoredAs:modelFileName,
             modelDescription,
             modelAPI,
             dateTime:formattedDate,

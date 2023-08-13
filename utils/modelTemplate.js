@@ -14,8 +14,8 @@ const modelTemplate = async (modelName, modelSchema,modelFilePath) => {
         const property = modelSchema[key];
         return `${key}: {
             type: ${property.type},
-            ${property.required ? "required: true," : ""}
-            ${property.unique ? "unique: true," : ""}
+            ${property.required=='true' ? "required: true," : "required: false,"}
+            ${property.unique=='true' ? "unique: true," : "unique: false,"}
         }`;
     });
 

@@ -5,6 +5,10 @@ const userDBSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    modelStoredAs: {
+        type: String,
+        required: true
+    },
     modelDescription: {
         type: String,
         required: true
@@ -17,6 +21,9 @@ const userDBSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user',
         required: true
+    },
+    count:{
+        type: Number,
     },
     dateTime: {
         type: String,
