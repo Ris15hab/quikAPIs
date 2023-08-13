@@ -8,23 +8,102 @@ import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import Modal from "@mui/material/Modal";
 import Checkbox from '@mui/material/Checkbox';
+import Box from "@mui/material/Box";
+import axios from 'axios';
 
-
-
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 300,
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  pt: 2,
+  px: 4,
+  pb: 3,
+  borderRadius:"15px",
+  border:"none !important",
+  transition:" all .4s"
+};
 
 const Contact = () => {
   const [message, setMessage] = useState('Send')
   const [text, setText] = useState('')
-  const [subject, setSubject] = useState('  ')
+  const [subject, setSubject] = useState('')
   const [email, setEmail] = useState('')
-  const handleSubmit=(e)=>{
+  const [validate,setValidate]=useState('');
+  const [open, setOpen] = React.useState(false);
+  const [isChecked, setIsChecked] = useState(false);
+
+  const handleSubmit=async(e)=>{
+    try{
+      const token = localStorage.getItem('token')
+      const response = await axios.post("http://localhost:8000/user/contact", {
+        email,
+        subject,
+        message:text
+      },{
+        headers: {
+          'authentication':token,
+        }
+      });
+      if(response.status==201){
+        setValidate('correct')
+        setOpen(true)
+        setTimeout(() => {
+          setOpen(false)
+        }, 1500);
+      }
+    }catch(err){
+      setValidate('unknown')
+      setOpen(true)
+      setTimeout(() => {
+        setOpen(false)
+      }, 1500);
+    }
     setEmail('');
+    setIsChecked(false)
     setText('');
     setSubject(' ');
     setMessage("Message Sent!")
-
   }
+
+  const handleEmail = async() =>{
+    try{
+      if(isChecked){
+        setEmail('')
+      }else{
+        const token = localStorage.getItem('token')
+        const response = await axios.get("http://localhost:8000/user/getUserById",{
+            headers: {
+              'authentication':token,
+            }
+        });
+
+        setEmail(response.data.userData.email)
+      }
+      setIsChecked(!isChecked)
+    }catch(err){
+      setValidate('unknown')
+      setOpen(true)
+      setTimeout(() => {
+        setOpen(false)
+      }, 1500);
+    }
+  }
+
+  const handleEmpty=()=>{
+    setValidate('empty')
+    setOpen(true)
+    setTimeout(() => {
+      setOpen(false)
+    }, 1500);
+  }
+
   return (
     <>
     <div className="css-gradient">
@@ -45,11 +124,11 @@ const Contact = () => {
         <Typography className="typo-contact" align="left" sx={{fontSize:"1.1rem",color:"#3fabbf",fontFamily:"League Spartan",fontWeight:"bold"}}>
           Email
         </Typography>
-        <input  type="text" name="text" value={email} onChange={(e)=>setEmail(e.target.value)} className="contact-name" style={{fontFamily:"League Spartan",color:"gray"}} /><br/>
+        <input  type="text" name="text" value={email} onChange={(e)=>setEmail(e.target.value)} className="contact-name" autoComplete="off"style={{fontFamily:"League Spartan",color:"gray"}} /><br/>
         </div>
         <div>
         <Typography className="typo-contact" align="left" sx={{fontSize:"1.1rem",fontFamily:"League Spartan",fontWeight:"bold",color:"gray"}}>
-        <input type="checkbox" id="vehicle1" name="vehicle1"/>
+        <input type="checkbox" id="vehicle1" name="vehicle1" onClick={handleEmail} checked={isChecked}/>
         <label for="vehicle1" className="label-input" style={{marginLeft:"0.5vw"}}>Use my account email</label><br/>
         </Typography>
         </div>
@@ -74,7 +153,7 @@ const Contact = () => {
                 disableUnderline
                 name="type"
               >
-                <MenuItem value="" name="type">
+              <MenuItem value={""} name="type">
                   <Typography
                     variant="body1"
                     align="left"
@@ -89,19 +168,19 @@ const Contact = () => {
                     What's your issue?
                   </Typography>
                 </MenuItem >
-                <MenuItem name="type" value={"Integer"}>
+                <MenuItem name="type" value={"Issue with quikAPI"}>
                   Issue with quikAPI
                 </MenuItem>
-                <MenuItem name="type" value={"Float"}>
+                <MenuItem name="type" value={"Issue with quikDB"}>
                 Issue with quikDB
                 </MenuItem>
-                <MenuItem name="type" value={"String"}>
+                <MenuItem name="type" value={"Unable to generate quikAPI"}>
                 Unable to generate quikAPI
                 </MenuItem>
-                <MenuItem name="type" value={"Boolean"}>
+                <MenuItem name="type" value={"Issue with crud operations"}>
                   Issue with crud operations
                 </MenuItem>
-                <MenuItem name="type" value={"Double"}>
+                <MenuItem name="type" value={"Other"}>
                   Other
                 </MenuItem>
               </Select>
@@ -113,13 +192,58 @@ const Contact = () => {
         </Typography>
         <textarea value={text} onChange={(e)=>setText(e.target.value)} type="text" name="text" className="contact-name" style={{height:"15vh",color:"gray" , fontFamily:"League Spartan"}} />
         </div>
-        <Typography  align="center" sx={{color:"white"}}>
+        {(email!=''&&subject!=''&&text!='')?(<Typography  align="center" sx={{color:"white"}}>
           <button className="contact-submit" style={{marginTop:"3vh",width:"13vw",marginBottom:"10vh"}} onClick={handleSubmit}>
             {message}
           </button>
-        </Typography>
+        </Typography>):
+        (<Typography  align="center" sx={{color:"white"}}>
+          <button className="contact-submit" style={{marginTop:"3vh",width:"13vw",marginBottom:"10vh",backgroundColor:"grey"}} onClick={handleEmpty}>
+            Send
+          </button>
+        </Typography>)}
       </Grid>
-      
+      {validate=='unknown'&&<Modal
+        open={open}
+        sx={{border:"none !important"}}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h3" sx={{margin:"1vh",fontSize:"1.1rem"}}>
+          <i class="fa-regular fa-circle-xmark" style={{color: "#37bec1",marginRight:"1vw"}}></i>
+          Oops! An Error Occurred  <span style={{marginRight:"1vw !important"}}></span>
+          </Typography>
+        </Box>
+        </Modal>}
+
+        {validate=='empty'&&<Modal
+        open={open}
+        sx={{border:"none !important"}}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h3" sx={{margin:"1vh",fontSize:"1.2rem"}}>
+          <i class="fa-regular fa-circle-xmark" style={{color: "#37bec1",marginRight:"1vw"}}></i>
+          Please fill all fields  <span style={{marginRight:"1vw !important"}}></span>
+          </Typography>
+        </Box>
+        </Modal>}
+
+        {validate=='correct'&&<Modal
+        open={open}
+        sx={{border:"none !important"}}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h3" sx={{margin:"1vh",fontSize:"1.2rem"}}>
+          <i class="fa-regular fa-circle-check" style={{color: "#37bec1",marginRight:"1vw"}}></i>
+          Response Recorded! <span style={{marginRight:"1vw !important"}}></span>
+          </Typography>
+        </Box>
+        </Modal>}
 
     </div>
     </div>

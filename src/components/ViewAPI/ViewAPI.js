@@ -163,7 +163,7 @@ const ViewAPI = () => {
             </Grid>
             <Grid container className="btn-gayab">
               <Grid item xs={6}>
-                <button class="btn-api-mobile" onClick={()=>{navigate('/collection')}}>
+                <button class="btn-api-mobile" onClick={()=>{navigate(`/collection/${data._id}`)}}>
                   <i
                     class="fa-solid fa-database"
                     style={{ color: "#ffffff", marginRight: "2vw" }}
