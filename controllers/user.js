@@ -73,7 +73,7 @@ const resendOtp = async (req, res, next) => {
 
 const getUserById = async (req, res, next) => {
     try {
-        const { _id } = req.query;
+        const _id = req.user.userData._id
         const userData = await User.findOne({ _id })
         res.status(200).json({ userData })
     } catch (err) {
@@ -109,14 +109,23 @@ const login = async (req, res, next) => {
 
 const contact = async (req, res, next) => {
     const { email, subject, message } = req.body
+    const userID = req.user.userData._id;
     try {
-
         const contactData = new Contact({
             email,
             subject,
-            message
+            message,
+            userID
         })
         const result = await contactData.save()
+
+        const body = `<p>I wanted to confirm that we've received your message through the "Contact Us" form on our website. Thank you for reaching out to us.<br><br>Our support team is now reviewing your inquiry, and we'll get back to you soon with a response. If you have any additional information to share, feel free to reply to this email.<br><br>We appreciate your interest in quikAPIs and your patience as we work on addressing your questions.<br><br>Best regards,<br>QuikAPIs Support</p>`
+
+        SendMail(email, 'Your Inquiry Received - quikAPIs Support', body)
+
+        const body2 = `<p>User Emails: ${email}<br><br>User Subject: ${subject}<br><br>User message: ${message}</p>`
+        SendMail('quikapis@gmail.com','New Response Support Update',body2 )
+
         res.status(201).json({ message: "Form data successfully added to db!" })
     }
     catch (err) {
