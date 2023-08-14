@@ -21,7 +21,7 @@ function App() {
           <Route path="/createdb" element={<CreateDB />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/viewapi" element={<ViewAPI />} />
-          <Route path="/api" element={<API />} />
+          <Route path="/api/:id" element={<API />} />
           <Route path="/collection/:id" element={<Collection />} />
           <Route path="/contact" element={<Contact />} />
         </Routes>

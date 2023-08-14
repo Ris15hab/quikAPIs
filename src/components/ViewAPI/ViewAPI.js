@@ -153,7 +153,7 @@ const ViewAPI = () => {
             </Grid>
             <Grid item xs={5} lg={5} md={5}>
              
-              <button class="btn-api-1" onClick={()=>{navigate('/api')}}>
+              <button class="btn-api-1" onClick={()=>{navigate(`/api/${data._id}`)}}>
                 <i
                   class="fa-solid fa-magnifying-glass"
                   style={{ color: "#ffffff", marginRight: "1vw" }}
@@ -173,7 +173,7 @@ const ViewAPI = () => {
               </Grid>
               <Grid item xs={6}>
 
-                <button class="btn-api-1-mobile" onClick={()=>{navigate('/api')}}>
+                <button class="btn-api-1-mobile" onClick={()=>{navigate(`/api/${data._id}`)}}>
                 
                   <i
                     class="fa-solid fa-magnifying-glass"
