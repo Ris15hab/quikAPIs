@@ -23,6 +23,7 @@ const getUserDB = async (req, res, next) => {
     try {
         const userID = req.user.userData._id;
         const response = await UserDB.find({ userID }).sort({ dateTime: -1 });
+        const countCollection = await UserDB.find({ userID}).countDocuments();
 
         // Create an array to store promises for fetching model counts
         const modelCountPromises = response.map(async (item) => {
@@ -36,7 +37,7 @@ const getUserDB = async (req, res, next) => {
 
         //console.log(response); // Now response should contain the updated counts
 
-        res.status(200).json({ response });
+        res.status(200).json({ countCollection,response });
     } catch (err) {
         next(err);
     }
@@ -50,11 +51,12 @@ const getApiById = async (req, res, next) => {
         const response = {
             Add: `${data[0].modelAPI}/addData`,
             Get: `${data[0].modelAPI}/getData`,
-            GetById: `${data[0].modelAPI}/getDataById`,
-            UpdateById: `${data[0].modelAPI}/updateDataById`,
-            DeleteById: `${data[0].modelAPI}/deleteDataById`
+            GetById: `${data[0].modelAPI}/getDataById?_id=`,
+            UpdateById: `${data[0].modelAPI}/updateDataById?_id=`,
+            DeleteById: `${data[0].modelAPI}/deleteDataById?_id=`
         };
-        res.status(200).json({ APIs: response })
+        const name = data[0].modelName
+        res.status(200).json({ name,APIs: response })
     } catch (err) {
         next(err)
     }

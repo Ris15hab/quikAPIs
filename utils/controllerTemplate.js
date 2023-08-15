@@ -43,7 +43,7 @@ const controllerTemplate = (modelFileName, modelSchema, modelFilePath, controlle
         }
     }\n\nconst getDataById = async(req,res,next)=>{
         try{
-            const {_id} = req.body
+            const {_id} = req.query
             const data = await ${modelFileName}.find({_id})
             if(data){
                 res.status(200).json({data})
@@ -55,7 +55,8 @@ const controllerTemplate = (modelFileName, modelSchema, modelFilePath, controlle
         }
     }\n\nconst updateDataById = async(req,res,next)=>{
         try{
-            const {${fields.join(',')},_id} = req.body
+            const {${fields.join(',')}} = req.body
+            const{_id} = req.query
             if(!_id){
                 return next(createError(400, "Please send ID of the data as '_id'"))
             }
@@ -70,7 +71,7 @@ const controllerTemplate = (modelFileName, modelSchema, modelFilePath, controlle
         }
     }\n\nconst deleteDataById = async(req,res,next) =>{
         try{
-            const{_id} = req.body
+            const{_id} = req.query
             if(!_id){
                 return next(createError(400, "Please send ID of the data as '_id'"))
             }
