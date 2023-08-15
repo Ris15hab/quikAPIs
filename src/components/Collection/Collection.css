@@ -32,6 +32,10 @@
     
    
 } 
+
+.nodata{
+    margin-left: 16vw;
+}
 @media screen and (max-width: 700px) {
     .grid-collection{
         padding-left: 8vw;
@@ -45,6 +49,14 @@
     .modal-box-delete{
         width:50vw !important
     }
-   
-   
+    .nodata{
+        width: 390px;
+        height: 'auto';
+        margin-left: -7vw !important;
+    }
+    .note-head{
+        font-size: 18px !important;
+        margin-left: 18vw !important;
+        margin-top: 3vh !important;
+    }
   }

@@ -10,6 +10,9 @@ import Button from '@mui/material/Button'
 import Modal from '@mui/material/Modal';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import nodata from '../../nodata.png'
+import { useNavigate } from 'react-router-dom';
+
 
 const style = {
   position: 'absolute',
@@ -42,6 +45,7 @@ const style_modal_popup = {
 
 
 const Collection = () => {
+  const navigate = useNavigate();
   const {id} = useParams();
   const [validate,setValidate]=useState('');
   const [open, setOpen] = React.useState(false);
@@ -88,7 +92,7 @@ const Collection = () => {
           className="create_head-1"
           sx={{ fontSize: "2rem", fontWeight: "bold", paddingLeft: "12vw",fontFamily:"League Spartan",}}
         >
-          Browse <span style={{ color: "#37BEC1" }}>Collections</span>
+          Browse <span style={{ color: "#37BEC1" }}>Documents</span>
       </Typography>
       <Grid container className="grid-collection">
       <Grid item xs={6} lg={9} md={9}>
@@ -115,7 +119,15 @@ const Collection = () => {
              2 <br/>
             <span style={{fontSize:"13px"}}>INDEXES</span>
           </Grid> */}
-          {datadb.map((obj, index) => (
+          {(datadbcount===0)?(
+            <>
+            <img src={nodata} className="nodata" alt="no data"></img>
+            <Typography className='note-head' variant="body1" color="initial" align='left' sx={{marginLeft:"28vw",fontFamily:"League Spartan",fontSize:'20px'}}>
+              No Documents to display!
+            </Typography>
+            </>
+          ):(
+          datadb.map((obj, index) => (
         <Grid item xs={11} md={8} lg={8} className="collection-box" sx={{marginBottom:"3vh !important",  marginTop:"3vh"}} key={datadb[index]._id}>
                   <Typography variant="body1" align="right" color="initial" sx={{color:"#5A5A5A",fontWeight:"bold",fontFamily:"League Spartan",marginRight:"1vw"}}>
                               <Button variant="text" color="primary">
@@ -154,7 +166,9 @@ const Collection = () => {
                         </Typography>
                       ))}
                   
-        </Grid>))}
+        </Grid>))
+            
+          )}
         </Grid> 
         {validate=='unknown'&&<Modal
           open={open_modal_popup}

@@ -3,6 +3,16 @@
     z-index:90 !important;
     font-family: 'League Spartan', sans-serif !important;
 }
+
+
+.nodata{
+    width: '50px';
+    height: 'auto';
+    /* filter: drop-shadow(10px 10px 100px #e0e0e0) */
+    margin-left: 12vw;
+}
+
+
 .api-box{
     max-height:90vh;
     border: none;
@@ -210,6 +220,20 @@
     .create_head{
         padding-left:-12vw !important;
     }
+
+    .nodata{
+        width: 400px;
+        height: 'auto';
+        /* margin-top: 2vh; */
+        /* filter: drop-shadow(10px 10px 100px #e0e0e0) */
+        margin-left: -5vw;
+    }
+
+    .note-head{
+        font-size: 15px !important;
+        margin-top: 3vh !important;
+    }
+
     .api-box{
         border: none;
         margin-left:10vw;

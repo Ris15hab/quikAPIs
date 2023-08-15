@@ -3,11 +3,13 @@ import Navbar from "../Navbar/Navbar";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
+// import Button from "@mui/material/Button";
 import "./ViewAPI.css";
-import {Link,useFetcher,useNavigate} from 'react-router-dom'
+// import{Link,useFetcher} from 'react-router-dom'
+import {useNavigate} from 'react-router-dom'
 import Modal from "@mui/material/Modal";
 import axios from "axios";
+import nodata from '../../nodata.png'
 
 const style = {
   position: "absolute",
@@ -16,7 +18,7 @@ const style = {
   transform: "translate(-50%, -50%)",
   width: 300,
   bgcolor: "background.paper",
-  border: "2px solid #000",
+  // border: "2px solid #000",
   boxShadow: 24,
   pt: 2,
   px: 4,
@@ -26,11 +28,18 @@ const style = {
   transition:" all .4s"
 };
 
+// const style_imgae ={
+//   width: '750px',
+//   height: 'auto',
+//   // filter: drop-shadow(10 10 10 blue)
+// }
+
 const ViewAPI = () => {
   const navigate=useNavigate()
   const [validate,setValidate]=useState('');
   const [open, setOpen] = React.useState(false);
   const [datadb,setDatadb] = useState([])
+  const [countCollection, setCountCollection] = useState(0)
 
 
   useEffect(()=>{
@@ -43,7 +52,8 @@ const ViewAPI = () => {
               }
           });
           setDatadb(response.data.response)
-          console.log(datadb)
+          // console.log(datadb)
+          setCountCollection(response.data.countCollection)
       }catch(err){
         setValidate('unknown')
         setOpen(true)
@@ -69,7 +79,14 @@ const ViewAPI = () => {
           My <span style={{ color: "#37BEC1" }}>quikDB</span>
         </Typography>
 
-        {
+        {(countCollection===0)?( 
+          <>
+          <img src={nodata} className="nodata" alt="no data"></img>
+          <Typography className='note-head' variant="body1" color="initial" align='left' sx={{marginLeft:"42vw",fontFamily:"League Spartan",fontSize:'20px'}}>
+            No Collections to display! <span style={{color:"#37BEC1",cursor:'pointer'}} onClick={()=>{navigate('/createdb')}}>Click Here </span>to create quikDB
+          </Typography>
+          </>
+        ):(
         datadb.map((data)=>{ 
           return(
         <Grid className="api-box" key={data._id} >
@@ -187,9 +204,13 @@ const ViewAPI = () => {
               </Grid>
             </Grid>
           </Grid>
-        </Grid> )})}
+        </Grid> )})
 
-        {validate=='unknown'&&<Modal
+        )}
+       
+
+
+        {validate==='unknown'&&<Modal
           open={open}
           sx={{border:"none !important"}}
           aria-labelledby="modal-modal-title"
