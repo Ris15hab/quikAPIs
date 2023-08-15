@@ -33,13 +33,13 @@
    
 } 
 
-.note-head1{
+.note-head2{
     margin-left:29vw !important;
     font-family:"League Spartan"!important;
     font-size: 20px !important;;
 }
 
-.nodata1{
+.nodata2{
     width: 600px;
     height: auto;
     margin-left: 17vw !important;
@@ -57,14 +57,14 @@
     .modal-box-delete{
         width:50vw !important
     }
-    .nodata1{
+    .nodata2{
         width: 400px !important;
         height: 'auto';
         margin-left: -10vw !important;
         margin-top: 10vh;
     }
-    .note-head1{
-        font-size: 16px !important;
+    .note-head2{
+        font-size: 20px !important;
         margin-left: 16vw !important;
         margin-top: 1vh !important;
     }

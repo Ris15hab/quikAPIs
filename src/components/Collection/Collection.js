@@ -121,8 +121,8 @@ const Collection = () => {
           </Grid>
           {(datadbcount===0)?(
             <>
-            <img src={nodata} className="nodata1" alt="no data"></img>
-            <Typography className='note-head1' variant="body1" color="initial" align='left' >
+            <img src={nodata} className='nodata2' alt="no data"></img>
+            <Typography className='note-head2' variant="body1" color="initial" align='left' >
               No Documents to display!
             </Typography>
             </>

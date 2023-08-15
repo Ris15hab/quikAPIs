@@ -81,7 +81,7 @@ const ViewAPI = () => {
 
         {(countCollection===0)?( 
           <>
-          <img src={nodata} className="nodata1" alt="no data"></img>
+          <img src={nodata} className='nodata1' alt="no data"></img>
           <Typography className='note-head1' variant="body1" color="initial" align='left'>
             No Collections to display! <span style={{color:"#37BEC1",cursor:'pointer'}} onClick={()=>{navigate('/createdb')}}>Click Here </span>to create quikDB
           </Typography>
