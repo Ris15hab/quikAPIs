@@ -115,14 +115,14 @@ const Collection = () => {
              {datadbcount} <br/>
             <span style={{fontSize:"13px"}}>DOCUMENTS</span>
         </Grid>
-        {/* <Grid item xs={3} lg={1} md={1} className="count-collection">
+        <Grid item xs={3} lg={1} md={1} className="count-collection">
              2 <br/>
             <span style={{fontSize:"13px"}}>INDEXES</span>
-          </Grid> */}
+          </Grid>
           {(datadbcount===0)?(
             <>
-            <img src={nodata} className="nodata" alt="no data"></img>
-            <Typography className='note-head' variant="body1" color="initial" align='left' sx={{marginLeft:"28vw",fontFamily:"League Spartan",fontSize:'20px'}}>
+            <img src={nodata} className="nodata1" alt="no data"></img>
+            <Typography className='note-head1' variant="body1" color="initial" align='left' >
               No Documents to display!
             </Typography>
             </>
