@@ -12,6 +12,9 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import nodata from '../../nodata.png'
 import { useNavigate } from 'react-router-dom';
+import TextField from '@mui/material/TextField';
+
+// import Input from '@mui/joy/Input';
 
 
 const style = {
@@ -24,6 +27,18 @@ const style = {
   borderRadius:"25px",
   boxShadow: 24,
   p: 4,
+};
+const style_add = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: "20vw",
+  bgcolor: 'background.paper',
+  borderRadius:"25px",
+  boxShadow: 24,
+  p: 4,
+  padding:"2.4%",
 };
 
 const style_modal_popup = {
@@ -49,12 +64,23 @@ const Collection = () => {
   const {id} = useParams();
   const [validate,setValidate]=useState('');
   const [open, setOpen] = React.useState(false);
+  const [refresh, setRefresh] = React.useState(false);
+  const [dropopen, setDropOpen] = React.useState(false);
+  const [addopen, setAddOpen] = React.useState(false);
+  const [editopen, setEditOpen] = React.useState(false);
   const [open_modal_popup, setOpen_modal_popup] = React.useState(false);
   const [datadb,setDatadb] = useState([]);
   const [datadbcount,setDatadbcount] = useState([]);
   const [datadbname,setDatadbName] = useState('');
   const handleOpen = () => {setOpen(true)};
+  const handleDropOpen = () => {setDropOpen(true)};
+  const handleDropClose = () => {setDropOpen(false)};
+  const handleAddOpen = () => {setAddOpen(true)};
+  const handleAddClose = () => {setAddOpen(false)};
+  const handleEditOpen = () => {setEditOpen(true)};
+  const handleEditClose = () => {setEditOpen(false)};
   const handleClose = () => {setOpen(false)};
+  
   
   useEffect(()=>{
     const fetchData = async()=>{
@@ -79,7 +105,7 @@ const Collection = () => {
     }
 
     fetchData();
-  },[])
+  },[refresh])
 
   return (
     <>
@@ -95,7 +121,7 @@ const Collection = () => {
           Browse <span style={{ color: "#37BEC1" }}>Documents</span>
       </Typography>
       <Grid container className="grid-collection">
-      <Grid item xs={6} lg={9} md={9}>
+      <Grid item xs={12} lg={7} md={9}>
               <Typography align="left" className="secondd" sx={{fontFamily: "League Spartan",
                   color:"	#5A5A5A",
                   fontWeight: "bold",
@@ -103,21 +129,82 @@ const Collection = () => {
                 <i
                   className="fas fa-paper-plane"
                   style={{
-                    color: "#E9CA16",
+                    color: "orange",
                     fontSize: "0.9rem",
                     marginRight: "1vw",
+                    marginBottom:"7vh"
                   }}
                 ></i>    
                 {datadbname}
               </Typography>
         </Grid>
-        <Grid item xs={3} lg={1} md={1} className="count-collection">
-             {datadbcount} <br/>
-            <span style={{fontSize:"13px"}}>DOCUMENTS</span>
+        <Grid item xs={3} lg={2} md={1} className="count-collection-document">
+             {/* {datadbcount} <br/> */}
+            {/* <span style={{fontSize:"10px"}}>DOCUMENTS</span> */}
+            <Tooltip  sx={{cursor:"pointer"}}>
+            <Box className="collection-document">
+                {datadbcount} Documents
+            </Box>
+            </Tooltip>
         </Grid>
         <Grid item xs={3} lg={1} md={1} className="count-collection">
-             2 <br/>
-            <span style={{fontSize:"13px"}}>INDEXES</span>
+        <Tooltip title="Add Document" sx={{cursor:"pointer"}} onClick={handleAddOpen}>
+            <Box className="collection-add">
+               Add
+            </Box>
+        </Tooltip>
+         <Modal
+              open={addopen}
+              onClose={handleAddClose}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description"
+            >
+              <Box sx={style_add} className="modal-box-delete">
+                <Typography id="modal-modal-title" variant="h6" component="h2" align="center" sx={{fontFamily:"League Spartan",color:"#438C8E",marginBottom:"2vh"}}>
+                  Add Document.
+                </Typography>
+                <Typography align="center">
+                
+                <TextField id="standard-basic" label="name" variant="standard" />
+                <TextField id="standard-basic" label="email" variant="standard" />
+                
+                
+                </Typography>
+                <Typography id="modal-modal-description" align="center" sx={{ mt: 6 }}>
+                <Button sx={{color:"green"}} onClick={handleAddClose}>Submit</Button> <Button onClick={handleAddClose} sx={{color:"gray"}}>Cancel</Button>
+                </Typography>
+              </Box>
+            </Modal>
+          </Grid>
+          <Grid item xs={3} lg={1} md={1} className="count-collection">
+          <Tooltip title="Drop all collections" onClick={handleDropOpen} sx={{cursor:"pointer"}}>
+            <Box className="collection-drop" >
+             Drop
+            </Box>
+            </Tooltip>
+            <Modal
+              open={dropopen}
+              onClose={handleDropClose}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description"
+            >
+              <Box sx={style} className="modal-box-delete">
+                <Typography id="modal-modal-title" variant="h6" component="h2">
+                  Are you sure you want to drop all documents?
+                </Typography>
+                <Typography id="modal-modal-description" align="right" sx={{ mt: 2 }}>
+                <Button sx={{color:"red"}} onClick={handleDropClose}>YES</Button> <Button onClick={handleDropClose} sx={{color:"gray"}}>Cancel</Button>
+                </Typography>
+              </Box>
+            </Modal>
+        
+          </Grid>
+          <Grid item xs={3} lg={1} md={1} className="count-collection">
+          <Tooltip title="Refresh" sx={{cursor:"pointer"}} onClick={(e)=>setRefresh(!refresh)}>
+            <Box className="collection-refresh">
+            <i className="fa-solid fa-arrows-rotate" style={{color:"#37BEC1"}}></i>
+            </Box>
+            </Tooltip>
           </Grid>
           {(datadbcount===0)?(
             <>
@@ -130,9 +217,31 @@ const Collection = () => {
           datadb.map((obj, index) => (
         <Grid item xs={11} md={8} lg={8} className="collection-box" sx={{marginBottom:"3vh !important",  marginTop:"3vh"}} key={datadb[index]._id}>
                   <Typography variant="body1" align="right" color="initial" sx={{color:"#5A5A5A",fontWeight:"bold",fontFamily:"League Spartan",marginRight:"1vw"}}>
-                              <Button variant="text" color="primary">
+                              <Button variant="text" color="primary" onClick={handleEditOpen}>
                               <i className="fa-regular fa-pen-to-square" style={{fontSize:"1.1rem",color:"green"}}></i>
                               </Button>
+                              <Modal
+                                  open={editopen}
+                                  onClose={handleEditClose}
+                                  aria-labelledby="modal-modal-title"
+                                  aria-describedby="modal-modal-description"
+                                >
+                                  <Box sx={style_add} className="modal-box-delete">
+                                    <Typography id="modal-modal-title" variant="h6" component="h2" align="center" sx={{fontFamily:"League Spartan",color:"#438C8E",marginBottom:"2vh"}}>
+                                      Update Document.
+                                    </Typography>
+                                    <Typography align="center">
+                                    
+                                    <TextField id="standard-basic" label="name" variant="standard" />
+                                    <TextField id="standard-basic" label="email" variant="standard" />
+                                    
+                                    
+                                    </Typography>
+                                    <Typography id="modal-modal-description" align="center" sx={{ mt: 6 }}>
+                                    <Button sx={{color:"green"}} onClick={handleEditClose}>Submit</Button> <Button onClick={handleEditClose} sx={{color:"gray"}}>Cancel</Button>
+                                    </Typography>
+                                  </Box>
+                                </Modal>
                                <Button variant="text" color="primary" onClick={handleOpen}>
                                <i class="fa-regular fa-trash-can" style={{fontSize:"1.1rem",color:"red"}}></i>
                               </Button>

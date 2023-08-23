@@ -39,14 +39,12 @@ const API = () => {
   const [open, setOpen] = React.useState(false);
   const [name, setName] = useState('')
 
-  // const [copy,setCopy]=useState(false)
   const copyToClipboard = () => {
     copy(api);
     setOpen(true);
     setTimeout(() => {
       setOpen(false)
     }, 1000);
-    // setCopy(true)
 }
 
 useEffect(()=>{
@@ -58,7 +56,6 @@ useEffect(()=>{
             'authentication':token,
           }
       });
-      // console.log(result.data.APIs)
       setApi(result.data.APIs)
       setName(result.data.name)
     }catch(err){
@@ -77,10 +74,6 @@ useEffect(()=>{
   const handleTooltipClose = () => {
     setOpen(false);
   };
-
-  // const handleTooltipOpen = () => {
-  //   setOpen(true);
-  // };
   return (
     <>
     <Navbar/>
@@ -94,20 +87,17 @@ useEffect(()=>{
         >
           Use <span style={{ color: "#37BEC1" }}>quikAPI</span>
       </Typography>
-      <Typography className='note-head' variant="body1" color="initial" align='left' sx={{marginLeft:"46vw",fontFamily:"League Spartan"}}>
-        NOTE: only use the mentioned crud methods.
-      </Typography>
       <Grid container className='firstt'>
         <Grid item xs={10} lg={10} md={10}>
               <Typography align="left" className="secondd" sx={{fontFamily: "League Spartan",
                   color:"	#5A5A5A",
                   fontWeight: "bold",
-                  fontSize: "1.8rem",}} >
+                  fontSize: "1.5rem",}} >
                 <i
                   className="fas fa-paper-plane"
                   style={{
                     color: "orange",
-                    fontSize: "1.1rem",
+                    fontSize: "1rem",
                     marginRight: "0.5vw",
                   }}
                 ></i>    
@@ -117,13 +107,14 @@ useEffect(()=>{
 
         <Grid item xs={10} lg={10} md={10}>
         <Typography align="left" className="api_heading" sx={{fontFamily: "League Spartan",
-                  color:"#5A5A5A",
-                  fontWeight: "bold",
-                  fontSize: "1.2rem",
+                  color:"gray",
+                  fontFamily:"League Spartan",
+                  fontSize: "1.1rem",
                   marginTop:"1rem",
                   marginLeft:"2rem",
-                  marginBottom:"0rem"}} >   
-                  Add Data API
+                  marginBottom:"1rem",
+                  color:"#438C8E"}} >   
+                  Add new data or create a new item.
               </Typography>
         </Grid>
         
@@ -134,7 +125,7 @@ useEffect(()=>{
                   </Typography>
                  </Grid>
                  <Grid item xs={9} lg={9} md={9} sx={{padding:"10px",borderRight: "2px solid #D3D3D3" }}>
-                  <Typography  color="initial" className='link-api' sx={{color:"black",fontFamily:"League Spartan"}}>
+                  <Typography  color="initial" className='link-api' sx={{color:"#505050",fontFamily:"League Spartan"}}>
                   {api.Add}
                   </Typography>
                  </Grid> 
@@ -160,14 +151,15 @@ useEffect(()=>{
         {/* <Chip label="success" color="success" variant="outlined" sx={{backgroundColor:"red"}}/> */}
 
         <Grid item xs={10} lg={10} md={10}>
-              <Typography align="left" className="api_heading" sx={{fontFamily: "League Spartan",
-                  color:"#5A5A5A",
-                  fontWeight: "bold",
-                  fontSize: "1.2rem",
+        <Typography align="left" className="api_heading" sx={{fontFamily: "League Spartan",
+                  color:"gray",
+                  fontFamily:"League Spartan",
+                  fontSize: "1.1rem",
                   marginTop:"1rem",
                   marginLeft:"2rem",
-                  marginBottom:"0rem"}} >   
-                  Get Data API
+                  marginBottom:"1rem",
+                  color:"#438C8E"}} >   
+                 Retrieve information from the server or database.
               </Typography>
         </Grid>
         
@@ -178,7 +170,7 @@ useEffect(()=>{
                   </Typography>
                  </Grid>
                  <Grid item xs={9} lg={9} md={9} sx={{padding:"10px",borderRight: "2px solid #D3D3D3"}}>
-                  <Typography  color="initial" className='link-api' sx={{color:"black",fontFamily:"League Spartan"}}>
+                  <Typography  color="initial" className='link-api' sx={{color:"#505050",fontFamily:"League Spartan"}}>
                   {api.Get}
                   </Typography>
                  </Grid> 
@@ -203,13 +195,14 @@ useEffect(()=>{
 
         <Grid item xs={10} lg={10} md={10}>
         <Typography align="left" className="api_heading" sx={{fontFamily: "League Spartan",
-                  color:"#5A5A5A",
-                  fontWeight: "bold",
-                  fontSize: "1.2rem",
+                  color:"gray",
+                  fontFamily:"League Spartan",
+                  fontSize: "1.1rem",
                   marginTop:"1rem",
                   marginLeft:"2rem",
-                  marginBottom:"0rem"}} >   
-                  Get Data By Id API
+                  marginBottom:"1rem",
+                  color:"#438C8E"}} >   
+                 Get specific details about a single item using its unique ID.
               </Typography>
         </Grid>
 
@@ -220,7 +213,7 @@ useEffect(()=>{
                   </Typography>
                  </Grid>
                  <Grid item xs={9} lg={9} md={9} sx={{padding:"10px",borderRight: "2px solid #D3D3D3"}}>
-                  <Typography  color="initial" className='link-api' sx={{color:"black",fontFamily:"League Spartan"}}>
+                  <Typography  color="initial" className='link-api' sx={{color:"#505050",fontFamily:"League Spartan"}}>
                   {api.GetById}
                   </Typography>
                  </Grid> 
@@ -245,13 +238,14 @@ useEffect(()=>{
 
         <Grid item xs={10} lg={10} md={10}>
         <Typography align="left" className="api_heading" sx={{fontFamily: "League Spartan",
-                  color:"#5A5A5A",
-                  fontWeight: "bold",
-                  fontSize: "1.2rem",
+                  color:"gray",
+                  fontFamily:"League Spartan",
+                  fontSize: "1.1rem",
                   marginTop:"1rem",
                   marginLeft:"2rem",
-                  marginBottom:"0rem"}} >   
-                  Update Data By Id API
+                  marginBottom:"1rem",
+                  color:"#438C8E"}} >   
+                Update or replace existing data or an item with new information.
               </Typography>
         </Grid>
 
@@ -262,7 +256,7 @@ useEffect(()=>{
                   </Typography>
                  </Grid>
                  <Grid item xs={9} lg={9} md={9} sx={{padding:"10px",borderRight: "2px solid #D3D3D3"}}>
-                  <Typography  color="initial" className='link-api'  sx={{color:"black",fontFamily:"League Spartan"}}>
+                  <Typography  color="initial" className='link-api'  sx={{color:"#505050",fontFamily:"League Spartan"}}>
                     {api.UpdateById}
                   </Typography>
                  </Grid> 
@@ -287,13 +281,14 @@ useEffect(()=>{
         
         <Grid item xs={10} lg={10} md={10}>
         <Typography align="left" className="api_heading" sx={{fontFamily: "League Spartan",
-                  color:"#5A5A5A",
-                  fontWeight: "bold",
-                  fontSize: "1.2rem",
+                  color:"gray",
+                  fontFamily:"League Spartan",
+                  fontSize: "1.1rem",
                   marginTop:"1rem",
                   marginLeft:"2rem",
-                  marginBottom:"0rem"}} >   
-                  Delete Data By Id API
+                  marginBottom:"1rem",
+                  color:"#438C8E"}} >   
+                 Remove data or an item by specifying its ID.
               </Typography>
         </Grid>
 
@@ -304,7 +299,7 @@ useEffect(()=>{
                   </Typography>
                  </Grid>
                  <Grid item xs={9} lg={9} md={9} sx={{padding:"10px",borderRight: "2px solid #D3D3D3"}}>
-                  <Typography  color="initial" className='link-api' sx={{color:"black",fontFamily:"League Spartan"}}>
+                  <Typography  color="initial" className='link-api' sx={{color:"#505050",fontFamily:"League Spartan"}}>
                   {api.DeleteById}
                   </Typography>
                  </Grid> 
@@ -329,16 +324,13 @@ useEffect(()=>{
         <Grid item xs={10} lg={10} md={10}>
         <Typography align="centre" className="api_heading" sx={{fontFamily: "League Spartan",
                   color:"black",
-                  // fontWeight: "bold",
                   fontSize: "1rem",
-                  marginTop:"1rem",
-                  marginLeft:"12rem",
+                  marginTop:"4rem",
+                  marginLeft:"6.5rem",
                   marginBottom:"2rem"}} >   
                   APIs giving you a hard time? <span style={{color:"#37BEC1" , cursor:"pointer"}} onClick={()=>{navigate('/profile')}}>Click here</span> to learn more about quikAPIs!
               </Typography>
-        {/* <Typography className='note-head' variant="body1" color="initial" align='centre' sx={{fontFamily:"League Spartan"}}>
-        APIs giving you a hard time? Click here to unlock the simplicity of quikAPIs!
-      </Typography> */}
+       
         </Grid>
       </Grid>
         {validate=='unknown'&&<Modal

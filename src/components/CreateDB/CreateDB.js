@@ -46,8 +46,9 @@ const CreateDB = () => {
   const [disabled, setDisabled] = React.useState(true);
 
 
-  const handleOpen = async (e) => {
-    const space = /\s/.test(name);;
+  const handleGenerate = async () => {
+    console.log("check")
+    const space = /\s/.test(name);
     if(space){
       setValidate('whitespace')
       setOpen(true);
@@ -64,21 +65,27 @@ const CreateDB = () => {
       })
       try{
         const token = localStorage.getItem('token')
-        const response = await axios.post("http://localhost:8000/crud/createcrud", {
-            modelName:name,
-            modelDescription:description,
-            modelSchema,
-          },{
-            headers: {
-              'authentication':token,
-            }
-          });
+        const response = await fetch("http://localhost:8000/crud/createcrud", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'authentication': token,
+                },
+                body: JSON.stringify({
+                    modelName: name,
+                    modelDescription: description,
+                    modelSchema,
+                }),
+            });
+          console.log(response)
         if(response.status==200){
           setValidate('correct')
         }else{
+          console.log(response)
           setValidate('unknown')
         }
       }catch(err){
+        console.log(err)
         setValidate('unknown')
       }
       setName('')
@@ -101,13 +108,10 @@ const CreateDB = () => {
   });
 
   const [final, setFinal] = useState([]);
-
-  useEffect(() => {}, [inpval, final]);
-
   const getdata = (e) => {
     const { value, name } = e.target;
 
-    // console.log(value)
+
     setInpval((preval) => {
       return {
         ...preval,
@@ -116,7 +120,7 @@ const CreateDB = () => {
     });
   };
   const handleSubmit = (e) => {
-    // console.log(inpval.required.length)
+
     if(inpval.name.length!=0 && inpval.type.length!=0 && inpval.required.length!=0 && inpval.unique.length!=0){
       const newRecords = { ...inpval, id: new Date().getTime().toString() };
       setFinal([...final, newRecords]);
@@ -382,7 +386,7 @@ const CreateDB = () => {
         <TableContainer
           className="table-mobile"
           sx={{
-            marginLeft: "11vw",
+            marginLeft: "11vw",   //11
             marginTop: "3vh",
             width: "40vw",
             // marginBottom: "2vh",
@@ -423,7 +427,7 @@ const CreateDB = () => {
                         >
                           <i
                             class="fa-solid fa-trash"
-                            style={{ color: "#E9CA16" }}
+                            style={{ color: "orange" }}
                           ></i>
                         </button>
                       </TableCell>
@@ -453,9 +457,9 @@ const CreateDB = () => {
       ):(
         <>
         <button
-          onClick={handleOpen}
+          onClick={handleGenerate}
           className="btn-1"
-          style={{ marginBottom: "5vh", marginTop:"6vh", marginRight: "53vw" }}
+          style={{ marginBottom: "5vh", marginTop:"6vh", marginRight: "53vw" }}  //53
         >
           <i
             className="fa-solid fa-database"
@@ -466,6 +470,7 @@ const CreateDB = () => {
         </>
       )
       }
+      {/* <button onClick={handleGenerate}>GEENRATE</button> */}
       {validate=='empty'&&<Modal
           open={open}
           sx={{border:"none !important"}}

@@ -204,7 +204,7 @@ function Register() {
       }}
     >
       <Typography className="logo_register" variant="body1" color="initial" align="left" sx={{paddingTop:"1vh",fontSize:"2.0rem",paddingLeft:"1vw",fontWeight:"bold"}}>
-      <i className="fas fa-paper-plane" style={{color:"#E9CA16",fontSize:"1.5rem",marginRight:"0.5vw"}}></i>
+      <i className="fas fa-paper-plane" style={{color:"orange",fontSize:"1.5rem",marginRight:"0.5vw"}}></i>
         quik<span style={{color:"#37BEC1"}}>APIs</span>
       </Typography>
       <Box

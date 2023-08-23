@@ -3,13 +3,14 @@ import Navbar from "../Navbar/Navbar";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-// import Button from "@mui/material/Button";
 import "./ViewAPI.css";
-// import{Link,useFetcher} from 'react-router-dom'
 import {useNavigate} from 'react-router-dom'
 import Modal from "@mui/material/Modal";
 import axios from "axios";
 import nodata from '../../nodata.png'
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+
 
 const style = {
   position: "absolute",
@@ -18,7 +19,6 @@ const style = {
   transform: "translate(-50%, -50%)",
   width: 300,
   bgcolor: "background.paper",
-  // border: "2px solid #000",
   boxShadow: 24,
   pt: 2,
   px: 4,
@@ -28,20 +28,22 @@ const style = {
   transition:" all .4s"
 };
 
-// const style_imgae ={
-//   width: '750px',
-//   height: 'auto',
-//   // filter: drop-shadow(10 10 10 blue)
-// }
-
 const ViewAPI = () => {
   const navigate=useNavigate()
   const [validate,setValidate]=useState('');
   const [open, setOpen] = React.useState(false);
   const [datadb,setDatadb] = useState([])
-  const [countCollection, setCountCollection] = useState(0)
+  const [anchorEl, setAnchorEl] = React.useState(null);
 
 
+  const handleMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  const [countCollection, setCountCollection] = useState(2)
   useEffect(()=>{
     const fetchData = async() =>{
       try{
@@ -52,7 +54,6 @@ const ViewAPI = () => {
               }
           });
           setDatadb(response.data.response)
-          // console.log(datadb)
           setCountCollection(response.data.countCollection)
       }catch(err){
         setValidate('unknown')
@@ -90,7 +91,23 @@ const ViewAPI = () => {
         datadb.map((data)=>{ 
           return(
         <Grid className="api-box" key={data._id} >
+        <Typography className="db-elipsis" align="right" sx={{marginRight:"1.3vw",marginTop:"1.3vh"}}>
+        <i className="fa-solid fa-ellipsis-vertical" style={{ cursor:"pointer",width:"5vw"}}onClick={handleMenu} ></i>
+        <Menu
+                sx={{marginTop:"4vh",}}
+                id="menu-appbar"
+                anchorEl={anchorEl}
+                anchorOrigin={{ }}
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+              >
+                <MenuItem sx={{paddingRight:"2% !important",fontSize:"0.8rem",backgroundColor:"white !important"}}> Drop 
+                </MenuItem>
+                
+              </Menu>
+        </Typography>
           <Grid container>
+            
             <Grid item xs={12} lg={7} md={7}>
               <Typography
                 align="left"
@@ -98,8 +115,7 @@ const ViewAPI = () => {
                 sx={{
                   marginLeft: "3vw",
                   fontFamily: "League Spartan",
-                  marginTop: "5vh",
-                  
+                  marginTop: "2vh",
                   fontWeight: "bold",
                   fontSize: "1.5rem",
                 }}
@@ -107,7 +123,7 @@ const ViewAPI = () => {
                 <i
                   className="fas fa-paper-plane"
                   style={{
-                    color: "#E9CA16",
+                    color: "orange",
                     fontSize: "0.9rem",
                     marginRight: "1vw",
                   }}
@@ -135,7 +151,7 @@ const ViewAPI = () => {
                 sx={{
                   marginLeft: "5vw",
                   fontFamily: "League Spartan",
-                  marginTop: "-3vh",
+                  marginTop: "-1vh",
                   color:"gray",
                   fontSize: "1rem",
                 }}

@@ -6,7 +6,8 @@
 
 
 .api-box {
-    max-height: 90vh;
+    
+    max-height: 85vh;
     border: none;
     margin-left: 22vw;
     border-radius: 10px;
@@ -25,7 +26,7 @@
 
 .btn-api-1 {
     width: 11.5vw;
-    margin-top: 4vh;
+    margin-top: 3vh;
     margin-bottom: 3vh;
     padding: 0.9em 2em;
     background: none;
@@ -71,7 +72,7 @@
 
 
 .btn-api {
-    margin-top: 7vh;
+    margin-top: 2vh;
     padding: 0.9em 1.2em;
     background: none;
     border: 2px solid #fff;
@@ -281,5 +282,8 @@
         text-decoration: none !important;
 
     }
-
+    .db-elipsis{
+        margin-top:3vh !important;
+        margin-right:5vw !important;
+    }
 }

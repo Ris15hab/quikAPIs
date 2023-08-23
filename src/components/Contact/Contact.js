@@ -16,7 +16,7 @@ import axios from 'axios';
 const style = {
   position: "absolute",
   top: "50%",
-  left: "50%",
+  left: "55%",
   transform: "translate(-50%, -50%)",
   width: 300,
   bgcolor: "background.paper",

@@ -100,11 +100,11 @@ const Navbar = () => {
           <i className="fa-solid fa-magnifying-glass" style={{marginRight:"1.2rem",color:"#747e81"}}></i>
              My quikDB </Typography>
         </Link>
-        <a>
+        <Link to='/howtouse'>
         <Typography variant="body1" color="initial" className="nav_item">
           <i className="fa-solid fa-link" style={{marginRight:"1.2rem",color:"#747e81"}}></i>
              How To Use</Typography>
-        </a>
+        </Link>
         <Link to='/contact'>
         <Typography variant="body1" color="initial" className="nav_item">
           <i className="fa-regular fa-comment" style={{marginRight:"1.2rem",color:"#747e81"}}></i>
@@ -169,11 +169,11 @@ const Navbar = () => {
           <i className="fa-solid fa-magnifying-glass" style={{marginRight:"1.2rem",color:"#747e81"}}></i>
              My quikDB</Typography>
         </Link>
-        <a>
+        <Link to='/howtouse'>
         <Typography variant="body1" color="initial" className="nav_item">
           <i className="fa-solid fa-link" style={{marginRight:"1.2rem",color:"#747e81"}}></i>
              How To Use</Typography>
-        </a>
+        </Link>
         <Link to='/contact'>
         <Typography variant="body1" color="initial" className="nav_item">
           <i className="fa-regular fa-comment" style={{marginRight:"1.2rem",color:"#747e81"}}></i>
