@@ -60,6 +60,9 @@
     .step3{
         margin-left:6vw !important
     }
+    .zoom-icon{
+        display:none !important;
+    }
 
    
   }
