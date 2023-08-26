@@ -72,15 +72,150 @@ const Collection = () => {
   const [datadb,setDatadb] = useState([]);
   const [datadbcount,setDatadbcount] = useState([]);
   const [datadbname,setDatadbName] = useState('');
+  const [formValues, setFormValues] = useState({});
   const handleOpen = () => {setOpen(true)};
   const handleDropOpen = () => {setDropOpen(true)};
   const handleDropClose = () => {setDropOpen(false)};
-  const handleAddOpen = () => {setAddOpen(true)};
   const handleAddClose = () => {setAddOpen(false)};
-  const handleEditOpen = () => {setEditOpen(true)};
   const handleEditClose = () => {setEditOpen(false)};
   const handleClose = () => {setOpen(false)};
-  
+  const [modelSchema, setModelSchema] = useState([])
+
+  const handleAddOpen = async () => {
+    try{
+      const token = localStorage.getItem('token')
+      const result = await axios.get("http://localhost:8000/guiCRUD/getFields?_id="+id,{
+          headers: {
+            'authentication':token,
+          }
+      });
+      // console.log(result.data.modelSchema)
+      setModelSchema([result.data.modelSchema])
+      setAddOpen(true)
+    }catch(err){
+      setValidate('unknown')
+      setOpen_modal_popup(true)
+      setTimeout(() => {
+        setOpen_modal_popup(false);
+      }, 1500);
+    }
+  };
+
+  const handleEditOpen = async (data) => {
+    try{
+      const token = localStorage.getItem('token')
+      const result = await axios.get("http://localhost:8000/guiCRUD/getFields?_id="+id,{
+          headers: {
+            'authentication':token,
+          }
+      });
+      // console.log(result.data.modelSchema)
+      setModelSchema([result.data.modelSchema])
+      setEditOpen(true)
+      setFormValues(data)
+    }catch(err){
+      setValidate('unknown')
+      setOpen_modal_popup(true)
+      setTimeout(() => {
+        setOpen_modal_popup(false);
+      }, 1500);
+    }
+  };
+
+  const handleFieldChange = (key, value) => {
+    setFormValues((prevValues) => ({
+      ...prevValues,
+      [key]: value,
+    }));
+  };
+
+  const handleAddSubmit = async()=>{
+    try{
+      const token = localStorage.getItem('token')
+      const result = await axios.get("http://localhost:8000/userDB/getApiById?_id="+id,{
+          headers: {
+            'authentication':token,
+          }
+      });
+      // console.log(result.data.APIs.Add)
+      const response = await axios.post(`${result.data.APIs.Add}`,formValues);
+      // console.log(formValues)
+      if(response.status === 201){
+        setValidate('add_submit')
+        setOpen_modal_popup(true)
+        setTimeout(() => {
+          setOpen_modal_popup(false);
+          setRefresh(!refresh)
+        }, 1000);
+      }
+      setAddOpen(false)
+      setFormValues({})
+    }catch(err){
+      setValidate('unknown')
+      setOpen_modal_popup(true)
+      setTimeout(() => {
+        setOpen_modal_popup(false);
+      }, 1500);
+    }
+  }
+
+  const handleCloseDeleteSubmit = async(iddoc)=>{
+    try{
+      const token = localStorage.getItem('token')
+      const result = await axios.get("http://localhost:8000/userDB/getApiById?_id="+id,{
+          headers: {
+            'authentication':token,
+          }
+      });
+      const response = axios.delete(`${result.data.APIs.DeleteById}`+iddoc);
+      // console.log(response)
+      if(response){
+        setOpen(false)
+        setValidate('delete_submit')
+        setOpen_modal_popup(true)
+        setTimeout(() => {
+          setOpen_modal_popup(false);
+          setRefresh(!refresh)
+        }, 1000);
+      }
+    }catch(err){
+      setValidate('unknown')
+      setOpen_modal_popup(true)
+      setTimeout(() => {
+        setOpen_modal_popup(false);
+      }, 1500);
+    }
+  }
+
+  const handleEditSubmit = async(iddoc)=>{
+    try{
+      const token = localStorage.getItem('token')
+      const result = await axios.get("http://localhost:8000/userDB/getApiById?_id="+id,{
+          headers: {
+            'authentication':token,
+          }
+      });
+      // console.log(result)
+      const response = axios.put(`${result.data.APIs.UpdateById}`+iddoc,formValues);
+      console.log(response)
+      if(response){
+        setOpen(false)
+        setValidate('update_submit')
+        setOpen_modal_popup(true)
+        setEditOpen(false)
+        setTimeout(() => {
+          setOpen_modal_popup(false);
+          setRefresh(!refresh)
+        }, 1000);
+      }
+    }catch(err){
+      setValidate('unknown')
+      setOpen_modal_popup(true)
+      setTimeout(() => {
+        setOpen_modal_popup(false);
+      }, 1500);
+    }
+  }
   
   useEffect(()=>{
     const fetchData = async()=>{
@@ -103,7 +238,6 @@ const Collection = () => {
         }, 2000);
       }
     }
-
     fetchData();
   },[refresh])
 
@@ -165,13 +299,20 @@ const Collection = () => {
                 </Typography>
                 <Typography align="center">
                 
-                <TextField id="standard-basic" label="name" variant="standard" />
-                <TextField id="standard-basic" label="email" variant="standard" />
-                
-                
+                {/* <TextField id="standard-basic" label="name" variant="standard" /> */}
+                {modelSchema.map((item, index) => (
+                  <div key={index}>
+                    {Object.entries(item).map(([key, value]) => (
+                      key !== '_id' && key !== '__v' && (
+                        <TextField key={key} id={key} label={key} variant="standard"value={formValues[key] || ''}
+                        onChange={(e) => handleFieldChange(key, e.target.value)} autoComplete='off'/>
+                      )
+                    ))}
+                  </div>
+                ))}
                 </Typography>
                 <Typography id="modal-modal-description" align="center" sx={{ mt: 6 }}>
-                <Button sx={{color:"green"}} onClick={handleAddClose}>Submit</Button> <Button onClick={handleAddClose} sx={{color:"gray"}}>Cancel</Button>
+                <Button sx={{color:"green"}} onClick={handleAddSubmit}>Submit</Button> <Button onClick={handleAddClose} sx={{color:"gray"}}>Cancel</Button>
                 </Typography>
               </Box>
             </Modal>
@@ -217,7 +358,7 @@ const Collection = () => {
           datadb.map((obj, index) => (
         <Grid item xs={11} md={8} lg={8} className="collection-box" sx={{marginBottom:"3vh !important",  marginTop:"3vh"}} key={datadb[index]._id}>
                   <Typography variant="body1" align="right" color="initial" sx={{color:"#5A5A5A",fontWeight:"bold",fontFamily:"League Spartan",marginRight:"1vw"}}>
-                              <Button variant="text" color="primary" onClick={handleEditOpen}>
+                              <Button variant="text" color="primary" onClick={()=>handleEditOpen(datadb[index])}>
                               <i className="fa-regular fa-pen-to-square" style={{fontSize:"1.1rem",color:"green"}}></i>
                               </Button>
                               <Modal
@@ -230,15 +371,20 @@ const Collection = () => {
                                     <Typography id="modal-modal-title" variant="h6" component="h2" align="center" sx={{fontFamily:"League Spartan",color:"#438C8E",marginBottom:"2vh"}}>
                                       Update Document.
                                     </Typography>
-                                    <Typography align="center">
-                                    
-                                    <TextField id="standard-basic" label="name" variant="standard" />
-                                    <TextField id="standard-basic" label="email" variant="standard" />
-                                    
-                                    
+                                    <Typography align="center">                                  
+                                    {modelSchema.map((item, index) => (
+                                      <div key={index}>
+                                        {Object.entries(item).map(([key, value]) => (
+                                          key !== '_id' && key !== '__v' && (
+                                            <TextField key={key} id={key} label={key} variant="standard"value={formValues[key] || ''}
+                                            onChange={(e) => handleFieldChange(key, e.target.value)} autoComplete='off'/>
+                                          )
+                                        ))}
+                                      </div>
+                                    ))}
                                     </Typography>
                                     <Typography id="modal-modal-description" align="center" sx={{ mt: 6 }}>
-                                    <Button sx={{color:"green"}} onClick={handleEditClose}>Submit</Button> <Button onClick={handleEditClose} sx={{color:"gray"}}>Cancel</Button>
+                                    <Button sx={{color:"green"}} onClick={()=>handleEditSubmit(datadb[index]._id)}>Submit</Button> <Button onClick={handleEditClose} sx={{color:"gray"}}>Cancel</Button>
                                     </Typography>
                                   </Box>
                                 </Modal>
@@ -256,7 +402,7 @@ const Collection = () => {
                                     Are you sure you want to delete this document?
                                   </Typography>
                                   <Typography id="modal-modal-description" align="right" sx={{ mt: 2 }}>
-                                  <Button sx={{color:"red"}} onClick={handleClose}>YES</Button> <Button onClick={handleClose} sx={{color:"gray"}}>Cancel</Button>
+                                  <Button sx={{color:"red"}} onClick={()=>handleCloseDeleteSubmit(datadb[index]._id)}>YES</Button> <Button onClick={handleClose} sx={{color:"gray"}}>Cancel</Button>
                                   </Typography>
                                 </Box>
                               </Modal>
@@ -289,6 +435,45 @@ const Collection = () => {
             <Typography id="modal-modal-title" variant="h6" component="h3" sx={{margin:"1vh",fontSize:"1.1rem"}}>
             <i class="fa-regular fa-circle-xmark" style={{color: "#37bec1",marginRight:"1vw"}}></i>
             Oops! An Error Occurred  <span style={{marginRight:"1vw !important"}}></span>
+            </Typography>
+          </Box>
+        </Modal>} 
+        {validate=='add_submit'&&<Modal
+          open={open_modal_popup}
+          sx={{border:"none !important"}}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style_modal_popup}>
+            <Typography id="modal-modal-title" variant="h6" component="h3" sx={{margin:"1vh",fontSize:"1.1rem"}}>
+            <i class="fa-regular fa-circle-check" style={{color: "#37bec1",marginRight:"1vw"}}></i>
+            Data Added Successfully <span style={{marginRight:"1vw !important"}}></span>
+            </Typography>
+          </Box>
+        </Modal>} 
+        {validate=='delete_submit'&&<Modal
+          open={open_modal_popup}
+          sx={{border:"none !important"}}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style_modal_popup}>
+            <Typography id="modal-modal-title" variant="h6" component="h3" sx={{margin:"1vh",fontSize:"1.1rem"}}>
+            <i class="fa-regular fa-circle-check" style={{color: "#37bec1",marginRight:"1vw"}}></i>
+            Data deleted successfully <span style={{marginRight:"1vw !important"}}></span>
+            </Typography>
+          </Box>
+        </Modal>} 
+        {validate=='update_submit'&&<Modal
+          open={open_modal_popup}
+          sx={{border:"none !important"}}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style_modal_popup}>
+            <Typography id="modal-modal-title" variant="h6" component="h3" sx={{margin:"1vh",fontSize:"1.1rem"}}>
+            <i class="fa-regular fa-circle-check" style={{color: "#37bec1",marginRight:"1vw"}}></i>
+            Data updated successfully <span style={{marginRight:"1vw !important"}}></span>
             </Typography>
           </Box>
         </Modal>} 
