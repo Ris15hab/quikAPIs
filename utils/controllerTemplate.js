@@ -19,10 +19,10 @@ const controllerTemplate = (modelFileName, modelSchema, modelFilePath, controlle
 
     // console.log(stringfields)
 
-    const data = `const ${modelFileName} = require('../../${modelFilePath}')\nconst { createError } = require('../../middleware/error')\n\nconst addData = async(req,res,next) =>{
+    const data = `const {model} = require('../../${modelFilePath}')\nconst { createError } = require('../../middleware/error')\n\nconst addData = async(req,res,next) =>{
         try{
             const {${fields.join(',')}} = req.body
-            const modelInst = new ${modelFileName}({
+            const modelInst = new model({
                 ${fields.join(',')}
             })
             await modelInst.save();
@@ -33,7 +33,7 @@ const controllerTemplate = (modelFileName, modelSchema, modelFilePath, controlle
         }
     }\n\nconst getData = async(req,res,next)=>{
         try{
-            const data = await ${modelFileName}.find({})
+            const data = await model.find({})
             if(!data){
                 res.status(200).json({message:"No Data to display."})
             }
@@ -44,7 +44,7 @@ const controllerTemplate = (modelFileName, modelSchema, modelFilePath, controlle
     }\n\nconst getDataById = async(req,res,next)=>{
         try{
             const {_id} = req.query
-            const data = await ${modelFileName}.find({_id})
+            const data = await model.find({_id})
             if(data){
                 res.status(200).json({data})
             }else{
@@ -60,7 +60,7 @@ const controllerTemplate = (modelFileName, modelSchema, modelFilePath, controlle
             if(!_id){
                 return next(createError(400, "Please send ID of the data as '_id'"))
             }
-            const modelInst = await ${modelFileName}.updateOne({_id},{
+            const modelInst = await model.updateOne({_id},{
                 $set:{
                     ${fields.join(',')}
                 }
@@ -75,7 +75,7 @@ const controllerTemplate = (modelFileName, modelSchema, modelFilePath, controlle
             if(!_id){
                 return next(createError(400, "Please send ID of the data as '_id'"))
             }
-            const modelInst = await ${modelFileName}.deleteOne({_id})
+            const modelInst = await model.deleteOne({_id})
             res.status(200).json({message:"Data successfully deleted"})
         }catch(err){
             next(err)

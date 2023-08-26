@@ -23,11 +23,12 @@ const getUserDB = async (req, res, next) => {
     try {
         const userID = req.user.userData._id;
         const response = await UserDB.find({ userID }).sort({ dateTime: -1 });
-        const countCollection = await UserDB.find({ userID}).countDocuments();
+        const countCollection = await UserDB.find({ userID }).countDocuments();
 
         // Create an array to store promises for fetching model counts
         const modelCountPromises = response.map(async (item) => {
-            const model = require(`../models/${userID}/${item.modelStoredAs}.js`);
+            const {model}  = require(`../models/${userID}/${item.modelStoredAs}.js`);
+            // console.log(model)
             const modelCount = await model.find({}).countDocuments();
             item.count = modelCount; // Update the count for the current item
         });
@@ -37,7 +38,7 @@ const getUserDB = async (req, res, next) => {
 
         //console.log(response); // Now response should contain the updated counts
 
-        res.status(200).json({ countCollection,response });
+        res.status(200).json({ countCollection, response });
     } catch (err) {
         next(err);
     }
@@ -56,7 +57,7 @@ const getApiById = async (req, res, next) => {
             DeleteById: `${data[0].modelAPI}/deleteDataById?_id=`
         };
         const name = data[0].modelName
-        res.status(200).json({ name,APIs: response })
+        res.status(200).json({ name, APIs: response })
     } catch (err) {
         next(err)
     }
@@ -68,22 +69,22 @@ const getUserDBCollection = async (req, res, next) => {
         const userID = req.user.userData._id;
         const userDB = await UserDB.find({ _id })
         if (userDB) {
-            const response ={}
+            const response = {}
             const modelCountPromises = userDB.map(async (item) => {
-                const model = require(`../models/${userID}/${item.modelStoredAs}.js`);
+                const {model} = require(`../models/${userID}/${item.modelStoredAs}.js`);
                 const data = await model.find({});
                 const count = await model.find({}).countDocuments();
 
-                response.data= data;
-                response.count= count;
+                response.data = data;
+                response.count = count;
             });
 
             // Wait for all the model count promises to resolve
             await Promise.all(modelCountPromises);
 
-            res.status(200).json({ name:userDB[0].modelName , response })
+            res.status(200).json({ name: userDB[0].modelName, response })
         } else {
-            console.log(here)
+            // console.log(here)
             return next(createError(404, 'user database not found'))
         }
     } catch (err) {

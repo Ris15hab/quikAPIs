@@ -61,7 +61,7 @@ const createCRUD = async (req, res, next) => {
         //api url
         let url = `${req.hostname}/${modelFileName}`
 
-        if (req.hostname == "localhost") { modelAPI = `http://${req.hostname}:${process.env.PORT}/${modelFileName}` }
+        if (req.hostname == "localhost") { modelAPI = `http://${req.hostname}:8000/${modelFileName}` }
         else { modelAPI = `https://${url}` }
 
         //getting time

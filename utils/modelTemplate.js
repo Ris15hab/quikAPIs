@@ -26,11 +26,11 @@ const modelTemplate = async (modelName, modelSchema,modelFilePath) => {
     const content =
     `const mongoose = require('mongoose');
 
-    const ${modelName}Schema = mongoose.Schema({
+    const modelSchema = mongoose.Schema({
         ${properties.join(",\n")}
     });
-    const ${modelName} = mongoose.model('${modelName}', ${modelName}Schema);
-    module.exports = ${modelName}`;
+    const model = mongoose.model('${modelName}', modelSchema);
+    module.exports = {model,modelSchema}`;
 
     const filePath = path.join(__dirname,`../${modelFilePath}`)
 
