@@ -37,6 +37,7 @@ const API = () => {
   const [open_modal_popup, setOpen_modal_popup] = React.useState(false);
   const [validate,setValidate]=useState('');
   const [open, setOpen] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
   const [name, setName] = useState('')
 
   const copyToClipboard = () => {
@@ -50,6 +51,7 @@ const API = () => {
 useEffect(()=>{
   const fetchData = async()=>{
     try{
+      setLoading(true)
       const token = localStorage.getItem('token')
       const result = await axios.get("http://localhost:8000/userDB/getApiById?_id="+id,{
           headers: {
@@ -58,6 +60,7 @@ useEffect(()=>{
       });
       setApi(result.data.APIs)
       setName(result.data.name)
+      setLoading(false)
     }catch(err){
       setValidate('unknown')
       setOpen_modal_popup(true)
@@ -105,7 +108,19 @@ useEffect(()=>{
               </Typography>
         </Grid>
 
-        <Grid item xs={10} lg={10} md={10}>
+        {loading?(<>
+          <div className="loading" style={{marginTop:"20vh",marginLeft:"34vw"}}>
+            <svg width="64px" height="48px">
+                <polyline points="0.157 23.954, 14 23.954, 21.843 48, 43 0, 50 24, 64 24" id="back"></polyline>
+              <polyline points="0.157 23.954, 14 23.954, 21.843 48, 43 0, 50 24, 64 24" id="front"></polyline>
+            </svg>
+            <p>loading...</p>
+           </div>
+        
+        
+        </>):(<>
+
+          <Grid item xs={10} lg={10} md={10}>
         <Typography align="left" className="api_heading" sx={{fontFamily: "League Spartan",
                   color:"gray",
                   fontFamily:"League Spartan",
@@ -148,7 +163,6 @@ useEffect(()=>{
                  </Tooltip>
         </Grid>
         
-        {/* <Chip label="success" color="success" variant="outlined" sx={{backgroundColor:"red"}}/> */}
 
         <Grid item xs={10} lg={10} md={10}>
         <Typography align="left" className="api_heading" sx={{fontFamily: "League Spartan",
@@ -332,6 +346,10 @@ useEffect(()=>{
               </Typography>
        
         </Grid>
+
+        </>)}
+
+        
       </Grid>
         {validate=='unknown'&&<Modal
           open={open_modal_popup}

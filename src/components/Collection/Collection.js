@@ -14,9 +14,6 @@ import nodata from '../../nodata.png'
 import { useNavigate } from 'react-router-dom';
 import TextField from '@mui/material/TextField';
 
-// import Input from '@mui/joy/Input';
-
-
 const style = {
   position: 'absolute',
   top: '50%',
@@ -64,6 +61,7 @@ const Collection = () => {
   const {id} = useParams();
   const [validate,setValidate]=useState('');
   const [open, setOpen] = React.useState(false);
+  const [loading,setLoading]=useState(false)
   const [refresh, setRefresh] = React.useState(false);
   const [dropopen, setDropOpen] = React.useState(false);
   const [addopen, setAddOpen] = React.useState(false);
@@ -81,7 +79,7 @@ const Collection = () => {
   const handleClose = () => {setOpen(false)};
   const [modelSchema, setModelSchema] = useState([])
 
-  const handleAddOpen = async () => {
+  const handleAddOpen = async (e) => {
     try{
       const token = localStorage.getItem('token')
       const result = await axios.get("http://localhost:8000/guiCRUD/getFields?_id="+id,{
@@ -168,6 +166,7 @@ const Collection = () => {
           }
       });
       const response = axios.delete(`${result.data.APIs.DeleteById}`+iddoc);
+      console.log("iddoc"+iddoc);
       // console.log(response)
       if(response){
         setOpen(false)
@@ -189,16 +188,16 @@ const Collection = () => {
 
   const handleEditSubmit = async(iddoc)=>{
     try{
+    
       const token = localStorage.getItem('token')
       const result = await axios.get("http://localhost:8000/userDB/getApiById?_id="+id,{
           headers: {
             'authentication':token,
           }
       });
-      // console.log(result)
       const response = axios.put(`${result.data.APIs.UpdateById}`+iddoc,formValues);
       console.log(response)
-      if(response){
+      // if(response){
         setOpen(false)
         setValidate('update_submit')
         setOpen_modal_popup(true)
@@ -208,7 +207,7 @@ const Collection = () => {
           setOpen_modal_popup(false);
           setRefresh(!refresh)
         }, 1000);
-      }
+      // }
     }catch(err){
       setValidate('unknown')
       setOpen_modal_popup(true)
@@ -247,6 +246,7 @@ const Collection = () => {
   useEffect(()=>{
     const fetchData = async()=>{
       try{
+        setLoading(true)
         const token = localStorage.getItem('token')
           const result = await axios.get("http://localhost:8000/userDB/getUserDBCollection?_id="+id,{
               headers: {
@@ -256,7 +256,9 @@ const Collection = () => {
           // console.log(result)
           setDatadb(result.data.response.data)
           setDatadbName(result.data.name)
+          setLoading(false)
           setDatadbcount(result.data.response.count)
+         
       }catch(err){
         setValidate('unknown')
         setOpen_modal_popup(true)
@@ -301,8 +303,7 @@ const Collection = () => {
               </Typography>
         </Grid>
         <Grid item xs={3} lg={2} md={1} className="count-collection-document">
-             {/* {datadbcount} <br/> */}
-            {/* <span style={{fontSize:"10px"}}>DOCUMENTS</span> */}
+
             <Tooltip  sx={{cursor:"pointer"}}>
             <Box className="collection-document">
                 {datadbcount} Documents
@@ -327,7 +328,7 @@ const Collection = () => {
                 </Typography>
                 <Typography align="center">
                 
-                {/* <TextField id="standard-basic" label="name" variant="standard" /> */}
+              
                 {modelSchema.map((item, index) => (
                   <div key={index}>
                     {Object.entries(item).map(([key, value]) => (
@@ -375,7 +376,21 @@ const Collection = () => {
             </Box>
             </Tooltip>
           </Grid>
-          {(datadbcount===0)?(
+          {loading?(
+            <>
+            <div className="loading" style={{marginTop:"20vh",marginLeft:"34vw"}}>
+            <svg width="64px" height="48px">
+                <polyline points="0.157 23.954, 14 23.954, 21.843 48, 43 0, 50 24, 64 24" id="back"></polyline>
+              <polyline points="0.157 23.954, 14 23.954, 21.843 48, 43 0, 50 24, 64 24" id="front"></polyline>
+            </svg>
+            <p>loading...</p>
+           </div>
+           
+           
+           </>
+          ):(<>
+
+           {(datadbcount===0)?(
             <>
             <img src={nodata} className='nodata2' alt="no data"></img>
             <Typography className='note-head2' variant="body1" color="initial" align='left' >
@@ -386,22 +401,23 @@ const Collection = () => {
           datadb.map((obj, index) => (
         <Grid item xs={11} md={8} lg={8} className="collection-box" sx={{marginBottom:"3vh !important",  marginTop:"3vh"}} key={datadb[index]._id}>
                   <Typography variant="body1" align="right" color="initial" sx={{color:"#5A5A5A",fontWeight:"bold",fontFamily:"League Spartan",marginRight:"1vw"}}>
-                              <Button variant="text" color="primary" onClick={()=>handleEditOpen(datadb[index])}>
+                              <Button variant="text" color="primary" onClick={(e)=>handleEditOpen(datadb[index])}>
                               <i className="fa-regular fa-pen-to-square" style={{fontSize:"1.1rem",color:"green"}}></i>
                               </Button>
                               <Modal
+                                 key={datadb[index]._id}
                                   open={editopen}
                                   onClose={handleEditClose}
                                   aria-labelledby="modal-modal-title"
                                   aria-describedby="modal-modal-description"
                                 >
-                                  <Box sx={style_add} className="modal-box-delete">
+                                  <Box sx={style_add} className="modal-box-delete" key={datadb[index]._id}>
                                     <Typography id="modal-modal-title" variant="h6" component="h2" align="center" sx={{fontFamily:"League Spartan",color:"#438C8E",marginBottom:"2vh"}}>
                                       Update Document.
                                     </Typography>
                                     <Typography align="center">                                  
                                     {modelSchema.map((item, index) => (
-                                      <div key={index}>
+                                      <div key={datadb[index]._id}>
                                         {Object.entries(item).map(([key, value]) => (
                                           key !== '_id' && key !== '__v' && (
                                             <TextField key={key} id={key} label={key} variant="standard"value={formValues[key] || ''}
@@ -412,7 +428,7 @@ const Collection = () => {
                                     ))}
                                     </Typography>
                                     <Typography id="modal-modal-description" align="center" sx={{ mt: 6 }}>
-                                    <Button sx={{color:"green"}} onClick={()=>handleEditSubmit(datadb[index]._id)}>Submit</Button> <Button onClick={handleEditClose} sx={{color:"gray"}}>Cancel</Button>
+                                    <Button sx={{color:"green"}} onClick={(e)=>handleEditSubmit(datadb[index]._id)}>Submit</Button> <Button onClick={handleEditClose} sx={{color:"gray"}}>Cancel</Button>
                                     </Typography>
                                   </Box>
                                 </Modal>
@@ -430,7 +446,7 @@ const Collection = () => {
                                     Are you sure you want to delete this document?
                                   </Typography>
                                   <Typography id="modal-modal-description" align="right" sx={{ mt: 2 }}>
-                                  <Button sx={{color:"red"}} onClick={()=>handleCloseDeleteSubmit(datadb[index]._id)}>YES</Button> <Button onClick={handleClose} sx={{color:"gray"}}>Cancel</Button>
+                                  <Button sx={{color:"red"}} onClick={(e)=>handleCloseDeleteSubmit(datadb[index]._id)}>YES</Button> <Button onClick={handleClose} sx={{color:"gray"}}>Cancel</Button>
                                   </Typography>
                                 </Box>
                               </Modal>
@@ -452,6 +468,9 @@ const Collection = () => {
         </Grid>))
             
           )}
+
+          </>)}
+         
         </Grid> 
         {validate=='unknown'&&<Modal
           open={open_modal_popup}

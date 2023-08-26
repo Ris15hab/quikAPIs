@@ -234,14 +234,16 @@ const CreateDB = () => {
             />
           </Grid>
           <Grid item xs={11} md={2} sx={{}}>
+           
             <FormControl
               variant="standard"
               fullWidth
               className="input_field_1"
-              sx={{ marginTop: "1vh", marginLeft: "1vw", padding: "8px" }}
+              sx={{ marginTop: "1vh", marginLeft: "1vw", padding: "8px"}}
             >
+            
               <Select
-                sx={{ color: "gray", fontWeight: "bold", marginLeft: "1vw" }}
+                sx={{ color: "gray", fontWeight: "bold", marginLeft: "1vw"}}
                 labelId="demo-simple-select-helper-label"
                 id="demo-simple-select"
                 value={inpval.type}
@@ -251,7 +253,7 @@ const CreateDB = () => {
                 disableUnderline
                 name="type"
               >
-                <MenuItem value="" name="type">
+                <MenuItem value="" name="type"  sx={{backgroundColor:"#D3D3D3",marginTop:"-1vh"}}>
                   <Typography
                     variant="body1"
                     align="left"
@@ -260,43 +262,46 @@ const CreateDB = () => {
                       color: "gray",
                       fontWeight: "bold",
                       marginLeft: "1vw",
+                     
                     }}
                   >
                     Select Type
                   </Typography>
                 </MenuItem>
-                <MenuItem name="type" value={"String"}>
+                <MenuItem name="type" value={"String"} sx={{backgroundColor:"#D3D3D3"}}>
                   String
                 </MenuItem>
-                <MenuItem name="type" value={"Number"}>
+                <MenuItem name="type" value={"Number"} sx={{backgroundColor:"#D3D3D3"}}>
                   Number
                 </MenuItem>
-                <MenuItem name="type" value={"Boolean"}>
+                <MenuItem name="type" value={"Boolean"} sx={{backgroundColor:"#D3D3D3"}}>
                   Boolean
                 </MenuItem>
-                <MenuItem name="type" value={"Date"}>
+                <MenuItem name="type" value={"Date"} sx={{backgroundColor:"#D3D3D3"}}>
                   Date
                 </MenuItem>
-                <MenuItem name="type" value={"Buffer"}>
+                <MenuItem name="type" value={"Buffer"} sx={{backgroundColor:"#D3D3D3"}}>
                   Buffer
                 </MenuItem>
-                <MenuItem name="type" value={"[String]"}>
+                <MenuItem name="type" value={"[String]"} sx={{backgroundColor:"#D3D3D3"}}>
                   Array(String)
                 </MenuItem>
-                <MenuItem name="type" value={"[Number]"}>
+                <MenuItem name="type" value={"[Number]"} sx={{backgroundColor:"#D3D3D3"}}>
                   Array(Number)
                 </MenuItem>
-                <MenuItem name="type" value={"mongoose.Schema.Types.Mixed"}>
+                <MenuItem name="type" value={"mongoose.Schema.Types.Mixed"} sx={{backgroundColor:"#D3D3D3"}}>
                   Mixed
                 </MenuItem>
-                <MenuItem name="type" value={"mongoose.Schema.Types.Decimal128"}>
+                <MenuItem name="type" value={"mongoose.Schema.Types.Decimal128"} sx={{backgroundColor:"#D3D3D3"}}>
                   Decimal128
                 </MenuItem>
-                <MenuItem name="type" value={"Map"}>
+                <MenuItem name="type" value={"Map"} sx={{backgroundColor:"#D3D3D3",marginBottom:"-29vh"}}>
                   Map
                 </MenuItem>
               </Select>
+            
             </FormControl>
+
           </Grid>
           <Grid item xs={11} md={2}>
             <FormControl
@@ -316,7 +321,7 @@ const CreateDB = () => {
                 inputProps={{ "aria-label": "Without label" }}
                 disableUnderline
               >
-                <MenuItem value="" name="required">
+                <MenuItem value="" name="required" sx={{marginTop:"-1vh"}}>
                   <Typography
                     variant="body1"
                     align="left"
@@ -330,10 +335,10 @@ const CreateDB = () => {
                     Required 
                   </Typography>
                 </MenuItem>
-                <MenuItem name="required" value={"false"}>
+                <MenuItem name="required" value={"false"} sx={{backgroundColor:"#D3D3D3"}}>
                   No
                 </MenuItem>
-                <MenuItem name="required" value={"true"}>
+                <MenuItem name="required" value={"true"} sx={{backgroundColor:"#D3D3D3",marginBottom:"-1vh"}}>
                   Yes
                 </MenuItem>
               </Select>
@@ -357,7 +362,7 @@ const CreateDB = () => {
                 inputProps={{ "aria-label": "Without label" }}
                 disableUnderline
               >
-                <MenuItem value="" name="unique">
+                <MenuItem value="" name="unique" sx={{marginTop:"-1vh"}}>
                   <Typography
                     variant="body1"
                     align="left"
@@ -371,10 +376,10 @@ const CreateDB = () => {
                     Unique
                   </Typography>
                 </MenuItem>
-                <MenuItem name="unique" value={"false"}>
+                <MenuItem name="unique" value={"false"} sx={{backgroundColor:"#d3d3d3"}}>
                   No
                 </MenuItem>
-                <MenuItem name="unique" value={"true"}>
+                <MenuItem name="unique" value={"true"} sx={{marginBottom:"-1vh",backgroundColor:"#d3d3d3"}}>
                   Yes
                 </MenuItem>
               </Select>

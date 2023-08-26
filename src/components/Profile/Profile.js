@@ -73,42 +73,6 @@ const Profile = () => {
           </Box>
         </Grid>
       </Grid>
-      {/* <Grid container className="grid-profile">
-      <Grid item xs={12} md={6} lg={6}>
-          <Box className="leaderboard" sx={{marginTop:"5vh"}}>
-          <TableContainer >
-      <Table sx={{ minWidth: 500 }} className="leaderboard">
-        <TableHead >
-          <TableRow>
-            <TableCell sx={{fontWeight:"bold"}}>#</TableCell>
-            <TableCell sx={{color:"#37BEC1",fontWeight:"bold"}}>Username</TableCell>
-            <TableCell sx={{color:"#37BEC1",fontWeight:"bold"}}>API score</TableCell>
-            <TableCell sx={{color:"#37BEC1",fontWeight:"bold"}}> DB score</TableCell>
-            <TableCell > <i className="fa-solid fa-trophy" style={{fontSize:"16px",color:"#E9CA16"}}></i></TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row) => (
-            <TableRow key={row.name}>
-              <TableCell component="th" scope="row">
-                {row.name}
-              </TableCell>
-              <TableCell >{row.calories}</TableCell>
-              <TableCell >{row.fat}</TableCell>
-              <TableCell >{row.carbs}</TableCell>
-              <TableCell >{row.protein}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
-          
-          </Box>
-        </Grid>
-      </Grid> */}
-      <Typography align="right" sx={{marginRight:"7vw",marginTop:"55vh",fontFamily:"League Spartan",fontSize:"1.1rem"}}> Edit Profile <i className="fa-solid fa-user-pen" style={{color:"#37BEC1"}}></i></Typography>
-      <Typography align="right" sx={{marginRight:"7vw",marginTop:"2vh",fontFamily:"League Spartan",fontSize:"1.1rem"}}> Delete Account <i className="fa-regular fa-trash-can" style={{color:"red"}}></i></Typography>
-      
     </div>
   )
 }
