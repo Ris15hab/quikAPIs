@@ -265,17 +265,35 @@ const CreateDB = () => {
                     Select Type
                   </Typography>
                 </MenuItem>
-                <MenuItem name="type" value={"Integer"}>
-                  Integer
-                </MenuItem>
-                <MenuItem name="type" value={"Float"}>
-                  Float
-                </MenuItem>
                 <MenuItem name="type" value={"String"}>
                   String
                 </MenuItem>
+                <MenuItem name="type" value={"Number"}>
+                  Number
+                </MenuItem>
                 <MenuItem name="type" value={"Boolean"}>
                   Boolean
+                </MenuItem>
+                <MenuItem name="type" value={"Date"}>
+                  Date
+                </MenuItem>
+                <MenuItem name="type" value={"Buffer"}>
+                  Buffer
+                </MenuItem>
+                <MenuItem name="type" value={"[String]"}>
+                  Array(String)
+                </MenuItem>
+                <MenuItem name="type" value={"[Number]"}>
+                  Array(Number)
+                </MenuItem>
+                <MenuItem name="type" value={"mongoose.Schema.Types.Mixed"}>
+                  Mixed
+                </MenuItem>
+                <MenuItem name="type" value={"mongoose.Schema.Types.Decimal128"}>
+                  Decimal128
+                </MenuItem>
+                <MenuItem name="type" value={"Map"}>
+                  Map
                 </MenuItem>
               </Select>
             </FormControl>

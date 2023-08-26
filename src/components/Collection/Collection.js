@@ -203,6 +203,33 @@ const Collection = () => {
         setValidate('update_submit')
         setOpen_modal_popup(true)
         setEditOpen(false)
+        setFormValues({})
+        setTimeout(() => {
+          setOpen_modal_popup(false);
+          setRefresh(!refresh)
+        }, 1000);
+      }
+    }catch(err){
+      setValidate('unknown')
+      setOpen_modal_popup(true)
+      setTimeout(() => {
+        setOpen_modal_popup(false);
+      }, 1500);
+    }
+  }
+
+  const handleDropSubmit = async()=>{
+    try{
+      const token = localStorage.getItem('token')
+      const result = await axios.delete("http://localhost:8000/guiCRUD/dropAll?_id="+id,{
+          headers: {
+            'authentication':token,
+          }
+      });
+      if(result){
+        setDropOpen(false)
+        setValidate('drop_submit')
+        setOpen_modal_popup(true)
         setTimeout(() => {
           setOpen_modal_popup(false);
           setRefresh(!refresh)
@@ -241,6 +268,7 @@ const Collection = () => {
     fetchData();
   },[refresh])
 
+  console.log(datadb)
   return (
     <>
     <Navbar/>
@@ -334,7 +362,7 @@ const Collection = () => {
                   Are you sure you want to drop all documents?
                 </Typography>
                 <Typography id="modal-modal-description" align="right" sx={{ mt: 2 }}>
-                <Button sx={{color:"red"}} onClick={handleDropClose}>YES</Button> <Button onClick={handleDropClose} sx={{color:"gray"}}>Cancel</Button>
+                <Button sx={{color:"red"}} onClick={handleDropSubmit}>YES</Button> <Button onClick={handleDropClose} sx={{color:"gray"}}>Cancel</Button>
                 </Typography>
               </Box>
             </Modal>
@@ -417,7 +445,7 @@ const Collection = () => {
                           color="initial"
                           sx={{ marginLeft: "4vw", color: "#5A5A5A", fontWeight: "bold", fontFamily: "League Spartan" }}
                         >
-                          {key}: <span style={{color:"#438C8E"}}> {value}</span>
+                          {key}: <span style={{color:"#438C8E"}}> {(value===true)?'true':((value===false)?'false':value)}</span>
                         </Typography>
                       ))}
                   
@@ -474,6 +502,19 @@ const Collection = () => {
             <Typography id="modal-modal-title" variant="h6" component="h3" sx={{margin:"1vh",fontSize:"1.1rem"}}>
             <i class="fa-regular fa-circle-check" style={{color: "#37bec1",marginRight:"1vw"}}></i>
             Data updated successfully <span style={{marginRight:"1vw !important"}}></span>
+            </Typography>
+          </Box>
+        </Modal>} 
+        {validate=='drop_submit'&&<Modal
+          open={open_modal_popup}
+          sx={{border:"none !important"}}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style_modal_popup}>
+            <Typography id="modal-modal-title" variant="h6" component="h3" sx={{margin:"1vh",fontSize:"1.1rem"}}>
+            <i class="fa-regular fa-circle-check" style={{color: "#37bec1",marginRight:"1vw"}}></i>
+            All documents dropped succesfully <span style={{marginRight:"1vw !important"}}></span>
             </Typography>
           </Box>
         </Modal>} 
