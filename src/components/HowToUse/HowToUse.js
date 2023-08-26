@@ -27,13 +27,15 @@ const style = {
   width: "70vw !important",
   height: "85vh",
   bgcolor: "background.paper",
-  boxShadow: 24,
+  border: "none !important",
   pt: 2,
   px: 4,
   pb: 3,
-  borderRadius:"15px",
-  transition:" all .4s"
+  borderRadius: "15px",
+  transition: "all .4s",
+  // boxShadow: 24, // Remove this line or provide a valid shadow value
 };
+
 
 
 const HowToUse = () => {
@@ -196,7 +198,7 @@ const HowToUse = () => {
           aria-describedby="modal-modal-description"
           >
             <Box sx={style}>
-              <i class="fa-solid fa-x" style={{paddingLeft:"69vw",paddingBottom:"1vh",cursor:"pointer"}} onClick={handleClose} ></i>
+              <i class="fa-solid fa-x" style={{paddingLeft:"70vw",paddingBottom:"1vh",cursor:"pointer"}} onClick={handleClose} ></i>
               <img src={post} alt="no img" style={{width:"70vw",height:"80vh",borderRadius:"15px"}}/>
             </Box>
           </Modal>}
@@ -208,7 +210,7 @@ const HowToUse = () => {
           aria-describedby="modal-modal-description"
           >
             <Box sx={style}>
-              <i class="fa-solid fa-x" style={{paddingLeft:"69vw",paddingBottom:"1vh",cursor:"pointer"}} onClick={handleClose} ></i>
+              <i class="fa-solid fa-x" style={{paddingLeft:"70vw",paddingBottom:"1vh",cursor:"pointer"}} onClick={handleClose} ></i>
               <img src={get} alt="no img" style={{width:"70vw",height:"80vh",borderRadius:"15px"}}/>
             </Box>
           </Modal>}
@@ -220,7 +222,7 @@ const HowToUse = () => {
           aria-describedby="modal-modal-description"
           >
             <Box sx={style}>
-              <i class="fa-solid fa-x" style={{paddingLeft:"69vw",paddingBottom:"1vh",cursor:"pointer"}} onClick={handleClose} ></i>
+              <i class="fa-solid fa-x" style={{paddingLeft:"70vw",paddingBottom:"1vh",cursor:"pointer"}} onClick={handleClose} ></i>
               <img src={update} alt="no img" style={{width:"70vw",height:"80vh",borderRadius:"15px"}}/>
             </Box>
           </Modal>}
@@ -232,7 +234,7 @@ const HowToUse = () => {
           aria-describedby="modal-modal-description"
           >
             <Box sx={style}>
-              <i class="fa-solid fa-x" style={{paddingLeft:"69vw",paddingBottom:"1vh",cursor:"pointer"}} onClick={handleClose} ></i>
+              <i class="fa-solid fa-x" style={{paddingLeft:"70vw",paddingBottom:"1vh",cursor:"pointer"}} onClick={handleClose} ></i>
               <img src={remove} alt="no img" style={{width:"70vw",height:"80vh",borderRadius:"15px"}}/>
             </Box>
           </Modal>}
