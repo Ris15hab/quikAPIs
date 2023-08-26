@@ -47,7 +47,9 @@ const CreateDB = () => {
 
 
   const handleGenerate = async () => {
-    console.log("check")
+    console.log(name)
+    setName(name.trim())
+    console.log(name)
     const space = /\s/.test(name);
     if(space){
       setValidate('whitespace')
@@ -520,7 +522,7 @@ const CreateDB = () => {
           aria-describedby="modal-modal-description"
         >
           <Box sx={style}>
-            <Typography id="modal-modal-title" variant="h6" component="h3" sx={{margin:"1vh",fontSize:"1.1rem"}}>
+            <Typography id="modal-modal-title" variant="h6" component="h3" sx={{margin:"1vh",fontSize:"1rem"}}>
             <i class="fa-regular fa-circle-xmark" style={{color: "#37bec1",marginRight:"1vw"}}></i>
             Database name cannot contain a space!  <span style={{marginRight:"1vw !important"}}></span>
             </Typography>

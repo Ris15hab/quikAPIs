@@ -1,6 +1,7 @@
-import React from 'react'
+import React,{useState} from 'react'
 import Navbar from "../Navbar/Navbar";
 import Typography from "@mui/material/Typography";
+import Box from '@mui/material/Box';
 import './HowToUse.css'
 import Grid from '@mui/material/Grid'
 import Step1 from './images/step1.png'
@@ -14,12 +15,41 @@ import get from './images/get.png'
 import post from './images/post.png'
 import update from './images/update.png'
 import remove from './images/remove.png'
+import ZoomInIcon from '@mui/icons-material/ZoomIn';
+import Modal from "@mui/material/Modal";
 
 
-
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: "70vw !important",
+  height: "85vh",
+  bgcolor: "background.paper",
+  boxShadow: 24,
+  pt: 2,
+  px: 4,
+  pb: 3,
+  borderRadius:"15px",
+  transition:" all .4s"
+};
 
 
 const HowToUse = () => {
+
+  const [open,setOpen]=useState(false)
+  const [validate,setValidate]=useState('')
+
+  const handleOpen = (imagename) => {
+    setValidate(imagename)
+    setOpen(true)
+  }
+
+  const handleClose = () =>{
+    setOpen(false)
+  }
+
   return (
     <>
      <Navbar/>
@@ -52,7 +82,8 @@ const HowToUse = () => {
             </Typography>
         </Grid>
         <Grid item xs={10} md={6} lg={6} >
-            <img src={Step1} alt="no img" style={{width:"40vw",height:"50vh"}} className="firstimg"/>
+       
+          <img src={Step1} alt="no img" style={{width:"40vw",height:"50vh"}} className="firstimg" />    
         </Grid>
     </Grid>
     <Typography align="left" className="content-use-step" sx={{marginTop:"6vh",fontWeight:"bold",marginBottom:"4vh"}}>
@@ -91,21 +122,25 @@ const HowToUse = () => {
            <Typography align="left" sx={{fontFamily:"League Spartan",fontSize:"1.1rem",marginBottom:"0.2rem",marginTop:"5vh"}} className="step2">
             1) <b>Create API Integration </b> - <span style={{fontWeight:"bold",color:"orange"}}>POST</span><br/><br/>
             <img src={post} alt="no img" style={{width:"40vw",height:"50vh"}} className="reqimg"/>
+            <ZoomInIcon sx={{marginRight:"5vw",color:"gray",cursor:"pointer"}} className="zoom-icon" onClick={()=>handleOpen('imageone')}/>
             </Typography> 
 
            <Typography align="left" sx={{fontFamily:"League Spartan",fontSize:"1.1rem",marginBottom:"0.2rem",marginTop:"5vh"}} className="step2">
             2) <b>Read API Integration </b> - <span style={{fontWeight:"bold",color:"green"}}>GET</span><br/><br/>
             <img src={get} alt="no img" style={{width:"40vw",height:"50vh"}} className="reqimg"/>
+            <ZoomInIcon sx={{marginRight:"5vw",color:"gray",cursor:"pointer"}} className="zoom-icon" onClick={()=>handleOpen('imagetwo')}/>
             </Typography>
 
             <Typography align="left" sx={{fontFamily:"League Spartan",fontSize:"1.1rem",marginBottom:"0.2rem",marginTop:"5vh"}} className="step2">
             3) <b>Update API Integration </b> - <span style={{fontWeight:"bold",color:"blue"}}>PUT</span><br/><br/>
             <img src={update} alt="no img" style={{width:"40vw",height:"50vh"}} className="reqimg"/>
+            <ZoomInIcon sx={{marginRight:"5vw",color:"gray",cursor:"pointer"}} className="zoom-icon" onClick={()=>handleOpen('imagethree')}/>
             </Typography>
 
             <Typography align="left" sx={{fontFamily:"League Spartan",fontSize:"1.1rem",marginBottom:"0.2rem",marginTop:"5vh"}} className="step2">
             4) <b>Delete API Integration </b> - <span style={{fontWeight:"bold",color:"red"}}>DELETE</span><br/><br/>
             <img src={remove} alt="no img" style={{width:"40vw",height:"50vh"}} className="reqimg"/>
+            <ZoomInIcon sx={{marginRight:"5vw",color:"gray",cursor:"pointer"}} className="zoom-icon" onClick={()=>handleOpen('imagefour')}/>
             </Typography>
 
             <Typography align="left" className="content-use-step" sx={{marginTop:"6vh",fontWeight:"bold",marginBottom:"4vh"}}>
@@ -154,13 +189,53 @@ const HowToUse = () => {
             Congratulations! You've successfully created your own database with fully functional APIs and integrated them into your React website.<br/> Now you have a full-stack project of your own!
             </Typography>
 
+          {validate=='imageone'&&<Modal
+          open={open}
+          sx={{border:"none !important"}}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+          >
+            <Box sx={style}>
+              <i class="fa-solid fa-x" style={{paddingLeft:"69vw",paddingBottom:"1vh",cursor:"pointer"}} onClick={handleClose} ></i>
+              <img src={post} alt="no img" style={{width:"70vw",height:"80vh",borderRadius:"15px"}}/>
+            </Box>
+          </Modal>}
 
-           
-            
+          {validate=='imagetwo'&&<Modal
+          open={open}
+          sx={{border:"none !important"}}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+          >
+            <Box sx={style}>
+              <i class="fa-solid fa-x" style={{paddingLeft:"69vw",paddingBottom:"1vh",cursor:"pointer"}} onClick={handleClose} ></i>
+              <img src={get} alt="no img" style={{width:"70vw",height:"80vh",borderRadius:"15px"}}/>
+            </Box>
+          </Modal>}
 
-                
-           
+          {validate=='imagethree'&&<Modal
+          open={open}
+          sx={{border:"none !important"}}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+          >
+            <Box sx={style}>
+              <i class="fa-solid fa-x" style={{paddingLeft:"69vw",paddingBottom:"1vh",cursor:"pointer"}} onClick={handleClose} ></i>
+              <img src={update} alt="no img" style={{width:"70vw",height:"80vh",borderRadius:"15px"}}/>
+            </Box>
+          </Modal>}
 
+          {validate=='imagefour'&&<Modal
+          open={open}
+          sx={{border:"none !important"}}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+          >
+            <Box sx={style}>
+              <i class="fa-solid fa-x" style={{paddingLeft:"69vw",paddingBottom:"1vh",cursor:"pointer"}} onClick={handleClose} ></i>
+              <img src={remove} alt="no img" style={{width:"70vw",height:"80vh",borderRadius:"15px"}}/>
+            </Box>
+          </Modal>}
     </div>
     </>
   )
