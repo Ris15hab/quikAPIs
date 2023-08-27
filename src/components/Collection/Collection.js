@@ -60,6 +60,7 @@ const Collection = () => {
   const navigate = useNavigate();
   const {id} = useParams();
   const [validate,setValidate]=useState('');
+  const [userid,setUserid]=useState('');
   const [open, setOpen] = React.useState(false);
   const [loading,setLoading]=useState(false)
   const [refresh, setRefresh] = React.useState(false);
@@ -71,11 +72,21 @@ const Collection = () => {
   const [datadbcount,setDatadbcount] = useState([]);
   const [datadbname,setDatadbName] = useState('');
   const [formValues, setFormValues] = useState({});
-  const handleOpen = () => {setOpen(true)};
+  const handleOpen = (id) => {
+    console.log(id)
+    setUserid(id)
+    setOpen(true)
+  };
   const handleDropOpen = () => {setDropOpen(true)};
   const handleDropClose = () => {setDropOpen(false)};
-  const handleAddClose = () => {setAddOpen(false)};
-  const handleEditClose = () => {setEditOpen(false)};
+  const handleAddClose = () => {
+    setFormValues([])
+    setAddOpen(false)
+  };
+  const handleEditClose = () => {
+    setFormValues([])
+    setEditOpen(false)
+  };
   const handleClose = () => {setOpen(false)};
   const [modelSchema, setModelSchema] = useState([])
 
@@ -101,6 +112,7 @@ const Collection = () => {
 
   const handleEditOpen = async (data) => {
     try{
+      setUserid(data._id)
       const token = localStorage.getItem('token')
       const result = await axios.get("http://localhost:8000/guiCRUD/getFields?_id="+id,{
           headers: {
@@ -127,7 +139,7 @@ const Collection = () => {
     }));
   };
 
-  const handleAddSubmit = async()=>{
+  const handleAddSubmit = async(e)=>{
     try{
       const token = localStorage.getItem('token')
       const result = await axios.get("http://localhost:8000/userDB/getApiById?_id="+id,{
@@ -166,7 +178,7 @@ const Collection = () => {
           }
       });
       const response = axios.delete(`${result.data.APIs.DeleteById}`+iddoc);
-      console.log("iddoc"+iddoc);
+      console.log("iddoc is this: "+iddoc);
       // console.log(response)
       if(response){
         setOpen(false)
@@ -188,7 +200,7 @@ const Collection = () => {
 
   const handleEditSubmit = async(iddoc)=>{
     try{
-    
+      
       const token = localStorage.getItem('token')
       const result = await axios.get("http://localhost:8000/userDB/getApiById?_id="+id,{
           headers: {
@@ -217,7 +229,7 @@ const Collection = () => {
     }
   }
 
-  const handleDropSubmit = async()=>{
+  const handleDropSubmit = async(e)=>{
     try{
       const token = localStorage.getItem('token')
       const result = await axios.delete("http://localhost:8000/guiCRUD/dropAll?_id="+id,{
@@ -270,7 +282,7 @@ const Collection = () => {
     fetchData();
   },[refresh])
 
-  console.log(datadb)
+  // console.log(datadb)
   return (
     <>
     <Navbar/>
@@ -399,8 +411,8 @@ const Collection = () => {
             </>
           ):(
           datadb.map((obj, index) => (
-        <Grid item xs={11} md={8} lg={8} className="collection-box" sx={{marginBottom:"3vh !important",  marginTop:"3vh"}} key={datadb[index]._id}>
-                  <Typography variant="body1" align="right" color="initial" sx={{color:"#5A5A5A",fontWeight:"bold",fontFamily:"League Spartan",marginRight:"1vw"}}>
+          <Grid item xs={11} md={8} lg={8} className="collection-box" sx={{marginBottom:"3vh !important",  marginTop:"3vh"}} key={index}>
+                  <Typography variant="body1" align="right" color="initial" sx={{color:"#5A5A5A",fontWeight:"bold",fontFamily:"League Spartan", marginRight:"1vw"}}>
                               <Button variant="text" color="primary" onClick={(e)=>handleEditOpen(datadb[index])}>
                               <i className="fa-regular fa-pen-to-square" style={{fontSize:"1.1rem",color:"green"}}></i>
                               </Button>
@@ -428,11 +440,11 @@ const Collection = () => {
                                     ))}
                                     </Typography>
                                     <Typography id="modal-modal-description" align="center" sx={{ mt: 6 }}>
-                                    <Button sx={{color:"green"}} onClick={(e)=>handleEditSubmit(datadb[index]._id)}>Submit</Button> <Button onClick={handleEditClose} sx={{color:"gray"}}>Cancel</Button>
+                                    <Button sx={{color:"green"}} onClick={(e)=>handleEditSubmit(userid)}>Submit</Button> <Button onClick={handleEditClose} sx={{color:"gray"}}>Cancel</Button>
                                     </Typography>
                                   </Box>
                                 </Modal>
-                               <Button variant="text" color="primary" onClick={handleOpen}>
+                               <Button variant="text" color="primary" onClick={(e) => handleOpen(datadb[index]._id)}>
                                <i class="fa-regular fa-trash-can" style={{fontSize:"1.1rem",color:"red"}}></i>
                               </Button>
                               <Modal
@@ -446,7 +458,7 @@ const Collection = () => {
                                     Are you sure you want to delete this document?
                                   </Typography>
                                   <Typography id="modal-modal-description" align="right" sx={{ mt: 2 }}>
-                                  <Button sx={{color:"red"}} onClick={(e)=>handleCloseDeleteSubmit(datadb[index]._id)}>YES</Button> <Button onClick={handleClose} sx={{color:"gray"}}>Cancel</Button>
+                                  <Button sx={{color:"red"}} onClick={(e)=>handleCloseDeleteSubmit(userid)}>YES</Button> <Button onClick={handleClose} sx={{color:"gray"}}>Cancel</Button>
                                   </Typography>
                                 </Box>
                               </Modal>

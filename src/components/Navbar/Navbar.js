@@ -59,6 +59,7 @@ const Navbar = () => {
   const navigate=useNavigate()
   const handleLogout=(e)=>{
     setLogout(true)
+    localStorage.removeItem('token')
     setTimeout(() => {
       setLogout(false)
       navigate('/')
@@ -67,6 +68,7 @@ const Navbar = () => {
   }
   const handleLogout2=(e)=>{
     setLogout2(true)
+    localStorage.removeItem('token')
     setTimeout(() => {
       setLogout2(false)
       navigate('/')
@@ -125,20 +127,12 @@ const Navbar = () => {
           aria-describedby="modal-modal-description"
         >
           <Box sx={style}>
-          <div id="wifi-loader" style={{marginLeft:"8vw",marginTop:"5vh",marginBottom:"5vh"}}>
-              <svg className="circle-outer" viewBox="0 0 86 86">
-                  <circle className="back" cx="43" cy="43" r="40"></circle>
-                  <circle className="front" cx="43" cy="43" r="40"></circle>
-                  <circle className="new" cx="43" cy="43" r="40"></circle>
-              </svg>
-              <svg className="circle-middle" viewBox="0 0 60 60">
-                  <circle className="back" cx="30" cy="30" r="27"></circle>
-                  <circle className="front" cx="30" cy="30" r="27"></circle>
-              </svg>
-              <svg className="circle-inner" viewBox="0 0 34 34">
-                  <circle className="back" cx="17" cy="17" r="14"></circle>
-                  <circle className="front" cx="17" cy="17" r="14"></circle>
-              </svg>
+          <div className="loading" style={{marginTop:"5.7vh",marginLeft:"7.5vw"}}>
+            <svg width="64px" height="48px">
+                <polyline points="0.157 23.954, 14 23.954, 21.843 48, 43 0, 50 24, 64 24" id="back"></polyline>
+              <polyline points="0.157 23.954, 14 23.954, 21.843 48, 43 0, 50 24, 64 24" id="front"></polyline>
+            </svg>
+            <p style={{marginRight:"15vw !important"}}>logging out</p>
           </div>
           </Box>
         </Modal>
@@ -187,29 +181,21 @@ const Navbar = () => {
           Logout
      </Typography>
      <Modal
-       open={logout2}
-       sx={{border:"none !important"}}
-       aria-labelledby="modal-modal-title"
-       aria-describedby="modal-modal-description"
-     >
-       <Box sx={style2}>
-       <div id="wifi-loader" style={{marginLeft:"14vw",marginTop:"5vh",marginBottom:"5vh"}}>
-           <svg className="circle-outer" viewBox="0 0 86 86">
-               <circle className="back" cx="43" cy="43" r="40"></circle>
-               <circle className="front" cx="43" cy="43" r="40"></circle>
-               <circle className="new" cx="43" cy="43" r="40"></circle>
-           </svg>
-           <svg className="circle-middle" viewBox="0 0 60 60">
-               <circle className="back" cx="30" cy="30" r="27"></circle>
-               <circle className="front" cx="30" cy="30" r="27"></circle>
-           </svg>
-           <svg className="circle-inner" viewBox="0 0 34 34">
-               <circle className="back" cx="17" cy="17" r="14"></circle>
-               <circle className="front" cx="17" cy="17" r="14"></circle>
-           </svg>
-       </div>
-       </Box>
-     </Modal>
+          open={logout2}
+          sx={{border:"none !important"}}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style2}>
+          <div className="loading" style={{marginTop:"5.7vh"}}>
+            <svg width="64px" height="48px">
+                <polyline points="0.157 23.954, 14 23.954, 21.843 48, 43 0, 50 24, 64 24" id="back"></polyline>
+              <polyline points="0.157 23.954, 14 23.954, 21.843 48, 43 0, 50 24, 64 24" id="front"></polyline>
+            </svg>
+            <p style={{marginRight:"15vw !important"}}>logging out</p>
+          </div>
+          </Box>
+        </Modal>
        
         </div>
       }
