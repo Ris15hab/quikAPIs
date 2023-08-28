@@ -175,7 +175,7 @@ function Register() {
         localStorage.setItem("token",response.data.token)
         setValidate('correct');
         setTimeout(() => {
-          navigate('/profile')
+          navigate('/howtouse')
         }, 1500);
       }else{
         setValidate('unknown')

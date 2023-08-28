@@ -46,61 +46,115 @@ const CreateDB = () => {
   const [disabled, setDisabled] = React.useState(true);
 
 
+  // const handleGenerate = async () => {
+  //   const space = /\s/.test(name);
+  //   if(space){
+  //     setValidate('whitespace')
+  //     setOpen(true);
+  //     setTimeout(() => {
+  //       setOpen(false);
+  //     }, 2000);
+  //   }else{
+  //     const modelSchema ={};
+  //     final.map((final)=>{
+  //       modelSchema[final.name]={};
+  //       modelSchema[final.name].type=final.type;
+  //       modelSchema[final.name].unique=final.unique;
+  //       modelSchema[final.name].required=final.required;
+  //     })
+  //     try{
+  //       const token = localStorage.getItem('token')
+  //       const response = await axios.post("http://localhost:8000/crud/createcrud", {
+  //           modelName: name,
+  //           modelDescription: description,
+  //           modelSchema,
+  //       }, {
+  //           headers: {
+  //             'authentication': token,
+  //           }
+  //       });
+  //         console.log(response)
+  //       // if(response){
+  //         setValidate('correct')
+  //       // }else{
+  //       //   console.log(response)
+  //       //   setValidate('unknown')
+  //       // }
+  //     }catch(err){
+  //       console.log(err)
+  //       setValidate('unknown')
+  //     }
+  //     setName('')
+  //     setDescription('')
+  //     setFinal([])
+  //     setPreview(false)
+  //     setOpen(true);
+  //     setTimeout(() => {
+  //       setOpen(false);
+  //     }, 1500);
+  //   }
+
+  // };
+
   const handleGenerate = async () => {
-    console.log(name)
-    setName(name.trim())
-    console.log(name)
     const space = /\s/.test(name);
-    if(space){
-      setValidate('whitespace')
+    
+    if (space) {
+      setValidate('whitespace');
       setOpen(true);
       setTimeout(() => {
         setOpen(false);
       }, 2000);
-    }else{
-      const modelSchema ={};
-      final.map((final)=>{
-        modelSchema[final.name]={};
-        modelSchema[final.name].type=final.type;
-        modelSchema[final.name].unique=final.unique;
-        modelSchema[final.name].required=final.required;
-      })
-      try{
-        const token = localStorage.getItem('token')
-        const response = await fetch("http://localhost:8000/crud/createcrud", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'authentication': token,
-                },
-                body: JSON.stringify({
-                    modelName: name,
-                    modelDescription: description,
-                    modelSchema,
-                }),
-            });
-          console.log(response)
-        if(response.status==200){
-          setValidate('correct')
-        }else{
-          console.log(response)
-          setValidate('unknown')
-        }
-      }catch(err){
-        console.log(err)
-        setValidate('unknown')
+    } else {
+      const modelSchema = {};
+      final.forEach((final) => {
+        modelSchema[final.name] = {
+          type: final.type,
+          unique: final.unique,
+          required: final.required,
+        };
+      });
+  
+      try {
+        const token = localStorage.getItem('token');
+        const response = await axios.post(
+          "http://localhost:8000/crud/createcrud",
+          {
+            modelName: name,
+            modelDescription: description,
+            modelSchema,
+          },
+          {
+            headers: {
+              'authentication': token,
+            },
+          }
+        );
+  
+        console.log(response);
+        setValidate('correct');
+      } catch (err) {
+        console.log(err);
+        setValidate('unknown');
       }
-      setName('')
-      setDescription('')
-      setFinal([])
-      setPreview(false)
-      setOpen(true);
-      setTimeout(() => {
-        setOpen(false);
-      }, 1500);
+  
+      setName('');
+      setDescription('');
+      setFinal([]);
+      setPreview(false);
+  
+      try {
+        setValidate('correct');
+        setOpen(true);
+        setTimeout(() => {
+          setOpen(false);
+        }, 1500);
+      } catch (error) {
+        console.error(error);
+      }
     }
-
   };
+  
 
   const [inpval, setInpval] = useState({
     name: "",

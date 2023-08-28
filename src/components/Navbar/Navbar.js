@@ -113,7 +113,7 @@ const Navbar = () => {
              Contact Us</Typography>
         </Link>
 
-        <Divider sx={{marginTop:"29vh"}}/>
+        <Divider sx={{marginTop:"35vh"}}/>
        
         <Typography variant="body1" color="initial" onClick={handleLogout}  sx={{marginTop:"2vh",cursor:"pointer"}}>
        
