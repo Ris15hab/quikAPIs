@@ -342,7 +342,7 @@ useEffect(()=>{
                   marginTop:"4rem",
                   marginLeft:"6.5rem",
                   marginBottom:"2rem"}} >   
-                  APIs giving you a hard time? <span style={{color:"#37BEC1" , cursor:"pointer"}} onClick={()=>{navigate('/profile')}}>Click here</span> to learn more about quikAPIs!
+                  APIs giving you a hard time? <span style={{color:"#37BEC1" , cursor:"pointer"}} onClick={()=>{navigate('/howtouse')}}>Click here</span> to learn more about quikAPIs!
               </Typography>
        
         </Grid>

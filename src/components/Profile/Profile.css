@@ -32,6 +32,19 @@
      border-color:#E9CA16;
      animation: animName 2s linear infinite;
 }
+.chart-profile{
+    margin-left:19vw;
+    width: 39vw !important;
+    /* height:20vh !important; */
+   
+}
+.chart-profile-1{
+    margin-top:5vh !important;
+    margin-left:19vw;
+    width: 39vw !important;
+    /* height:20vh !important; */
+   
+}
 
 @keyframes animName {
     0%{
@@ -105,6 +118,28 @@
     border-color:#A867E1;
     
 }
+.profile_head{
+    font-family: 'League Spartan', sans-serif !important;
+}
+.top-db{
+    padding:12px;
+    background-color: #e8e8e8;
+    box-shadow: 2px 2px 4px #ffffff,
+                -2px -2px 4px #c5c5c5;
+   margin-left:20vw !important;
+   border-radius:10px;
+    
+}
+.top-db-1{
+    padding:12px;
+    background-color: #e8e8e8;
+    box-shadow: 2px 2px 4px #ffffff,
+                -2px -2px 4px #c5c5c5;
+   margin-left:2vw !important;
+   border-radius:10px;
+
+    
+}
 @media screen and (max-width: 700px) {
     .grid-profile{
         padding-left:50px !important;
@@ -112,17 +147,17 @@
         padding-top:20px;
     }
     .firstgrid{
+        margin-top:3vh !important;
         width:70vw !important;
     }
     .circlee-badge{
         margin-left:28vw !important;
     }
     .quickdb-grid{
-        margin-top:3vh !important;
+       
         width:36vw !important;
     }
     .quickdb-grid-2{
-        margin-top:3vh !important;
         width:38vw !important;
         margin-left:2vw !important;
     }
@@ -131,5 +166,33 @@
     }
     .api-dash{
         margin-left:4vw !important;
+    }
+    .profile_head{
+        padding-left:16vw !important;
+    }
+    .top-db{
+       
+       margin-left:13vw !important;
+       margin-right:8vw !important;
+        
+    }
+    .top-db-1{
+       margin-top:3vh !important;
+       margin-left:13vw !important;
+       margin-right:8vw !important;
+    
+        
+    }
+    .chart-profile{
+        margin-left:8vw !important;
+        width: 84vw !important;
+        /* height:20vh !important; */
+       
+    }
+    .chart-profile-1{
+        margin-left:8vw !important;
+        width: 84vw !important;
+        /* height:20vh !important; */
+       
     }
 }
