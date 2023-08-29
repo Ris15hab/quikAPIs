@@ -168,7 +168,7 @@ function Login() {
               <Grid item className="checkbox-wrapper">
               <label >   
                 <input type="checkbox" onClick={handleShow} />
-                <span class="checkbox"></span>
+                <span className="checkbox"></span>
               </label>
               </Grid>
               <Grid item xs={9} md={9}>
@@ -186,7 +186,7 @@ function Login() {
               >
               <Box sx={style}>
                 <Typography id="modal-modal-title" variant="h6" component="h3" sx={{margin:"1vh",fontSize:"1.2rem"}}>
-                <i class="fa-regular fa-circle-xmark" style={{color: "#37bec1",marginRight:"1vw"}}></i>
+                <i className="fa-regular fa-circle-xmark" style={{color: "#37bec1",marginRight:"1vw"}}></i>
                 Enter correct email <span style={{marginRight:"1vw !important"}}></span>
                 </Typography>
               </Box>
@@ -200,7 +200,7 @@ function Login() {
               >
               <Box sx={style}>
                 <Typography id="modal-modal-title" variant="h6" component="h3" sx={{margin:"1vh",fontSize:"1.2rem"}}>
-                <i class="fa-regular fa-circle-check" style={{color: "#37bec1",marginRight:"1vw"}}></i>
+                <i className="fa-regular fa-circle-check" style={{color: "#37bec1",marginRight:"1vw"}}></i>
                 Successful Login! <span style={{marginRight:"1vw !important"}}></span>
                 </Typography>
               </Box>
@@ -214,7 +214,7 @@ function Login() {
               >
               <Box sx={style}>
                 <Typography id="modal-modal-title" variant="h6" component="h3" sx={{margin:"1vh",fontSize:"1.2rem"}}>
-                <i class="fa-regular fa-circle-xmark" style={{color: "#37bec1",marginRight:"1vw"}}></i>
+                <i className="fa-regular fa-circle-xmark" style={{color: "#37bec1",marginRight:"1vw"}}></i>
                  Enter password<span style={{marginRight:"1vw !important"}}></span>
                 </Typography>
               </Box>
@@ -228,7 +228,7 @@ function Login() {
               >
               <Box sx={style}>
                 <Typography id="modal-modal-title" variant="h6" component="h3" sx={{margin:"1vh",fontSize:"1.1rem"}}>
-                <i class="fa-regular fa-circle-xmark" style={{color: "#37bec1",marginRight:"1vw"}}></i>
+                <i className="fa-regular fa-circle-xmark" style={{color: "#37bec1",marginRight:"1vw"}}></i>
                 Invalid Login Credentials<span style={{marginRight:"1vw !important"}}></span>
                 </Typography>
               </Box>
@@ -242,7 +242,7 @@ function Login() {
               >
               <Box sx={style}>
                 <Typography id="modal-modal-title" variant="h6" component="h3" sx={{margin:"1vh",fontSize:"1.1rem"}}>
-                <i class="fa-regular fa-circle-xmark" style={{color: "#37bec1",marginRight:"1vw"}}></i>
+                <i className="fa-regular fa-circle-xmark" style={{color: "#37bec1",marginRight:"1vw"}}></i>
                 Oops! An Error Occurred  <span style={{marginRight:"1vw !important"}}></span>
                 </Typography>
               </Box>

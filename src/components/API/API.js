@@ -359,7 +359,7 @@ useEffect(()=>{
         >
           <Box sx={style_modal_popup}>
             <Typography id="modal-modal-title" variant="h6" component="h3" sx={{margin:"1vh",fontSize:"1.1rem"}}>
-            <i class="fa-regular fa-circle-xmark" style={{color: "#37bec1",marginRight:"1vw"}}></i>
+            <i className="fa-regular fa-circle-xmark" style={{color: "#37bec1",marginRight:"1vw"}}></i>
             Oops! An Error Occurred  <span style={{marginRight:"1vw !important"}}></span>
             </Typography>
           </Box>

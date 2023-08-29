@@ -236,7 +236,7 @@ const CreateDB = () => {
               {" "}
               Database Name
             </Typography>
-            <input type="text" value={name} onChange={(e)=>setName(e.target.value)} name="text" class="input_create" required  style={{color:"gray"}} autoComplete="off"/>
+            <input type="text" value={name} onChange={(e)=>setName(e.target.value)} name="text" className="input_create" required  style={{color:"gray"}} autoComplete="off"/>
           </Grid>
         </Grid>
         <Grid container className="home">
@@ -281,7 +281,7 @@ const CreateDB = () => {
               value={inpval.name}
               onChange={getdata}
               name="name"
-              class="input_field"
+              className="input_field"
               autoComplete="off"
               placeholder="Name"
               required
@@ -445,7 +445,7 @@ const CreateDB = () => {
               className="input_field_4"
               style={{ cursor: "pointer" }}
             >
-              <i class="fa-solid fa-plus" style={{ color: "#37BEC1" }}></i>
+              <i className="fa-solid fa-plus" style={{ color: "#37BEC1" }}></i>
             </button>
           </Grid>
         </Grid>
@@ -505,7 +505,7 @@ const CreateDB = () => {
                           style={{ cursor: "pointer" }}
                         >
                           <i
-                            class="fa-solid fa-trash"
+                            className="fa-solid fa-trash"
                             style={{ color: "orange" }}
                           ></i>
                         </button>
@@ -558,7 +558,7 @@ const CreateDB = () => {
         >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h3" sx={{margin:"1vh",fontSize:"1.1rem"}}>
-          <i class="fa-regular fa-circle-xmark" style={{color: "#37bec1",marginRight:"1vw"}}></i>
+          <i className="fa-regular fa-circle-xmark" style={{color: "#37bec1",marginRight:"1vw"}}></i>
           Please fill all fields <span style={{marginRight:"1vw !important"}}></span>
           </Typography>
         </Box>
@@ -572,7 +572,7 @@ const CreateDB = () => {
         >
           <Box sx={style}>
             <Typography id="modal-modal-title" variant="h6" component="h3" sx={{margin:"1vh",fontSize:"1.2rem"}}>
-            <i class="fa-regular fa-circle-check" style={{color: "#37bec1",marginRight:"1vw"}}></i>
+            <i className="fa-regular fa-circle-check" style={{color: "#37bec1",marginRight:"1vw"}}></i>
             Success! <span style={{marginRight:"1vw !important"}}>Database Created</span>
             </Typography>
           </Box>
@@ -586,7 +586,7 @@ const CreateDB = () => {
         >
           <Box sx={style}>
             <Typography id="modal-modal-title" variant="h6" component="h3" sx={{margin:"1vh",fontSize:"1.1rem"}}>
-            <i class="fa-regular fa-circle-xmark" style={{color: "#37bec1",marginRight:"1vw"}}></i>
+            <i className="fa-regular fa-circle-xmark" style={{color: "#37bec1",marginRight:"1vw"}}></i>
             Oops! An Error Occurred  <span style={{marginRight:"1vw !important"}}></span>
             </Typography>
           </Box>
@@ -600,7 +600,7 @@ const CreateDB = () => {
         >
           <Box sx={style}>
             <Typography id="modal-modal-title" variant="h6" component="h3" sx={{margin:"1vh",fontSize:"1rem"}}>
-            <i class="fa-regular fa-circle-xmark" style={{color: "#37bec1",marginRight:"1vw"}}></i>
+            <i className="fa-regular fa-circle-xmark" style={{color: "#37bec1",marginRight:"1vw"}}></i>
             Database name cannot contain a space!  <span style={{marginRight:"1vw !important"}}></span>
             </Typography>
           </Box>

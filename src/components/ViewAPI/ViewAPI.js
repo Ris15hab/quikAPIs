@@ -166,13 +166,13 @@ const ViewAPI = () => {
                       </Grid>
                       <Grid item xs={5} lg={5} md={5}>
                         <button
-                          class="btn-api"
+                          className="btn-api"
                           onClick={() => {
                             navigate(`/collection/${data._id}`);
                           }}
                         >
                           <i
-                            class="fa-solid fa-database"
+                            className="fa-solid fa-database"
                             style={{ color: "#ffffff", marginRight: "2vw" }}
                           ></i>
                           Collections
@@ -222,13 +222,13 @@ const ViewAPI = () => {
                       </Grid>
                       <Grid item xs={5} lg={5} md={5}>
                         <button
-                          class="btn-api-1"
+                          className="btn-api-1"
                           onClick={() => {
                             navigate(`/api/${data._id}`);
                           }}
                         >
                           <i
-                            class="fa-solid fa-magnifying-glass"
+                            className="fa-solid fa-magnifying-glass"
                             style={{ color: "#ffffff", marginRight: "1vw" }}
                           ></i>
                           APIs
@@ -237,13 +237,13 @@ const ViewAPI = () => {
                       <Grid container className="btn-gayab">
                         <Grid item xs={6}>
                           <button
-                            class="btn-api-mobile"
+                            className="btn-api-mobile"
                             onClick={() => {
                               navigate(`/collection/${data._id}`);
                             }}
                           >
                             <i
-                              class="fa-solid fa-database"
+                              className="fa-solid fa-database"
                               style={{ color: "#ffffff", marginRight: "2vw" }}
                             ></i>
                             Collections
@@ -251,13 +251,13 @@ const ViewAPI = () => {
                         </Grid>
                         <Grid item xs={6}>
                           <button
-                            class="btn-api-1-mobile"
+                            className="btn-api-1-mobile"
                             onClick={() => {
                               navigate(`/api/${data._id}`);
                             }}
                           >
                             <i
-                              class="fa-solid fa-magnifying-glass"
+                              className="fa-solid fa-magnifying-glass"
                               style={{
                                 color: "#ffffff",
                                 marginRight: "1vw",
@@ -291,7 +291,7 @@ const ViewAPI = () => {
                 sx={{ margin: "1vh", fontSize: "1.1rem" }}
               >
                 <i
-                  class="fa-regular fa-circle-xmark"
+                  className="fa-regular fa-circle-xmark"
                   style={{ color: "#37bec1", marginRight: "1vw" }}
                 ></i>
                 Oops! An Error Occurred{" "}

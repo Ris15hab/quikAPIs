@@ -198,7 +198,7 @@ const HowToUse = () => {
           aria-describedby="modal-modal-description"
           >
             <Box sx={style}>
-              <i class="fa-solid fa-x" style={{paddingLeft:"70vw",paddingBottom:"1vh",cursor:"pointer"}} onClick={handleClose} ></i>
+              <i className="fa-solid fa-x" style={{paddingLeft:"70vw",paddingBottom:"1vh",cursor:"pointer"}} onClick={handleClose} ></i>
               <img src={post} alt="no img" style={{width:"70vw",height:"80vh",borderRadius:"15px"}}/>
             </Box>
           </Modal>}
@@ -210,7 +210,7 @@ const HowToUse = () => {
           aria-describedby="modal-modal-description"
           >
             <Box sx={style}>
-              <i class="fa-solid fa-x" style={{paddingLeft:"70vw",paddingBottom:"1vh",cursor:"pointer"}} onClick={handleClose} ></i>
+              <i className="fa-solid fa-x" style={{paddingLeft:"70vw",paddingBottom:"1vh",cursor:"pointer"}} onClick={handleClose} ></i>
               <img src={get} alt="no img" style={{width:"70vw",height:"80vh",borderRadius:"15px"}}/>
             </Box>
           </Modal>}
@@ -222,7 +222,7 @@ const HowToUse = () => {
           aria-describedby="modal-modal-description"
           >
             <Box sx={style}>
-              <i class="fa-solid fa-x" style={{paddingLeft:"70vw",paddingBottom:"1vh",cursor:"pointer"}} onClick={handleClose} ></i>
+              <i className="fa-solid fa-x" style={{paddingLeft:"70vw",paddingBottom:"1vh",cursor:"pointer"}} onClick={handleClose} ></i>
               <img src={update} alt="no img" style={{width:"70vw",height:"80vh",borderRadius:"15px"}}/>
             </Box>
           </Modal>}
@@ -234,7 +234,7 @@ const HowToUse = () => {
           aria-describedby="modal-modal-description"
           >
             <Box sx={style}>
-              <i class="fa-solid fa-x" style={{paddingLeft:"70vw",paddingBottom:"1vh",cursor:"pointer"}} onClick={handleClose} ></i>
+              <i className="fa-solid fa-x" style={{paddingLeft:"70vw",paddingBottom:"1vh",cursor:"pointer"}} onClick={handleClose} ></i>
               <img src={remove} alt="no img" style={{width:"70vw",height:"80vh",borderRadius:"15px"}}/>
             </Box>
           </Modal>}

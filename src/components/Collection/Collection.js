@@ -445,7 +445,7 @@ const Collection = () => {
                                   </Box>
                                 </Modal>
                                <Button variant="text" color="primary" onClick={(e) => handleOpen(datadb[index]._id)}>
-                               <i class="fa-regular fa-trash-can" style={{fontSize:"1.1rem",color:"red"}}></i>
+                               <i className="fa-regular fa-trash-can" style={{fontSize:"1.1rem",color:"red"}}></i>
                               </Button>
                               <Modal
                                 open={open}
@@ -492,7 +492,7 @@ const Collection = () => {
         >
           <Box sx={style_modal_popup}>
             <Typography id="modal-modal-title" variant="h6" component="h3" sx={{margin:"1vh",fontSize:"1.1rem"}}>
-            <i class="fa-regular fa-circle-xmark" style={{color: "#37bec1",marginRight:"1vw"}}></i>
+            <i className="fa-regular fa-circle-xmark" style={{color: "#37bec1",marginRight:"1vw"}}></i>
             Oops! An Error Occurred  <span style={{marginRight:"1vw !important"}}></span>
             </Typography>
           </Box>
@@ -505,7 +505,7 @@ const Collection = () => {
         >
           <Box sx={style_modal_popup}>
             <Typography id="modal-modal-title" variant="h6" component="h3" sx={{margin:"1vh",fontSize:"1.1rem"}}>
-            <i class="fa-regular fa-circle-check" style={{color: "#37bec1",marginRight:"1vw"}}></i>
+            <i className="fa-regular fa-circle-check" style={{color: "#37bec1",marginRight:"1vw"}}></i>
             Data Added Successfully <span style={{marginRight:"1vw !important"}}></span>
             </Typography>
           </Box>
@@ -518,7 +518,7 @@ const Collection = () => {
         >
           <Box sx={style_modal_popup}>
             <Typography id="modal-modal-title" variant="h6" component="h3" sx={{margin:"1vh",fontSize:"1.1rem"}}>
-            <i class="fa-regular fa-circle-check" style={{color: "#37bec1",marginRight:"1vw"}}></i>
+            <i className="fa-regular fa-circle-check" style={{color: "#37bec1",marginRight:"1vw"}}></i>
             Data deleted successfully <span style={{marginRight:"1vw !important"}}></span>
             </Typography>
           </Box>
@@ -531,7 +531,7 @@ const Collection = () => {
         >
           <Box sx={style_modal_popup}>
             <Typography id="modal-modal-title" variant="h6" component="h3" sx={{margin:"1vh",fontSize:"1.1rem"}}>
-            <i class="fa-regular fa-circle-check" style={{color: "#37bec1",marginRight:"1vw"}}></i>
+            <i className="fa-regular fa-circle-check" style={{color: "#37bec1",marginRight:"1vw"}}></i>
             Data updated successfully <span style={{marginRight:"1vw !important"}}></span>
             </Typography>
           </Box>
@@ -544,7 +544,7 @@ const Collection = () => {
         >
           <Box sx={style_modal_popup}>
             <Typography id="modal-modal-title" variant="h6" component="h3" sx={{margin:"1vh",fontSize:"1.1rem"}}>
-            <i class="fa-regular fa-circle-check" style={{color: "#37bec1",marginRight:"1vw"}}></i>
+            <i className="fa-regular fa-circle-check" style={{color: "#37bec1",marginRight:"1vw"}}></i>
             All documents dropped succesfully <span style={{marginRight:"1vw !important"}}></span>
             </Typography>
           </Box>
