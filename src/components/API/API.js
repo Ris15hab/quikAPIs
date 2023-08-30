@@ -36,13 +36,23 @@ const API = () => {
   const [api, setApi] = useState([]);
   const [open_modal_popup, setOpen_modal_popup] = React.useState(false);
   const [validate,setValidate]=useState('');
+  const [openAdd, setOpenAdd] = React.useState(false);
+  const [openPut, setOpenPut] = React.useState(false);
+  const [openDel, setOpenDel] = React.useState(false);
+  const [openGet, setOpenGet] = React.useState(false);
+  const [openGetById, setOpenGetById] = React.useState(false);
   const [open, setOpen] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const [name, setName] = useState('')
+  const [copiedtext, setCopiedtext] = useState('')
+  const [add, setAdd] = useState('')
+  const [get, setGet] = useState('')
+  const [put, setPut] = useState('')
+  const [del, setDel] = useState('')
+  const [getById, setGetById] = useState('')
 
   const copyToClipboard = () => {
     copy(api);
-    setOpen(true);
     setTimeout(() => {
       setOpen(false)
     }, 1000);
@@ -59,6 +69,11 @@ useEffect(()=>{
           }
       });
       setApi(result.data.APIs)
+      setAdd(result.data.APIs.Add)
+      setGet(result.data.APIs.Get)
+      setPut(result.data.APIs.UpdateById)
+      setDel(result.data.APIs.DeleteById)
+      setGetById(result.data.APIs.GetById)
       setName(result.data.name)
       setLoading(false)
     }catch(err){
@@ -75,7 +90,8 @@ useEffect(()=>{
 
 
   const handleTooltipClose = () => {
-    setOpen(false);
+    
+    
   };
   return (
     <>
@@ -149,7 +165,7 @@ useEffect(()=>{
                   disablePortal: true,
                 }}
                 onClose={handleTooltipClose}
-                open={open}
+                open={openAdd}
                 arrow
                 placement="top"
                 disableFocusListener
@@ -157,7 +173,14 @@ useEffect(()=>{
                 disableTouchListener
                 title="Copied"
                  >
-                 <Grid item onClick={copyToClipboard} className="fourthh" xs={1} lg={1} md={1} sx={{padding:"10px",paddingLeft:"1.6vw",borderTopRightRadius:"10px",borderBottomRightRadius:"10px"}}>
+                 <Grid item onClick={()=>{ 
+                  copy(add);
+                  setOpenAdd(true);
+                  setTimeout(() => {
+                    setOpenAdd(false)
+                  }, 1000);
+                 
+                 }} className="fourthh" xs={1} lg={1} md={1} sx={{padding:"10px",paddingLeft:"1.6vw",borderTopRightRadius:"10px",borderBottomRightRadius:"10px"}}>
                  <i className="fas fa-paper-plane"  id="clipboard-icon" style={{color:"orange",fontSize: "1.1rem"}}></i>
                  </Grid>
                  </Tooltip>
@@ -193,7 +216,7 @@ useEffect(()=>{
                   disablePortal: true,
                 }}
                 onClose={handleTooltipClose}
-                open={open}
+                open={openGet}
                 arrow
                 placement="top"
                 disableFocusListener
@@ -201,7 +224,14 @@ useEffect(()=>{
                 disableTouchListener
                 title="Copied"
                  >
-                 <Grid item onClick={copyToClipboard} className="fourthh" xs={1} lg={1} md={1} sx={{padding:"10px",paddingLeft:"1.6vw",borderTopRightRadius:"10px",borderBottomRightRadius:"10px"}}>
+                 <Grid item onClick={()=>{ 
+                  copy(get);
+                  setOpenGet(true);
+                  setTimeout(() => {
+                    setOpenGet(false)
+                  }, 1000);
+                 
+                 }} className="fourthh" xs={1} lg={1} md={1} sx={{padding:"10px",paddingLeft:"1.6vw",borderTopRightRadius:"10px",borderBottomRightRadius:"10px"}}>
                  <i className="fas fa-paper-plane"  id="clipboard-icon" style={{color:"orange",fontSize: "1.1rem"}}></i>
                  </Grid>
                  </Tooltip>
@@ -236,7 +266,7 @@ useEffect(()=>{
                   disablePortal: true,
                 }}
                 onClose={handleTooltipClose}
-                open={open}
+                open={openGetById}
                 arrow
                 placement="top"
                 disableFocusListener
@@ -244,7 +274,14 @@ useEffect(()=>{
                 disableTouchListener
                 title="Copied"
                  >
-                 <Grid item onClick={copyToClipboard} className="fourthh" xs={1} lg={1} md={1} sx={{padding:"10px",paddingLeft:"1.6vw",borderTopRightRadius:"10px",borderBottomRightRadius:"10px"}}>
+                 <Grid item onClick={()=>{ 
+                  copy(getById);
+                  setOpenGetById(true);
+                  setTimeout(() => {
+                    setOpenGetById(false)
+                  }, 1000);
+                 
+                 }} className="fourthh" xs={1} lg={1} md={1} sx={{padding:"10px",paddingLeft:"1.6vw",borderTopRightRadius:"10px",borderBottomRightRadius:"10px"}}>
                  <i className="fas fa-paper-plane"  id="clipboard-icon" style={{color:"orange",fontSize: "1.1rem"}}></i>
                  </Grid>
                  </Tooltip>
@@ -279,7 +316,7 @@ useEffect(()=>{
                   disablePortal: true,
                 }}
                 onClose={handleTooltipClose}
-                open={open}
+                open={openPut}
                 arrow
                 placement="top"
                 disableFocusListener
@@ -287,7 +324,14 @@ useEffect(()=>{
                 disableTouchListener
                 title="Copied"
                  >
-                 <Grid onClick={copyToClipboard} item className="fourthh" xs={1} lg={1} md={1} sx={{padding:"10px",paddingLeft:"1.6vw",borderTopRightRadius:"10px",borderBottomRightRadius:"10px"}}>
+                 <Grid onClick={()=>{ 
+                  copy(put);
+                  setOpenPut(true);
+                  setTimeout(() => {
+                    setOpenPut(false)
+                  }, 1000);
+                 
+                 }} item className="fourthh" xs={1} lg={1} md={1} sx={{padding:"10px",paddingLeft:"1.6vw",borderTopRightRadius:"10px",borderBottomRightRadius:"10px"}}>
                  <i className="fas fa-paper-plane"  id="clipboard-icon" style={{color:"orange",fontSize: "1.1rem"}}></i>
                  </Grid>
                  </Tooltip>
@@ -322,7 +366,7 @@ useEffect(()=>{
                   disablePortal: true,
                 }}
                 onClose={handleTooltipClose}
-                open={open}
+                open={openDel}
                 arrow
                 placement="top"
                 disableFocusListener
@@ -330,7 +374,14 @@ useEffect(()=>{
                 disableTouchListener
                 title="Copied"
                  >
-                 <Grid item onClick={copyToClipboard} className="fourthh" xs={1} lg={1} md={1} sx={{padding:"10px",paddingLeft:"1.6vw",borderTopRightRadius:"10px",borderBottomRightRadius:"10px"}}>
+                 <Grid item onClick={()=>{ 
+                  copy(del);
+                  setOpenDel(true);
+                  setTimeout(() => {
+                    setOpenDel(false)
+                  }, 1000);
+                 
+                 }} className="fourthh" xs={1} lg={1} md={1} sx={{padding:"10px",paddingLeft:"1.6vw",borderTopRightRadius:"10px",borderBottomRightRadius:"10px"}}>
                  <i className="fas fa-paper-plane"  id="clipboard-icon" style={{color:"orange",fontSize: "1.1rem"}}></i>
                  </Grid>
                  </Tooltip>

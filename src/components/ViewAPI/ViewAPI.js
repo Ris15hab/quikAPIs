@@ -6,6 +6,7 @@ import Box from "@mui/material/Box";
 import "./ViewAPI.css";
 import { useNavigate } from "react-router-dom";
 import Modal from "@mui/material/Modal";
+import Button from "@mui/material/Button";
 import axios from "axios";
 import nodata from "../../nodata.png";
 import Menu from "@mui/material/Menu";
@@ -31,14 +32,19 @@ const style = {
 const ViewAPI = () => {
   const navigate = useNavigate();
   const [validate, setValidate] = useState("");
+  const [dbname, setDbname] = useState("");
   const [open, setOpen] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const [datadb, setDatadb] = useState([]);
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [dbdel,setDbdel]=useState(false)
+
+  const handleDeleteClose = () => setDbdel(false);
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
   };
+  
 
   const handleClose = () => {
     setAnchorEl(null);
@@ -58,8 +64,10 @@ const ViewAPI = () => {
           }
         );
         setDatadb(response.data.response);
+        setDbname(response.data.response.modelName)
         setCountCollection(response.data.countCollection);
         setLoading(false);
+
       } catch (err) {
         setValidate("unknown");
         setOpen(true);
@@ -127,11 +135,31 @@ const ViewAPI = () => {
                       align="right"
                       sx={{ marginRight: "1.3vw", marginTop: "1.3vh" }}
                     >
-                      <Tooltip title="Delete" placement="bottom-end">
+                      <Tooltip title="Delete" placement="bottom-end" >
                         <i
                           className="fa-regular fa-trash-can"
                           style={{ cursor: "pointer", width: "5vw" }}
+                          onClick={()=>{
+                            setDbdel(true)
+                            setDbname(data.modelName)
+                          }}
                         ></i>
+                         
+                         <Modal
+                          open={dbdel}
+                          onClose={handleDeleteClose}
+                          aria-labelledby="modal-modal-title"
+                          aria-describedby="modal-modal-description"
+                        >
+                          <Box sx={style}>
+                            <Typography id="modal-modal-title" variant="h6" component="h2">
+                              Are you sure you want to delete <span style={{color:"#088F8F",fontWeight:"bold"}}>{dbname}</span>?
+                            </Typography>
+                            <Typography id="modal-modal-description" sx={{ mt: 2 }} align="right">
+                              <Button sx={{color:"red"}} >YES</Button> <Button sx={{color:"gray"}} onClick={handleDeleteClose}>CANCEL</Button>
+                            </Typography>
+                          </Box>
+                        </Modal>
                       </Tooltip>
                     </Typography>
                     <Grid container>
@@ -140,7 +168,7 @@ const ViewAPI = () => {
                         xs={12}
                         lg={7}
                         md={7}
-                        sx={{ marginTop: "-2vh" }}
+                        sx={{ marginTop: "-3vh" }}
                       >
                         <Typography
                           align="left"
