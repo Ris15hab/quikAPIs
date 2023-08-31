@@ -95,6 +95,7 @@ const controllerTemplate = (modelFileName, modelSchema, modelFilePath, controlle
             console.error('Error creating the controller file:', err);
         } else {
             console.log('Controller File created successfully!');
+            return true
         }
     });
 }

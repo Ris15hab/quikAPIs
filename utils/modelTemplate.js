@@ -39,6 +39,7 @@ const modelTemplate = async (modelName, modelSchema,modelFilePath) => {
             console.error('Error creating the model file:', err);
         } else {
             console.log('Model File created successfully!');
+            return true
         }
     });
 }

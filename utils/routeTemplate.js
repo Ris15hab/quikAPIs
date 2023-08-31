@@ -22,6 +22,7 @@ const routeTemplate = (userID, modelFileName,controllerFilePath, routeFilePath) 
             console.error('Error creating the Route file:', err);
         } else {
             console.log('Route File created successfully!');
+            return true;
         }
     });
 }
