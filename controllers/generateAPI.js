@@ -84,7 +84,7 @@ const createCRUD = async (req, res, next) => {
         const modelSchema = mongoose.Schema({
             ${properties.join(",\n")}
         });
-        const model = mongoose.model('${modelName}', modelSchema);
+        const model = mongoose.model('${modelFileName}', modelSchema);
         module.exports = {model,modelSchema}`;
 
         const filePath = path.join(__dirname, `../${modelFilePath}`)
