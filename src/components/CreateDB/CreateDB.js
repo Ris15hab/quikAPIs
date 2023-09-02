@@ -19,6 +19,9 @@ import { ToastContainer, toast } from "react-toastify";
 import Modal from "@mui/material/Modal";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
+import debounce from 'lodash.debounce';
+
+
 
 const style = {
   position: "absolute",
@@ -37,66 +40,34 @@ const style = {
   transition:" all .4s"
 };
 
+const style2 = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 300,
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  pt: 2,
+  px: 4,
+  pb: 3,
+  borderRadius:"15px",
+  border:"none !important",
+  transition:" all .4s"
+};
+
 const CreateDB = () => {
   const [preview, setPreview] = React.useState(false);
+  const [request, setRequest] = React.useState(true);
   const [validate,setValidate]=useState('');
   const [name, setName] = React.useState('');
   const [description, setDescription] = React.useState('');  
   const [open, setOpen] = React.useState(false);
   const [disabled, setDisabled] = React.useState(true);
 
-
-  // const handleGenerate = async () => {
-  //   const space = /\s/.test(name);
-  //   if(space){
-  //     setValidate('whitespace')
-  //     setOpen(true);
-  //     setTimeout(() => {
-  //       setOpen(false);
-  //     }, 2000);
-  //   }else{
-  //     const modelSchema ={};
-  //     final.map((final)=>{
-  //       modelSchema[final.name]={};
-  //       modelSchema[final.name].type=final.type;
-  //       modelSchema[final.name].unique=final.unique;
-  //       modelSchema[final.name].required=final.required;
-  //     })
-  //     try{
-  //       const token = localStorage.getItem('token')
-  //       const response = await axios.post("http://localhost:8000/crud/createcrud", {
-  //           modelName: name,
-  //           modelDescription: description,
-  //           modelSchema,
-  //       }, {
-  //           headers: {
-  //             'authentication': token,
-  //           }
-  //       });
-  //         console.log(response)
-  //       // if(response){
-  //         setValidate('correct')
-  //       // }else{
-  //       //   console.log(response)
-  //       //   setValidate('unknown')
-  //       // }
-  //     }catch(err){
-  //       console.log(err)
-  //       setValidate('unknown')
-  //     }
-  //     setName('')
-  //     setDescription('')
-  //     setFinal([])
-  //     setPreview(false)
-  //     setOpen(true);
-  //     setTimeout(() => {
-  //       setOpen(false);
-  //     }, 1500);
-  //   }
-
-  // };
-
   const handleGenerate = async () => {
+    
     const space = /\s/.test(name);
     
     if (space) {
@@ -106,6 +77,7 @@ const CreateDB = () => {
         setOpen(false);
       }, 2000);
     } else {
+      setPreview(!preview)
       const modelSchema = {};
       final.forEach((final) => {
         modelSchema[final.name] = {
@@ -115,29 +87,89 @@ const CreateDB = () => {
         };
       });
   
-      try {
-        const token = localStorage.getItem('token');
-        const response = await axios.post(
-          "http://localhost:8000/crud/createcrud",
-          {
-            modelName: name,
-            modelDescription: description,
-            modelSchema,
-          },
-          {
-            headers: {
-              'authentication': token,
+      // try {
+      //   // const token = localStorage.getItem('token');
+      //   // const response = await axios.post(
+      //   //   "http://localhost:8000/crud/createcrud",
+      //   //   {
+      //   //     modelName: name,
+      //   //     modelDescription: description,
+      //   //     modelSchema,
+      //   //   },
+      //   //   {
+      //   //     headers: {
+      //   //       'authentication': token,
+      //   //     },
+      //   //   }
+      //   // );
+      //   const debouncedAxiosRequest = debounce(async (config) => {
+      //     try {
+      //       const response = await axios(config);
+      //       console.log(response)
+      //       setValidate('correct');
+      //       // Process the response
+      //     } catch (error) {
+      //       // Handle errors
+      //       console.log("yaha error hai")
+      //     }
+      //   }, 500); // Adjust the delay as needed
+        
+      //   // When you want to make a POST request
+      //   debouncedAxiosRequest({
+      //     method: 'post',
+      //     url: 'http://localhost:8000/crud/createcrud',
+      //     data: {
+      //       modelName: name,
+      //       modelDescription: description,
+      //       modelSchema,
+      //     },
+      //     headers: {
+      //       'authentication': localStorage.getItem('token'),
+      //   },
+      //   });
+  
+      //   //console.log(response);
+       
+      // } catch (err) {
+      //   console.log(err);
+      //   setValidate('unknown');
+      // }
+       let isRequestPending = false;
+
+      const sendPostRequest = async (name, description, modelSchema) => {
+        if (isRequestPending) {
+          return; 
+        }
+
+        isRequestPending = true;
+
+        try {
+          setRequest(true)
+          const token = localStorage.getItem('token');
+          const response = await axios.post(
+            "http://localhost:8000/crud/createcrud",
+            {
+              modelName: name,
+              modelDescription: description,
+              modelSchema,
             },
+            {
+              headers: {
+                'authentication': token,
+              },
+            }
+          );
+          setRequest(false);
+          if(!request){
+            setValidate('correct');
           }
-        );
-  
-        console.log(response);
-        setValidate('correct');
-      } catch (err) {
-        console.log(err);
-        setValidate('unknown');
+        } catch (error) {
+          console.log("erorrrrr")
+        } finally {
+          isRequestPending=false;
       }
-  
+      };
+      sendPostRequest(name, description, modelSchema);
       setName('');
       setDescription('');
       setFinal([]);
@@ -178,15 +210,27 @@ const CreateDB = () => {
   const handleSubmit = (e) => {
 
     if(inpval.name.length!=0 && inpval.type.length!=0 && inpval.required.length!=0 && inpval.unique.length!=0){
-      const newRecords = { ...inpval, id: new Date().getTime().toString() };
-      setFinal([...final, newRecords]);
-      setPreview(true)
-      setInpval({
-        name: "",
-        type: "",
-        unique: "",
-        required: "",
-      })
+      const space = /\s/.test(inpval.name);
+      if(space){
+        setOpen(true);
+        setValidate('name_space')
+        setTimeout(() => {
+          setOpen(false);
+        }, 1500);
+      }
+      else{
+       
+        const newRecords = { ...inpval, id: new Date().getTime().toString() };
+        setFinal([...final, newRecords]);
+        setPreview(true)
+        setInpval({
+          name: "",
+          type: "",
+          unique: "",
+          required: "",
+        })
+      }
+      
     }else{
       setValidate('empty');
       setOpen(true);
@@ -447,6 +491,19 @@ const CreateDB = () => {
             >
               <i className="fa-solid fa-plus" style={{ color: "#37BEC1" }}></i>
             </button>
+            {validate=='name_space'&&<Modal
+                open={open}
+                sx={{border:"none !important"}}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+              >
+              <Box sx={style}>
+                <Typography id="modal-modal-title" variant="h6" component="h3" sx={{margin:"1vh",fontSize:"1.1rem"}}>
+                <i className="fa-regular fa-circle-xmark" style={{color: "#37bec1",marginRight:"1vw"}}></i>
+                  Name field cannot have a space <span style={{marginRight:"1vw !important"}}></span>
+                </Typography>
+              </Box>
+              </Modal>}
           </Grid>
         </Grid>
         {
@@ -549,7 +606,7 @@ const CreateDB = () => {
         </>
       )
       }
-      {/* <button onClick={handleGenerate}>GEENRATE</button> */}
+       
       {validate=='empty'&&<Modal
           open={open}
           sx={{border:"none !important"}}
@@ -563,6 +620,22 @@ const CreateDB = () => {
           </Typography>
         </Box>
         </Modal>}
+
+        {/* {request&&<Modal
+          open={open}
+          sx={{border:"none !important"}}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style}>
+          <div className="loading" sx={{marginLeft:"13vw"}} >
+            <svg width="64px" height="48px">
+                <polyline points="0.157 23.954, 14 23.954, 21.843 48, 43 0, 50 24, 64 24" id="back"></polyline>
+              <polyline points="0.157 23.954, 14 23.954, 21.843 48, 43 0, 50 24, 64 24" id="front"></polyline>
+            </svg>
+          </div>
+          </Box>
+        </Modal>} */}
 
         {validate=='correct'&&<Modal
           open={open}

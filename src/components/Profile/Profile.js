@@ -15,29 +15,13 @@ import axios from "axios";
 import Chart from "react-apexcharts";
 
 
-function createData(
-  name: string,
-  calories: number,
-  fat: number,
-  carbs: number,
-  protein: number
-) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData("1", "Mahek", 6.0, 24, 4.0),
-  createData("2", "Rishab", 9.0, 37, 4.3),
-  createData("3", "Zoya", 16.0, 24, 6.0),
-];
-
 const Profile = () => {
   const [name, setName] = useState("");
-  const [donut,setDonut]=useState({series: [44, 55, 41, 17],
+  const [donut,setDonut]=useState({series: [1, 1, 1, 1],
     options: {
       colors:["#58ac7b", "#FFB52E","#37BEC1","#c07b71"],
       chart: {
-        type: 'donut',
+        type: 'pie',
         
       },
       labels:["get","post","put","delete"],
@@ -73,11 +57,11 @@ const Profile = () => {
     series: [
       {
         name: "Databases created",
-        data: [30, 40, 45, 50, 49, 60, 70, 91],
+        data: [0, 1, 1, 0, 0, 0, 0, 0],
       },
       {
         name: "APIs hit",
-        data: [96, 30, 45, 50, 10, 50, 70, 91],
+        data: [10, 23, 33, 12, 10, 50, 70, 91],
       },
     ],
   });
@@ -351,7 +335,7 @@ const Profile = () => {
             className="chart-profile-1"
             options={donut.options}
             series={donut.series}
-            type="donut"
+            type="pie"
             height="200"
           />
 
