@@ -26,7 +26,7 @@ import debounce from 'lodash.debounce';
 const style = {
   position: "absolute",
   top: "50%",
-  left: "50%",
+  left: "55%",
   transform: "translate(-50%, -50%)",
   width: 300,
   bgcolor: "background.paper",
@@ -43,7 +43,7 @@ const style = {
 const style2 = {
   position: "absolute",
   top: "50%",
-  left: "50%",
+  left: "55%",
   transform: "translate(-50%, -50%)",
   width: 300,
   bgcolor: "background.paper",
@@ -69,8 +69,9 @@ const CreateDB = () => {
   const handleGenerate = async () => {
     
     const space = /\s/.test(name);
+    const special=/^[a-zA-Z0-9_]+$/.test(name);
     
-    if (space) {
+    if (space || !special) {
       setValidate('whitespace');
       setOpen(true);
       setTimeout(() => {
@@ -580,7 +581,7 @@ const CreateDB = () => {
         <>
         <button
           className="btn-1-disabled"
-          style={{ marginBottom: "5vh", marginTop:"12vh", marginRight: "53vw" }}
+          style={{ marginBottom: "5vh", marginTop:"12vh", marginRight: "55vw" }}
           onClick={handleDisableSubmit}
         >
           <i
@@ -674,7 +675,7 @@ const CreateDB = () => {
           <Box sx={style}>
             <Typography id="modal-modal-title" variant="h6" component="h3" sx={{margin:"1vh",fontSize:"1rem"}}>
             <i className="fa-regular fa-circle-xmark" style={{color: "#37bec1",marginRight:"1vw"}}></i>
-            Database name cannot contain a space!  <span style={{marginRight:"1vw !important"}}></span>
+            Database name cannot contain a space or a special character!  <span style={{marginRight:"1vw !important"}}></span>
             </Typography>
           </Box>
         </Modal>}

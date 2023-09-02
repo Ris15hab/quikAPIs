@@ -31,7 +31,7 @@ const style2 = {
   position: "absolute",
   top: "50%",
   height:"20vh",
-  left: "50%",
+  left: "60%",
   transform: "translate(-50%, -50%)",
   width: 150,
   bgcolor: "background.paper",

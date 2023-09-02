@@ -16,7 +16,7 @@ import Tooltip from "@mui/material/Tooltip";
 const style = {
   position: "absolute",
   top: "50%",
-  left: "50%",
+  left: "55%",
   transform: "translate(-50%, -50%)",
   width: 300,
   bgcolor: "background.paper",
@@ -30,7 +30,7 @@ const style = {
 };
 
 const ViewAPI = () => {
-  const navigate = useNavigate();
+ const navigate = useNavigate(); 
   const [validate, setValidate] = useState("");
   const [dbname, setDbname] = useState("");
   const [open, setOpen] = React.useState(false);
@@ -166,7 +166,6 @@ const ViewAPI = () => {
                       align="right"
                       sx={{ marginRight: "1.3vw", marginTop: "1.3vh" }}
                     >
-                      <Tooltip title="Delete" placement="bottom-end" >
                         <i
                           className="fa-regular fa-trash-can"
                           style={{ cursor: "pointer", width: "5vw" }}
@@ -184,7 +183,7 @@ const ViewAPI = () => {
                           aria-describedby="modal-modal-description"
                         >
                           <Box sx={style}>
-                            <Typography id="modal-modal-title" variant="h6" component="h2">
+                            <Typography id="modal-modal-title" variant="h6" component="h2" sx={{fontFamily:"League Spartan"}}>
                               Are you sure you want to delete <span style={{color:"#088F8F",fontWeight:"bold"}}>{dbname}</span>?
                             </Typography>
                             <Typography id="modal-modal-description" sx={{ mt: 2 }} align="right">
@@ -192,7 +191,6 @@ const ViewAPI = () => {
                             </Typography>
                           </Box>
                         </Modal>
-                      </Tooltip>
                     </Typography>
                     <Grid container>
                       <Grid

@@ -1,6 +1,7 @@
 import './App.css';
 import Login from './components/Login/Login'
 import CreateDB from './components/CreateDB/CreateDB'
+import Error from './components/Error/Error'
 import Profile from './components/Profile/Profile'
 import HowToUse from './components/HowToUse/HowToUse'
 import Register from './components/Register/Register'
@@ -22,6 +23,7 @@ function App() {
           <Route path="/createdb" element={<CreateDB />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/viewapi" element={<ViewAPI />} />
+          <Route path="/error" element={<Error />} />
           <Route path="/api/:id" element={<API />} />
           <Route path="/collection/:id" element={<Collection />} />
           <Route path="/contact" element={<Contact />} />

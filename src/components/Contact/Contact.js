@@ -153,7 +153,7 @@ const Contact = () => {
                 disableUnderline
                 name="type"
               >
-              <MenuItem value={""} name="type">
+              <MenuItem value={""} name="type" sx={{backgroundColor:"#D3D3D3",marginTop:"-1vh"}}>
                   <Typography
                     variant="body1"
                     align="left"
@@ -168,19 +168,22 @@ const Contact = () => {
                     What's your issue?
                   </Typography>
                 </MenuItem >
-                <MenuItem name="type" value={"Issue with quikAPI"}>
+                <MenuItem name="type" value={"Issue with quikAPI"} sx={{backgroundColor:"#D3D3D3"}}>
                   Issue with quikAPI
                 </MenuItem>
-                <MenuItem name="type" value={"Issue with quikDB"}>
+                <MenuItem name="type" value={"Issue with quikDB"} sx={{backgroundColor:"#D3D3D3"}}>
                 Issue with quikDB
                 </MenuItem>
-                <MenuItem name="type" value={"Unable to generate quikAPI"}>
+                <MenuItem name="type" value={"Unable to generate quikAPI"} sx={{backgroundColor:"#D3D3D3"}}>
                 Unable to generate quikAPI
                 </MenuItem>
-                <MenuItem name="type" value={"Issue with crud operations"}>
+                <MenuItem name="type" value={"Issue with crud operations"} sx={{backgroundColor:"#D3D3D3"}}>
                   Issue with crud operations
                 </MenuItem>
-                <MenuItem name="type" value={"Other"}>
+                <MenuItem name="type" value={"Suggestions"} sx={{backgroundColor:"#D3D3D3"}}>
+                Suggestions
+                </MenuItem>
+                <MenuItem name="type" value={"Other"}  sx={{backgroundColor:"#D3D3D3",marginBottom:"-16vh"}}>
                   Other
                 </MenuItem>
               </Select>
