@@ -4,7 +4,6 @@ const { modelTemplate } = require('../utils/modelTemplate')
 const { controllerTemplate } = require('../utils/controllerTemplate')
 const { routeTemplate } = require('../utils/routeTemplate')
 const fs = require('fs').promises
-const fs1 = require('fs')
 const path = require('path')
 
 const createModel = async (req, res, next) => {
@@ -38,12 +37,15 @@ const createModel = async (req, res, next) => {
         //modelfilename 
         const modelFileName = modelName + time + '_' + userID
         const modelFilePath = `models/${userID}/${modelFileName}.js`
-        req.isModelCreated = await modelTemplate(modelFileName, modelSchema, modelFilePath)
-        req.isModelCreated = true;
-        req.modelFileName = modelFileName
-        req.modelFilePath = modelFilePath
-        // console.log(req.isModelCreated)
-        next();
+        await modelTemplate(modelFileName, modelSchema, modelFilePath).then(() => {
+            req.isModelCreated = true;
+            req.modelFileName = modelFileName
+            req.modelFilePath = modelFilePath
+            console.log(req.isModelCreated)
+            next();
+        }).catch((err)=>{
+            return next(createError(400,err))
+        })
     } catch (err) {
         next(err)
     }
@@ -73,11 +75,14 @@ const createController = async (req, res, next) => {
         }
 
         const controllerFilePath = `controllers/${userID}/${modelFileName}.js`
-        req.isControllerCreated = await controllerTemplate(modelFileName, modelSchema, modelFilePath, controllerFilePath)
-        req.isControllerCreated = true
-        req.controllerFilePath = controllerFilePath
-        // console.log(req.isControllerCreated)
-        next();
+        await controllerTemplate(modelFileName, modelSchema, modelFilePath, controllerFilePath).then((value) => {
+            req.isControllerCreated = true
+            req.controllerFilePath = controllerFilePath
+            console.log(req.isControllerCreated)
+            next();
+        }).catch((err)=>{
+            return next(createError(400,err))
+        })
     } catch (err) {
         next(err)
     }
@@ -106,11 +111,14 @@ const createRoutes = async (req, res, next) => {
         }
 
         const routeFilePath = `routes/${userID}/${modelFileName}.js`
-        req.isRouteCreated = await routeTemplate(userID, modelFileName, controllerFilePath, routeFilePath)
-        req.isRouteCreated = true
-        req.routeFilePath = routeFilePath
-        // console.log(req.isRouteCreated)
-        next();
+        await routeTemplate(userID, modelFileName, controllerFilePath, routeFilePath).then(() => {
+            req.isRouteCreated = true
+            req.routeFilePath = routeFilePath
+            console.log(req.isRouteCreated)
+            next();
+        }).catch((err)=>{
+            return next(createError(400,err))
+        })
     } catch (err) {
         next(err)
     }
@@ -122,8 +130,12 @@ const appendAllRoutes = async (req, res, next) => {
         routeFilePath = req.routeFilePath
 
         const allRoutesNewData = `\n${modelFileName}: require('../${routeFilePath}'),`
-        addAllRoute(allRoutesNewData)
-        next();
+        await addAllRoute(allRoutesNewData).then(() => {
+            req.isAllRoutesAdded = true
+            next();
+        }).catch((err)=>{
+            return next(createError(400,err))
+        })
     } catch (err) {
         next(err)
     }
@@ -135,8 +147,12 @@ const appendAppRoutes = async (req, res, next) => {
 
         //adding approutes
         const appRoutesNewData = `\napp.use(allRoutes.${modelFileName});`
-        addAppRoute(appRoutesNewData)
-        next();
+        await addAppRoute(appRoutesNewData).then(() => {
+            req.isAppRoutesAdded = true
+            next();
+        }).catch((err)=>{
+            return next(createError(400,err))
+        })
     } catch (err) {
         next(err)
     }

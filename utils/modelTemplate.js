@@ -1,50 +1,51 @@
 const fs = require('fs')
 const path = require('path')
 
-const modelTemplate = async (modelName, modelSchema,modelFilePath) => {
+const modelTemplate = async (modelName, modelSchema, modelFilePath) => {
+    return new Promise((resolve, reject) => {
+        // const schemaDetails = modelSchema
+        // console.log(schemaDetails)
 
-    // const schemaDetails = modelSchema
-    // console.log(schemaDetails)
+        // const modelSchema = JSON.parse(modelSchemaJSON);
+        // console.log(modelSchema)
 
-    // const modelSchema = JSON.parse(modelSchemaJSON);
-    // console.log(modelSchema)
-
-    const properties = Object.keys(modelSchema).map(key => {
-        // console.log(key)
-        const property = modelSchema[key];
-        return `${key}: {
+        const properties = Object.keys(modelSchema).map(key => {
+            // console.log(key)
+            const property = modelSchema[key];
+            return `${key}: {
             type: ${property.type},
-            ${property.required=='true' ? "required: true," : "required: false,"}
-            ${property.unique=='true' ? "unique: true," : "unique: false,"}
+            ${property.required == 'true' ? "required: true," : "required: false,"}
+            ${property.unique == 'true' ? "unique: true," : "unique: false,"}
         }`;
-    });
+        });
 
-    // console.log(properties)
-    // console.log(Object.keys(modelSchema))
-    // console.log(Object.values(modelSchema))
+        // console.log(properties)
+        // console.log(Object.keys(modelSchema))
+        // console.log(Object.values(modelSchema))
 
-    const content =
-    `const mongoose = require('mongoose');
+        const content =
+        `const mongoose = require('mongoose');
+        const modelSchema = mongoose.Schema({
+            ${properties.join(",\n")}
+        });
+        const model = mongoose.model('${modelName}', modelSchema);
+        module.exports = {model,modelSchema}`;
 
-    const modelSchema = mongoose.Schema({
-        ${properties.join(",\n")}
-    });
-    const model = mongoose.model('${modelName}', modelSchema);
-    module.exports = {model,modelSchema}`;
+        const filePath = path.join(__dirname, `../${modelFilePath}`)
 
-    const filePath = path.join(__dirname,`../${modelFilePath}`)
-
-    fs.writeFile(filePath, content, (err) => {
-        if (err) {
-            console.error('Error creating the model file:', err);
-        } else {
-            console.log('Model File created successfully!');
-            return true
-        }
-    });
+        fs.writeFile(filePath, content, (err) => {
+            if (err) {
+                console.error('Error creating the model file:', err);
+                reject(err);
+            } else {
+                console.log('Model File created successfully!');
+                resolve();
+            }
+        });
+    })
 }
 
-module.exports={
+module.exports = {
     modelTemplate
 }
 
