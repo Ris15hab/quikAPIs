@@ -161,11 +161,18 @@ const Collection = () => {
       setAddOpen(false)
       setFormValues({})
     }catch(err){
-      setValidate('unknown')
+      // console.log(err.response.data.message)
+      if(err.response.data.message.includes('E11000')){
+        setValidate('uniqueError')
+      }else if(err.response.data.message.includes('required')){
+        setValidate('requiredError')
+      }else{
+        setValidate('unknown')
+      }
       setOpen_modal_popup(true)
       setTimeout(() => {
         setOpen_modal_popup(false);
-      }, 1500);
+      }, 2000);
     }
   }
 
@@ -221,11 +228,17 @@ const Collection = () => {
         }, 1000);
       // }
     }catch(err){
-      setValidate('unknown')
+      if(err.response.data.message.includes('E11000')){
+        setValidate('uniqueError')
+      }else if(err.response.data.message.includes('required')){
+        setValidate('requiredError')
+      }else{
+        setValidate('unknown')
+      }
       setOpen_modal_popup(true)
       setTimeout(() => {
         setOpen_modal_popup(false);
-      }, 1500);
+      }, 2000);
     }
   }
 
@@ -335,8 +348,11 @@ const Collection = () => {
               aria-describedby="modal-modal-description"
             >
               <Box sx={style_add} className="modal-box-delete">
-                <Typography id="modal-modal-title" variant="h6" component="h2" align="center" sx={{fontFamily:"League Spartan",color:"#438C8E",marginBottom:"2vh"}}>
+                <Typography id="modal-modal-title" variant="h6" component="h2" align="center" sx={{fontFamily:"League Spartan",color:"#438C8E"}}>
                   Add Document.
+                </Typography>
+                <Typography id="modal-modal-title" variant="h6" component="h2" align="center" sx={{fontFamily:"League Spartan",color:"grey",fontSize:"15px",marginTop:"-1vh",marginBottom:"2vh"}}>
+                  (* indicates required fields)
                 </Typography>
                 <Typography align="center">
                 
@@ -344,8 +360,12 @@ const Collection = () => {
                 {modelSchema.map((item, index) => (
                   <div key={index}>
                     {Object.entries(item).map(([key, value]) => (
-                      key !== '_id' && key !== '__v' && (
-                        <TextField key={key} id={key} label={key} variant="standard"value={formValues[key] || ''}
+                      // console.log(value.options.required)
+                      ( value.options.required) ?(
+                        <TextField key={key} id={key} label={key+'*'} variant="standard"value={formValues[key] || ''}
+                        onChange={(e) => handleFieldChange(key, e.target.value)} autoComplete='off'/>
+                      ):(
+                        (key !== '_id' && key !== '__v') &&<TextField key={key} id={key} label={key} variant="standard"value={formValues[key] || ''}
                         onChange={(e) => handleFieldChange(key, e.target.value)} autoComplete='off'/>
                       )
                     ))}
@@ -424,15 +444,21 @@ const Collection = () => {
                                   aria-describedby="modal-modal-description"
                                 >
                                   <Box sx={style_add} className="modal-box-delete" key={datadb[index]._id}>
-                                    <Typography id="modal-modal-title" variant="h6" component="h2" align="center" sx={{fontFamily:"League Spartan",color:"#438C8E",marginBottom:"2vh"}}>
+                                    <Typography id="modal-modal-title" variant="h6" component="h2" align="center" sx={{fontFamily:"League Spartan",color:"#438C8E"}}>
                                       Update Document.
+                                    </Typography>
+                                    <Typography id="modal-modal-title" variant="h6" component="h2" align="center" sx={{fontFamily:"League Spartan",color:"grey",fontSize:"15px",marginTop:"-1vh",marginBottom:"2vh"}}>
+                                      (* indicates required fields)
                                     </Typography>
                                     <Typography align="center">                                  
                                     {modelSchema.map((item, index) => (
                                       <div key={datadb[index]._id}>
                                         {Object.entries(item).map(([key, value]) => (
-                                          key !== '_id' && key !== '__v' && (
-                                            <TextField key={key} id={key} label={key} variant="standard"value={formValues[key] || ''}
+                                          ( value.options.required) ?(
+                                            <TextField key={key} id={key} label={key+'*'} variant="standard"value={formValues[key] || ''}
+                                            onChange={(e) => handleFieldChange(key, e.target.value)} autoComplete='off'/>
+                                          ):(
+                                            (key !== '_id' && key !== '__v') &&<TextField key={key} id={key} label={key} variant="standard"value={formValues[key] || ''}
                                             onChange={(e) => handleFieldChange(key, e.target.value)} autoComplete='off'/>
                                           )
                                         ))}
@@ -497,6 +523,32 @@ const Collection = () => {
             </Typography>
           </Box>
         </Modal>} 
+        {validate=='uniqueError'&&<Modal
+          open={open_modal_popup}
+          sx={{border:"none !important"}}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style_modal_popup}>
+            <Typography id="modal-modal-title" variant="h6" component="h3" sx={{margin:"1vh",fontSize:"1.1rem"}}>
+            <i className="fa-regular fa-circle-xmark" style={{color: "#37bec1",marginRight:"1vw"}}></i>
+            A duplicate entry exists for a unique field value. <span style={{marginRight:"1vw !important"}}></span>
+            </Typography>
+          </Box>
+        </Modal>}
+        {validate=='requiredError'&&<Modal
+          open={open_modal_popup}
+          sx={{border:"none !important"}}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style_modal_popup}>
+            <Typography id="modal-modal-title" variant="h6" component="h3" sx={{margin:"1vh",fontSize:"1.1rem"}}>
+            <i className="fa-regular fa-circle-xmark" style={{color: "#37bec1",marginRight:"1vw"}}></i>
+            Please fill all the required fields  <span style={{marginRight:"1vw !important"}}></span>
+            </Typography>
+          </Box>
+        </Modal>}
         {validate=='add_submit'&&<Modal
           open={open_modal_popup}
           sx={{border:"none !important"}}
