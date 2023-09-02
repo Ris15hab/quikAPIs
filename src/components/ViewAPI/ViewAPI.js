@@ -38,6 +38,8 @@ const ViewAPI = () => {
   const [datadb, setDatadb] = useState([]);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [dbdel,setDbdel]=useState(false)
+  const [idDb,setIdDb] = useState('')
+  const [refresh, setRefresh] = useState(false)
 
   const handleDeleteClose = () => setDbdel(false);
 
@@ -49,6 +51,35 @@ const ViewAPI = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const handleDbDelete = async (idDb) =>{
+    try{
+      setDbdel(false)
+      setLoading(true)
+      const token = localStorage.getItem('token')
+      const result = await axios.delete("http://localhost:8000/crud/deletecrud?_id="+idDb,{
+          headers: {
+            'authentication':token,
+          }
+      });
+      if(result){
+        setValidate('DbDeleted')
+        setOpen(true);
+        setTimeout(() => {
+          setOpen(false);
+        }, 1500);
+        setRefresh(!refresh)
+      }
+      setLoading(false)
+    }catch(err){
+      setValidate("unknown");
+      setOpen(true);
+      setTimeout(() => {
+        setOpen(false);
+      }, 1500);
+    }
+  }
+
   const [countCollection, setCountCollection] = useState(2);
   useEffect(() => {
     const fetchData = async () => {
@@ -73,12 +104,12 @@ const ViewAPI = () => {
         setOpen(true);
         setTimeout(() => {
           setOpen(false);
-        }, 2000);
+        }, 1500);
       }
     };
 
     fetchData();
-  }, []);
+  }, [refresh]);
 
   return (
     <>
@@ -142,6 +173,7 @@ const ViewAPI = () => {
                           onClick={()=>{
                             setDbdel(true)
                             setDbname(data.modelName)
+                            setIdDb(data._id)
                           }}
                         ></i>
                          
@@ -156,7 +188,7 @@ const ViewAPI = () => {
                               Are you sure you want to delete <span style={{color:"#088F8F",fontWeight:"bold"}}>{dbname}</span>?
                             </Typography>
                             <Typography id="modal-modal-description" sx={{ mt: 2 }} align="right">
-                              <Button sx={{color:"red"}} >YES</Button> <Button sx={{color:"gray"}} onClick={handleDeleteClose}>CANCEL</Button>
+                              <Button sx={{color:"red"}} onClick={()=>{handleDbDelete(idDb)}}>YES</Button> <Button sx={{color:"gray"}} onClick={handleDeleteClose}>CANCEL</Button>
                             </Typography>
                           </Box>
                         </Modal>
@@ -323,6 +355,31 @@ const ViewAPI = () => {
                   style={{ color: "#37bec1", marginRight: "1vw" }}
                 ></i>
                 Oops! An Error Occurred{" "}
+                <span style={{ marginRight: "1vw !important" }}></span>
+              </Typography>
+            </Box>
+          </Modal>
+        )}
+
+        {validate === "DbDeleted" && (
+          <Modal
+            open={open}
+            sx={{ border: "none !important" }}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <Box sx={style}>
+              <Typography
+                id="modal-modal-title"
+                variant="h6"
+                component="h3"
+                sx={{ margin: "1vh", fontSize: "1.1rem" }}
+              >
+                <i
+                  className="fa-regular fa-circle-check"
+                  style={{ color: "#37bec1", marginRight: "1vw" }}
+                ></i>
+                QuikDB succesfully deleted{" "}
                 <span style={{ marginRight: "1vw !important" }}></span>
               </Typography>
             </Box>
