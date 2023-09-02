@@ -69,12 +69,42 @@ const createCRUD = async (req, res, next) => {
             userID
         })
 
-        await modelTemplate(modelFileName, modelSchema, modelFilePath).then(async () => {
-            await userDB.save();
-            res.status(200).json({ message: "success" })
-        }).catch((err) => {
-            return next(createError(400, err))
-        })
+        const properties = Object.keys(modelSchema).map(key => {
+            // console.log(key)
+            const property = modelSchema[key];
+            return `${key}: {
+            type: ${property.type},
+            ${property.required == 'true' ? "required: true," : "required: false,"}
+            ${property.unique == 'true' ? "unique: true," : "unique: false,"}
+        }`;
+        });
+
+        const content =
+            `const mongoose = require('mongoose');
+        const modelSchema = mongoose.Schema({
+            ${properties.join(",\n")}
+        });
+        const model = mongoose.model('${modelName}', modelSchema);
+        module.exports = {model,modelSchema}`;
+
+        const filePath = path.join(__dirname, `../${modelFilePath}`)
+
+        await userDB.save();
+        res.status(200).json({ message: "success" })
+        fs.writeFile(filePath, content, async (err) => {
+            if (err) {
+                console.error('Error creating the model file:', err);
+            } else {
+                console.log('Model File created successfully!');
+            }
+        });
+
+        // await modelTemplate(modelFileName, modelSchema, modelFilePath).then(async () => {
+        //     await userDB.save();
+        //     res.status(200).json({ message: "success" })
+        // }).catch((err) => {
+        //     return next(createError(400, err))
+        // })
 
     } catch (err) {
         console.log(err)

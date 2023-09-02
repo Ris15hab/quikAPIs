@@ -3,12 +3,15 @@ const express = require('express')
 require('dotenv').config()
 require('./connection');
 const cors= require('cors')
+// const path = require('path')
 
 //creating app
 const app = express()
 
 app.use(express.json())
 app.use(cors())
+// const modelPath = path.join(__dirname,'./models')
+// app.use(express.static(modelPath))
 
 //setting port
 const PORT = process.env.PORT || 8000
