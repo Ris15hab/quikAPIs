@@ -6,6 +6,7 @@ routes = (app) => {
     app.use(allRoutes.userDB);
     app.use(allRoutes.guiCRUD);
     app.use(allRoutes.api);
+    app.use(allRoutes.profilePage);
 }
 
 module.exports = { routes }
