@@ -1,4 +1,5 @@
 const UserDB = require('../models/userDB')
+const apiHitCount = require('../models/apiHitCount')
 
 const getData = async (req, res, next) => {
     try {
@@ -11,7 +12,7 @@ const getData = async (req, res, next) => {
         const topQuikDbs = await UserDB.find({ userID }).sort({ dateTime: -1 });
 
         const modelCountPromises = topQuikDbs.map(async (item) => {
-            const {model}  = require(`../models/${userID}/${item.modelStoredAs}.js`);
+            const { model } = require(`../models/${userID}/${item.modelStoredAs}.js`);
             const modelCount = await model.find({}).countDocuments();
             item.count = modelCount; // Update the count for the current item
         });
@@ -21,7 +22,8 @@ const getData = async (req, res, next) => {
         topQuikDbs.sort((a, b) => b.count - a.count);
         const top2QuikDbs = topQuikDbs.slice(0, 2);
 
-        res.status(200).json({ quikDbCount, quikApiCount, top2QuikDbs , userData:req.user.userData})
+        const apiHits = await apiHitCount.findOne({ userID })
+        res.status(200).json({ quikDbCount, quikApiCount, top2QuikDbs, userData: req.user.userData, apiHits })
     } catch (err) {
         next(err)
     }
