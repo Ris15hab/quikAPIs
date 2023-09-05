@@ -212,7 +212,8 @@ const CreateDB = () => {
 
     if(inpval.name.length!=0 && inpval.type.length!=0 && inpval.required.length!=0 && inpval.unique.length!=0){
       const space = /\s/.test(inpval.name);
-      if(space){
+      const special=/^[a-zA-Z0-9_]+$/.test(inpval.name)
+      if(space || !special){
         setOpen(true);
         setValidate('name_space')
         setTimeout(() => {
@@ -501,7 +502,7 @@ const CreateDB = () => {
               <Box sx={style}>
                 <Typography id="modal-modal-title" variant="h6" component="h3" sx={{margin:"1vh",fontSize:"1.1rem"}}>
                 <i className="fa-regular fa-circle-xmark" style={{color: "#37bec1",marginRight:"1vw"}}></i>
-                  Name field cannot have a space <span style={{marginRight:"1vw !important"}}></span>
+                  Name field cannot have a space or a special character<span style={{marginRight:"1vw !important"}}></span>
                 </Typography>
               </Box>
               </Modal>}

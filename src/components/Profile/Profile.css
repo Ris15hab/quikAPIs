@@ -8,7 +8,7 @@
                 -4px -4px 6px #c5c5c5;
     border-radius:15px;
     padding:2vh;   
-    width:35vw;
+    width:42vw;
            
 }
 .leaderboard{
@@ -20,17 +20,16 @@
 .circlee-badge{
     border: none;
     border-radius:50%;
-    height:6vh;
+    /* height:6vh; */
     background-color: #e8e8e8;
     box-shadow: 2px 2px 4px #ffffff,
                 -2px -2px 4px #c5c5c5;
-    margin-left:15vw !important;
     padding:4%;
-    height: 25px;
-    width: 25px;
+    height: 60px;
+    width: 60px;
     border-style: solid;
-     border-color:#E9CA16;
-     animation: animName 2s linear infinite;
+    border-color:#E9CA16;
+     /* animation: animName 2s linear infinite; */
 }
 .chart-profile{
     margin-left:19vw;
@@ -123,11 +122,12 @@
 }
 .top-db{
     padding:12px;
+    
     background-color: #e8e8e8;
     box-shadow: 2px 2px 4px #ffffff,
                 -2px -2px 4px #c5c5c5;
-   margin-left:20vw !important;
    border-radius:10px;
+   margin-left:20vw !important;
     
 }
 .top-db-1{
@@ -151,8 +151,13 @@
         width:70vw !important;
     }
     .circlee-badge{
-        margin-left:28vw !important;
+       width:25px;
+       height:25px;
     }
+   #star{
+    font-size:12px !important;
+    margin-top:0.1vh !important;
+   }
     .quickdb-grid{
        
         width:36vw !important;
@@ -194,5 +199,8 @@
         width: 84vw !important;
         /* height:20vh !important; */
        
+    }
+    .display-head1{
+        margin-left:26vw !important;
     }
 }
