@@ -23,7 +23,8 @@ const getData = async (req, res, next) => {
         const top2QuikDbs = topQuikDbs.slice(0, 2);
 
         const apiHits = await apiHitCount.findOne({ userID })
-        res.status(200).json({ quikDbCount, quikApiCount, top2QuikDbs, userData: req.user.userData, apiHits })
+        const totalApiHitCount = apiHits.Post + apiHits.Get + apiHits.GetById + apiHits.UpdateById + apiHits.DeleteById
+        res.status(200).json({ quikDbCount, quikApiCount, top2QuikDbs, userData: req.user.userData, apiHits, totalApiHitCount })
     } catch (err) {
         next(err)
     }
