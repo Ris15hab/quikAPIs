@@ -39,14 +39,16 @@ const Profile = () => {
   const [topDB, setTopDB] = useState([]);
   const [topDB2, setTopDB2] = useState({});
   const [loading, setLoading] = React.useState(false);
+  const [apiHits, setApiHits] = useState({});
+
   const [donut, setDonut] = useState({
-    series: [1, 1, 1, 1],
+    series: [1, 1, 1, 1,1],
     options: {
-      colors: ["#58ac7b", "#FFB52E", "#37BEC1", "#c07b71"],
+      colors: ["#58ac7b", "#FFB52E","#58ac7b", "#37BEC1", "#c07b71"],
       chart: {
         type: "pie",
       },
-      labels: [" GET", "POST", "PUT", "DELETE"],
+      labels: ["REQ: GET","REQ: POST","REQ: GET BY ID",  "REQ: PUT", "REQ: DELETE"],
     },
   });
   const [state, setState] = useState({
@@ -77,10 +79,10 @@ const Profile = () => {
       },
     },
     series: [
-      {
-        name: "Databases created",
-        data: [0, 1, 1, 0, 0, 0, 0, 0],
-      },
+      // {
+      //   name: "Databases created",
+      //   data: [0, 1, 1, 0, 0, 0, 0, 0],
+      // },
       {
         name: "APIs hit",
         data: [10, 23, 33, 12, 10, 50, 70, 91],
@@ -106,6 +108,13 @@ const Profile = () => {
           setTopDB1(response.data.top2QuikDbs[0]);
           setTopDB(response.data.top2QuikDbs);
           setTopDB2(response.data.top2QuikDbs[1]);
+          setApiHits(response.data.apiHits)
+          const series = [apiHits.Get,apiHits.Post,apiHits.GetById,apiHits.UpdateById,apiHits.DeleteById]
+          // const series=[0,0,0,0,0]
+          setDonut({
+            ...donut,
+            series
+        })
           console.log(topDB1);
           setLoading(false);
         } catch (err) {
@@ -668,7 +677,22 @@ const Profile = () => {
                   height="250"
                 />
               </Grid>
-              <Grid item xs={12} md={4.4} lg={4.4}>
+              {profileData.totalApiHitCount===0?(
+                <>
+                <Typography
+                  className="display-head1"
+                  sx={{
+                    marginTop: "10vh",
+                    marginBottom: "4vh",
+                    color: "black",
+                    marginLeft: "30vw",
+                    fontFamily: "League Spartan",
+                  }}
+                >
+                 Begin using QuickAPIs to analyze its request count.
+                </Typography>
+              </>
+              ):( <Grid item xs={12} md={4.4} lg={4.4}>
                 <Chart
                   className="chart-profile-1"
                   options={donut.options}
@@ -676,7 +700,7 @@ const Profile = () => {
                   type="pie"
                   height="200"
                 />
-              </Grid>
+              </Grid>)}
             </Grid>
           </>
         )}
