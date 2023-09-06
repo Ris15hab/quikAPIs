@@ -49,6 +49,14 @@ const apiHitCountSchema = mongoose.Schema({
         type: Number,
         default: 0
     },
+    totalDBCount: {
+        type: Number,
+        default: 0
+    },
+    totalGuiCount: {
+        type: Number,
+        default: 0
+    },
     userID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user'

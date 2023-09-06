@@ -6,6 +6,7 @@ const UserDB = require('../models/userDB')
 const fs = require('fs').promises;
 const util = require('util');
 const { modelTemplate } = require('../utils/modelTemplate')
+const apiHitCountModel = require('../models/apiHitCount')
 
 const createCRUD = async (req, res, next) => {
     try {
@@ -90,6 +91,11 @@ const createCRUD = async (req, res, next) => {
         const filePath = path.join(__dirname, `../${modelFilePath}`)
 
         await userDB.save();
+        const data = await apiHitCountModel.findOne({
+            userID:userID
+        })
+        data.totalDBCount = data.totalDBCount + 1;
+        await data.save();
         res.status(200).json({ message: "success" })
         fs.writeFile(filePath, content, async (err) => {
             if (err) {

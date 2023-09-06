@@ -8,6 +8,7 @@ require('dotenv').config()
 const { SendMail } = require('../utils/Mail')
 const { generateOTP } = require('../utils/generateOTP')
 const apiHitCount = require('../models/apiHitCount')
+const badges = require('../models/badges')
 
 const register = async (req, res, next) => {
     try {
@@ -49,20 +50,24 @@ const verifyOtp = async (req, res, next) => {
             const token = await jwt.sign({ userData }, process.env.SECRET_KEY)
 
             //making apicountmodel
-            const currentDate = new Date();
-            const nextWeekDate = new Date(currentDate);
-            nextWeekDate.setDate(currentDate.getDate() + 6);       
-            const options = { year: 'numeric', month: 'short', day: 'numeric', weekday: 'short' };
-            const formattedCurrentDate = currentDate.toLocaleDateString('en-IN', options);
-            const formattedNextWeekDate = nextWeekDate.toLocaleDateString('en-IN', options);
+            // const currentDate = new Date();
+            // const nextWeekDate = new Date(currentDate);
+            // nextWeekDate.setDate(currentDate.getDate() + 6);       
+            // const options = { year: 'numeric', month: 'short', day: 'numeric', weekday: 'short' };
+            // const formattedCurrentDate = currentDate.toLocaleDateString('en-IN', options);
+            // const formattedNextWeekDate = nextWeekDate.toLocaleDateString('en-IN', options);
             // console.log(formattedCurrentDate)
             // console.log(formattedNextWeekDate)
             const apiCountModel = new apiHitCount({
-                Start_from: formattedCurrentDate,
-                Ends_at: formattedNextWeekDate,
                 userID: userData._id
             })
             await apiCountModel.save();
+
+            //badges model
+            const badgesModel = new badges({
+                userID: userData._id
+            })
+            await badgesModel.save();
 
             res.status(200).json({ message: "user registered successfully", user: userData, token })
         } else {
