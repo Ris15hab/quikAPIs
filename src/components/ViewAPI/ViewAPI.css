@@ -286,6 +286,9 @@
         margin-top:3vh !important;
         margin-right:5vw !important;
     }
+    #loading_view {
+        margin-left: 7vw !important ;
+    }
 }
 
 .loading svg polyline {
@@ -306,6 +309,9 @@
     stroke-dasharray: 48, 144;
     stroke-dashoffset: 192;
     animation: dash_682 1.4s linear infinite;
+  }
+  .loading {
+    margin-left:10vw !important;
   }
   
   @keyframes dash_682 {

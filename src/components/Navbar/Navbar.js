@@ -31,7 +31,7 @@ const style2 = {
   position: "absolute",
   top: "50%",
   height:"20vh",
-  left: "60%",
+  left: "55%",
   transform: "translate(-50%, -50%)",
   width: 150,
   bgcolor: "background.paper",
@@ -127,7 +127,7 @@ const Navbar = () => {
           aria-describedby="modal-modal-description"
         >
           <Box sx={style}>
-          <div className="loading" style={{marginTop:"5.7vh",marginLeft:"7.5vw"}}>
+          <div className="loading" id="loading_logout" style={{marginTop:"5.7vh"}}>
             <svg width="64px" height="48px">
                 <polyline points="0.157 23.954, 14 23.954, 21.843 48, 43 0, 50 24, 64 24" id="back"></polyline>
               <polyline points="0.157 23.954, 14 23.954, 21.843 48, 43 0, 50 24, 64 24" id="front"></polyline>
@@ -187,7 +187,7 @@ const Navbar = () => {
           aria-describedby="modal-modal-description"
         >
           <Box sx={style2}>
-          <div className="loading" style={{marginTop:"5.7vh"}}>
+          <div className="loading" id='loading_logout' style={{marginTop:"5.7vh"}}>
             <svg width="64px" height="48px">
                 <polyline points="0.157 23.954, 14 23.954, 21.843 48, 43 0, 50 24, 64 24" id="back"></polyline>
               <polyline points="0.157 23.954, 14 23.954, 21.843 48, 43 0, 50 24, 64 24" id="front"></polyline>

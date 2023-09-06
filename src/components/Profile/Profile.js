@@ -40,23 +40,33 @@ const Profile = () => {
   const [topDB2, setTopDB2] = useState({});
   const [loading, setLoading] = React.useState(false);
   const [apiHits, setApiHits] = useState({});
+  const [badges , setBadges] = useState({})
+  const [totalDB , setTotalDB] = useState (0)
 
   const [donut, setDonut] = useState({
-    series: [1, 1, 1, 1,1],
+    series: [1, 1, 1, 1, 1],
     options: {
-      colors: ["#58ac7b", "#FFB52E","#58ac7b", "#37BEC1", "#c07b71"],
+      colors: ["#58ac7b", "#FFB52E","6e6e6e", "#37BEC1", "#c07b71"],
       chart: {
         type: "pie",
       },
-      labels: ["REQ: GET","REQ: POST","REQ: GET BY ID",  "REQ: PUT", "REQ: DELETE"],
+      labels: ["GET","POST","GET BY ID", "PUT", "DELETE"],
+      dataLabels:{textAnchor: 'middle',},
+      legend:{show:false}
     },
   });
-  const [state, setState] = useState({
+  const [state, setState1] = useState({
     options: {
       chart: {
         id: "basic-bar",
+        zoom: {
+          enabled: false
+        },
+        toolbar: {
+          show: false
+        }
       },
-      colors: ["#FFFF00", "#37BEC1"],
+      colors: ["#37BEC1"],
       style: {
         fontSize: "14px",
         fontFamily: "League Spartan",
@@ -65,6 +75,10 @@ const Profile = () => {
       },
       dataLabels: {
         enabled: 0,
+      },
+      yaxis: {
+        tickAmount: 5,
+        min:0
       },
       xaxis: {
         categories: [
@@ -79,13 +93,9 @@ const Profile = () => {
       },
     },
     series: [
-      // {
-      //   name: "Databases created",
-      //   data: [0, 1, 1, 0, 0, 0, 0, 0],
-      // },
       {
         name: "APIs hit",
-        data: [10, 23, 33, 12, 10, 50, 70, 91],
+        data: [0,0,0,0,0,0,0],
       },
     ],
   });
@@ -109,13 +119,27 @@ const Profile = () => {
           setTopDB(response.data.top2QuikDbs);
           setTopDB2(response.data.top2QuikDbs[1]);
           setApiHits(response.data.apiHits)
-          const series = [apiHits.Get,apiHits.Post,apiHits.GetById,apiHits.UpdateById,apiHits.DeleteById]
-          // const series=[0,0,0,0,0]
-          setDonut({
-            ...donut,
-            series
-        })
-          console.log(topDB1);
+          console.log(response.data.apiHits.totalDBCount)
+          setTotalDB(response.data.apiHits.totalDBCount)
+          // console.log(response.data.apiHits)
+          // console.log(topDB1);
+          let series = [response.data.apiHits.Get,response.data.apiHits.Post,response.data.apiHits.GetById,response.data.apiHits.UpdateById,response.data.apiHits.DeleteById]
+           // const series=[0,0,0,0,0]
+          let series1 = [
+            {
+              name: "APIs hit",
+              data: [response.data.apiHits.Mon,response.data.apiHits.Tues,response.data.apiHits.Wed,response.data.apiHits.Thu,response.data.apiHits.Fri,response.data.apiHits.Sat,response.data.apiHits.Sun],
+            },
+          ]
+           setDonut({
+             ...donut,
+             series
+           })
+           setState1({
+            ...state,
+            series:series1
+           })
+           setBadges(response.data.badges)
           setLoading(false);
         } catch (err) {
           setValidate("unknown");
@@ -139,8 +163,8 @@ const Profile = () => {
         {loading ? (
           <>
             <div
-              className="loading"
-              style={{ marginTop: "30vh", marginLeft: "10vw" }}
+              className="loading" id="loading_view"
+              style={{ marginTop: "30vh"}}
             >
               <svg width="64px" height="48px">
                 <polyline
@@ -192,7 +216,7 @@ const Profile = () => {
                         color: "gray",
                       }}
                     >
-                      {profileData.quikDbCount}
+                      {totalDB}
                     </Typography>
                     <Typography
                       sx={{
@@ -227,7 +251,7 @@ const Profile = () => {
                         color: "gray",
                       }}
                     >
-                      {profileData.quikApiCount}
+                      {profileData.totalApiHitCount}
                     </Typography>
                     <Typography
                       sx={{
@@ -237,7 +261,7 @@ const Profile = () => {
                         fontFamily: "League Spartan",
                       }}
                     >
-                      APIs generated.
+                      API Hits.
                     </Typography>
                   </Typography>
                   <br />
@@ -246,7 +270,38 @@ const Profile = () => {
               <Grid item xs={12} md={7} lg={7}>
                 <Box className="firstgrid">
                   <Grid container>
-                    <Grid item xs={1.5} lg={1.5} md={1.5}>
+                    {badges.badge1===false ? (
+                      <Grid item xs={1.5} lg={1.5} md={1.5}>
+                      <Typography
+                        className="circlee-badge"
+                        onMouseEnter={() => {
+                          setBadgetext("My first quikDB!");
+                          setBadgedescription(
+                            `Awarded to users for sucessfully creating their first database! One quikDB away from this badge.`
+                          );
+                        }}
+                        onMouseLeave={() => {
+                          setBadgetext("Congratulations!");
+                          setBadgedescription(
+                            "You've unlocked an acheivement! Check out your new badge "
+                          );
+                        }}
+                        sx={{
+                          background: "gray"
+                        }}
+                      >
+                        <i
+                          className="fa-solid fa-ranking-star"
+                          id="star"
+                          style={{
+                            fontSize: "24px",
+                            marginTop: "2.3vh",
+                            color: "#594a48",
+                          }}
+                        ></i>
+                      </Typography>
+                    </Grid>
+                    ):(<Grid item xs={1.5} lg={1.5} md={1.5}>
                       <Typography
                         className="circlee-badge"
                         onMouseEnter={() => {
@@ -276,14 +331,46 @@ const Profile = () => {
                           }}
                         ></i>
                       </Typography>
-                    </Grid>
-                    <Grid item xs={1.5} lg={1.5} md={1.5}>
+                    </Grid>)}
+                    
+                    {badges.badge2===false?(
+                      <Grid item xs={1.5} lg={1.5} md={1.5}>
                       <Typography
                         className="circlee-badge"
                         onMouseEnter={() => {
                           setBadgetext("API Pioneer");
                           setBadgedescription(
-                            "Given to User's with 25 API hits!"
+                            `Given to User's with 25 API hits! ${25 - profileData.totalApiHitCount} API hits away from this badge.`
+                          );
+                        }}
+                        onMouseLeave={() => {
+                          setBadgetext("Congratulations!");
+                          setBadgedescription(
+                            "You've unlocked an acheivement! Check out your new badge "
+                          );
+                        }}
+                        sx={{
+                          background: "gray"
+                        }}
+                      >
+                        <i
+                          className="fa-solid fa-arrow-trend-up"
+                          id="star"
+                          style={{
+                            fontSize: "24px",
+                            marginTop: "2.3vh",
+                            color: "#594a48",
+                          }}
+                        ></i>
+                      </Typography>
+                    </Grid>
+                    ):(<Grid item xs={1.5} lg={1.5} md={1.5}>
+                      <Typography
+                        className="circlee-badge"
+                        onMouseEnter={() => {
+                          setBadgetext("API Pioneer");
+                          setBadgedescription(
+                            "Given to User's with 25 API hits! away from this badge"
                           );
                         }}
                         onMouseLeave={() => {
@@ -307,8 +394,39 @@ const Profile = () => {
                           }}
                         ></i>
                       </Typography>
+                    </Grid>)}
+                    {badges.badge3===false?(
+                      <Grid item xs={1.5} lg={1.5} md={1.5}>
+                      <Typography
+                        className="circlee-badge"
+                        onMouseEnter={() => {
+                          setBadgetext("quikDB Novice");
+                          setBadgedescription(
+                            `Awarded to users for creating their first 5 databases!! ${5 - totalDB} quikDBs away from this badge.`
+                          );
+                        }}
+                        onMouseLeave={() => {
+                          setBadgetext("Congratulations!");
+                          setBadgedescription(
+                            "You've unlocked an acheivement! Check out your new badge "
+                          );
+                        }}
+                        sx={{
+                          background: "gray"
+                        }}
+                      >
+                        <i
+                          className="fa-solid fa-dice-five"
+                          id="star"
+                          style={{
+                            fontSize: "24px",
+                            marginTop: "2.3vh",
+                            color: "#594a48",
+                          }}
+                        ></i>
+                      </Typography>
                     </Grid>
-                    <Grid item xs={1.5} lg={1.5} md={1.5}>
+                    ):(<Grid item xs={1.5} lg={1.5} md={1.5}>
                       <Typography
                         className="circlee-badge"
                         onMouseEnter={() => {
@@ -338,8 +456,36 @@ const Profile = () => {
                           }}
                         ></i>
                       </Typography>
-                    </Grid>
-                    <Grid item xs={1.5} lg={1.5} md={1.5}>
+                    </Grid>)}
+                    {badges.badge4===false?(<Grid item xs={1.5} lg={1.5} md={1.5}>
+                      <Typography
+                        className="circlee-badge"
+                        onMouseEnter={() => {
+                          setBadgetext("quikDB Maestro");
+                          setBadgedescription(
+                            `Awarded to users for creating their first 10 databases!! Create ${10 - totalDB} more quikDBs for this badge.`
+                          );
+                        }}
+                        onMouseLeave={() => {
+                          setBadgetext("Congratulations!");
+                          setBadgedescription(
+                            "You've unlocked an acheivement! Check out your new badge "
+                          );
+                        }}
+                        sx={{
+                          background: "gray"                        }}
+                      >
+                        <i
+                          className="fa-solid fa-trophy"
+                          id="star"
+                          style={{
+                            fontSize: "24px",
+                            marginTop: "2.3vh",
+                            color: "#594a48",
+                          }}
+                        ></i>
+                      </Typography>
+                    </Grid>):(<Grid item xs={1.5} lg={1.5} md={1.5}>
                       <Typography
                         className="circlee-badge"
                         onMouseEnter={() => {
@@ -369,9 +515,37 @@ const Profile = () => {
                           }}
                         ></i>
                       </Typography>
-                    </Grid>
+                    </Grid>)}
 
-                    <Grid item xs={1.5} lg={1.5} md={1.5}>
+                    {badges.badge5===false?(<Grid item xs={1.5} lg={1.5} md={1.5}>
+                      <Typography
+                        className="circlee-badge"
+                        onMouseEnter={() => {
+                          setBadgetext("quikAPI Master");
+                          setBadgedescription(
+                            `Awarded to users for reaching a century of API hits!! ${100 - profileData.totalApiHitCount} API hits away from this badge.`
+                          );
+                        }}
+                        onMouseLeave={() => {
+                          setBadgetext("Congratulations!");
+                          setBadgedescription(
+                            "You've unlocked an acheivement! Check out your new badge "
+                          );
+                        }}
+                        sx={{
+                          background: "gray"                        }}
+                      >
+                        <i
+                          className="fa-solid fa-crown"
+                          id="star"
+                          style={{
+                            fontSize: "24px",
+                            marginTop: "2.3vh",
+                            color: "#594a48",
+                          }}
+                        ></i>
+                      </Typography>
+                    </Grid>):(<Grid item xs={1.5} lg={1.5} md={1.5}>
                       <Typography
                         className="circlee-badge"
                         onMouseEnter={() => {
@@ -401,8 +575,36 @@ const Profile = () => {
                           }}
                         ></i>
                       </Typography>
-                    </Grid>
-                    <Grid item xs={1.5} lg={1.5} md={1.5}>
+                    </Grid>)}
+                    {badges.badge6===false?(<Grid item xs={1.5} lg={1.5} md={1.5}>
+                      <Typography
+                        className="circlee-badge"
+                        onMouseEnter={() => {
+                          setBadgetext("quikDB Wizard");
+                          setBadgedescription(
+                            `Awarded to users for creating 10 documents using the website!! Add ${10 - profileData.apiHits.totalGuiCount} more documents using website for this badge`
+                          );
+                        }}
+                        onMouseLeave={() => {
+                          setBadgetext("Congratulations!");
+                          setBadgedescription(
+                            "You've unlocked an acheivement! Check out your new badge "
+                          );
+                        }}
+                        sx={{
+                          background: "gray"                        }}
+                      >
+                        <i
+                          className="fa-solid fa-wand-magic-sparkles"
+                          id="star"
+                          style={{
+                            fontSize: "24px",
+                            marginTop: "2.3vh",
+                            color: "#594a48",
+                          }}
+                        ></i>
+                      </Typography>
+                    </Grid>):(<Grid item xs={1.5} lg={1.5} md={1.5}>
                       <Typography
                         className="circlee-badge"
                         onMouseEnter={() => {
@@ -432,8 +634,36 @@ const Profile = () => {
                           }}
                         ></i>
                       </Typography>
-                    </Grid>
-                    <Grid item xs={1.5} lg={1.5} md={1.5}>
+                    </Grid>)}
+                    {badges.badge7===false?(<Grid item xs={1.5} lg={1.5} md={1.5}>
+                      <Typography
+                        className="circlee-badge"
+                        onMouseEnter={() => {
+                          setBadgetext("Streak");
+                          setBadgedescription(
+                            "Awarded to users for creating 10 documents using the website!!"
+                          );
+                        }}
+                        onMouseLeave={() => {
+                          setBadgetext("Congratulations!");
+                          setBadgedescription(
+                            "You've unlocked an acheivement! Check out your new badge "
+                          );
+                        }}
+                        sx={{
+                          background: "gray"                        }}
+                      >
+                        <i
+                          className="fa-regular fa-calendar-check"
+                          id="star"
+                          style={{
+                            fontSize: "24px",
+                            marginTop: "2.3vh",
+                            color: "#594a48",
+                          }}
+                        ></i>
+                      </Typography>
+                    </Grid>):(<Grid item xs={1.5} lg={1.5} md={1.5}>
                       <Typography
                         className="circlee-badge"
                         onMouseEnter={() => {
@@ -463,16 +693,36 @@ const Profile = () => {
                           }}
                         ></i>
                       </Typography>
-                    </Grid>
-                    <Grid item xs={1.5} lg={1.5} md={1.5}>
-                      {/* <Typography className="circlee-badge" sx={{background: "radial-gradient(circle, rgba(238,252,247,1) 49%, rgba(105,247,31,1) 74%, rgba(253,244,248,1) 76%, rgba(255,255,255,1) 91%)"}}>
-               <i
-                className="fas fa-paper-plane"
-                id="star"
-                style={{ fontSize: "24px",marginTop:"2.3vh",color:"#594a48",color:"#594a48" }}
-              ></i>
-             
-              </Typography> */}
+                    </Grid>)}
+                    {badges.badge8===false?(<Grid item xs={1.5} lg={1.5} md={1.5}>
+                      <Typography
+                        className="circlee-badge"
+                        onMouseEnter={() => {
+                          setBadgetext("quik Milestone");
+                          setBadgedescription(
+                            `Awarded to users for having 500 API hits!! ${500 - profileData.totalApiHitCount} API hits away from this badge.`
+                          );
+                        }}
+                        onMouseLeave={() => {
+                          setBadgetext("Congratulations!");
+                          setBadgedescription(
+                            "You've unlocked an acheivement! Check out your new badge "
+                          );
+                        }}
+                        sx={{ background: "gray"}}
+                      >
+                        <i
+                          className="fas fa-paper-plane"
+                          id="star"
+                          style={{
+                            fontSize: "24px",
+                            marginTop: "2.3vh",
+                            color: "#594a48",
+                            color: "#594a48",
+                          }}
+                        ></i>
+                      </Typography>
+                    </Grid>):(<Grid item xs={1.5} lg={1.5} md={1.5}>
                       <Typography
                         className="circlee-badge"
                         onMouseEnter={() => {
@@ -487,7 +737,7 @@ const Profile = () => {
                             "You've unlocked an acheivement! Check out your new badge "
                           );
                         }}
-                        sx={{ background: "gray" }}
+                        sx={{ background: "radial-gradient(circle, rgba(238,252,247,1) 49%, rgba(105,247,31,1) 74%, rgba(253,244,248,1) 76%, rgba(255,255,255,1) 91%)"}}
                       >
                         <i
                           className="fas fa-paper-plane"
@@ -500,7 +750,7 @@ const Profile = () => {
                           }}
                         ></i>
                       </Typography>
-                    </Grid>
+                    </Grid>)}
                   </Grid>
                   <Typography
                     className="badge-typo"
@@ -679,28 +929,42 @@ const Profile = () => {
               </Grid>
               {profileData.totalApiHitCount===0?(
                 <>
-                <Typography
-                  className="display-head1"
+                <Box className="quickdb-grid-3">
+                  <Typography
                   sx={{
-                    marginTop: "10vh",
-                    marginBottom: "4vh",
-                    color: "black",
-                    marginLeft: "30vw",
-                    fontFamily: "League Spartan",
-                  }}
-                >
-                 Begin using QuickAPIs to analyze its request count.
-                </Typography>
+                    marginTop: "3vh",
+                    fontSize: "2.5rem",
+                    color: "navy"
+                  }}>
+                      <i class="fa-solid fa-magnifying-glass-chart"></i>
+                  </Typography>
+                  <Typography
+                    className="display-head1"
+                    id="no-api-hit"
+                    sx={{
+                      marginTop: "3vh",
+                      marginBottom: "4vh",
+                      color: "black",
+                      // marginLeft: "30vw",
+                      fontFamily: "League Spartan",
+                    }}
+                  >
+                  Begin using QuickAPIs to analyze its request count.
+                  </Typography>
+                </Box>
               </>
-              ):( <Grid item xs={12} md={4.4} lg={4.4}>
+              ):(
+                <> 
+              <Grid item xs={12} md={4.4} lg={4.4}>
                 <Chart
                   className="chart-profile-1"
                   options={donut.options}
                   series={donut.series}
                   type="pie"
-                  height="200"
+                  height="250"
                 />
-              </Grid>)}
+              </Grid>
+              </>)}
             </Grid>
           </>
         )}

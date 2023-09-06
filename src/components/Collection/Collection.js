@@ -148,7 +148,11 @@ const Collection = () => {
           }
       });
       // console.log(result.data.APIs.Add)
-      const response = await axios.post(`${result.data.APIs.Add}`,formValues);
+      const response = await axios.post(`${result.data.APIs.Add}`,formValues,{
+        headers: {
+          'isThisReqSentFromGuiWebsiteForm': true
+        }
+    });
       // console.log(formValues)
       if(response.status === 201){
         setValidate('add_submit')
@@ -184,7 +188,11 @@ const Collection = () => {
             'authentication':token,
           }
       });
-      const response = axios.delete(`${result.data.APIs.DeleteById}`+iddoc);
+      const response = axios.delete(`${result.data.APIs.DeleteById}`+iddoc,{
+        headers: {
+          'isThisReqSentFromGuiWebsiteForm': true
+        }
+    });
       console.log("iddoc is this: "+iddoc);
       // console.log(response)
       if(response){
@@ -214,7 +222,11 @@ const Collection = () => {
             'authentication':token,
           }
       });
-      const response = axios.put(`${result.data.APIs.UpdateById}`+iddoc,formValues);
+      const response = axios.put(`${result.data.APIs.UpdateById}`+iddoc,formValues,{
+        headers: {
+          'isThisReqSentFromGuiWebsiteForm': true
+        }
+    });
       console.log(response)
       // if(response){
         setOpen(false)
@@ -410,7 +422,7 @@ const Collection = () => {
           </Grid>
           {loading?(
             <>
-            <div className="loading" style={{marginTop:"20vh",marginLeft:"34vw"}}>
+            <div className="loading" id="loading_collection" style={{marginTop:"20vh"}}>
             <svg width="64px" height="48px">
                 <polyline points="0.157 23.954, 14 23.954, 21.843 48, 43 0, 50 24, 64 24" id="back"></polyline>
               <polyline points="0.157 23.954, 14 23.954, 21.843 48, 43 0, 50 24, 64 24" id="front"></polyline>

@@ -70,7 +70,9 @@
 .menu_icon{
   visibility: hidden;
 }
- 
+#loading_logout{
+  margin-left: 8vw !important ;
+}
 @media screen and (max-width: 700px) {
   .sidebar{
     width:260px;
@@ -86,8 +88,7 @@
   .menu_icon{
     visibility: visible !important;
   }
-  .loading{
-    margin-left:11vw !important;
+  #loading_logout{
+    margin-left: 11vw !important ;
   }
-  
 }

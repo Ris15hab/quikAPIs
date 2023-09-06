@@ -41,6 +41,7 @@
     margin-top:5vh !important;
     margin-left:19vw;
     width: 39vw !important;
+    margin-left: 25vw !important;
     /* height:20vh !important; */
    
 }
@@ -80,6 +81,17 @@
                 -2px -2px 4px #c5c5c5;
                 height:24vh;
                 margin-right:2vw !important;
+}
+.quickdb-grid-3{
+    border-radius:15px;
+    background-color: #e8e8e8;
+    box-shadow: 2px 2px 4px #ffffff,
+                -2px -2px 4px #c5c5c5;
+                height:24vh;
+                /* margin-right:2vw !important; */
+                width: 20vw;
+                margin-left: 30vw !important;
+                margin-top: 8vh;
 }
 .db-dash{
     margin-right:3vw;
@@ -165,6 +177,15 @@
     .quickdb-grid-2{
         width:38vw !important;
         margin-left:2vw !important;
+    }
+    .quickdb-grid-3{
+        width:70vw !important;
+        margin-left:17vw !important;
+        height: 19vh !important;
+        margin-bottom: 3vh;
+    }
+    #no-api-hit{
+        margin-left: 3vw !important;
     }
     .db-dash{
         margin-left:4vw !important;

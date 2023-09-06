@@ -144,6 +144,9 @@
     height: auto;
     margin-left: 17vw !important;
 }
+#loading_collection{
+    margin-left: 34vw !important;
+}
 @media screen and (max-width: 700px) {
     .loading{
         margin-left:38vw !important;
