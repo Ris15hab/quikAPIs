@@ -370,7 +370,7 @@ const Profile = () => {
                         onMouseEnter={() => {
                           setBadgetext("API Pioneer");
                           setBadgedescription(
-                            "Given to User's with 25 API hits! away from this badge"
+                            "Given to User's with 25 API hits!"
                           );
                         }}
                         onMouseLeave={() => {
