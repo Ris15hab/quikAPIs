@@ -53,14 +53,14 @@ const getData = async (req, res, next) => {
             }
         }
         if(!badges.badge6){
-            // if(apiHits.totalDBCount>0){
-            //     badges.badge6 = true;
-            // }
+            if(apiHits.totalGuiCount>9){
+                badges.badge6 = true;
+            }
         }
         if(!badges.badge7){
-            // if(apiHits.totalDBCount>0){
-            //     badges.badge7 = true;
-            // }
+            if(apiHits.streakCount>9){
+                badges.badge7 = true;
+            }
         }
         if(!badges.badge8){
             if(totalApiHitCount>499){

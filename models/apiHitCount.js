@@ -57,6 +57,14 @@ const apiHitCountSchema = mongoose.Schema({
         type: Number,
         default: 0
     },
+    streakCount: {
+        type: Number,
+        default: 0
+    },
+    streakDate: {
+        type: Date,
+        default: null
+    },
     userID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user'

@@ -17,6 +17,7 @@ const apiHitCount = async (req, res, next) => {
             const userID = split_url[1].split('_')[2]
             const apiModel = await apiHitCountModel.findOne({ userID: userID })
             if (apiModel) {
+                //checking method
                 if (method_url === 'addData') {
                     apiModel.Post = apiModel.Post + 1
                 } else if (method_url === 'getData') {
@@ -28,6 +29,7 @@ const apiHitCount = async (req, res, next) => {
                 } else if (method_url === 'deleteDataById') {
                     apiModel.DeleteById = apiModel.DeleteById + 1
                 }
+                //check day 
                 if (day === 'Mon') {
                     apiModel.Mon = apiModel.Mon + 1;
                 } else if (day === 'Tue') {
@@ -43,12 +45,33 @@ const apiHitCount = async (req, res, next) => {
                 } else if (day === 'Sun') {
                     apiModel.Sun = apiModel.Sun + 1;
                 }
+                //check streak
+                if (apiModel.streakCount === 0) {
+                    const formattedDate_compare = new Date(formattedDate)
+                    // console.log(compareDate)
+                    apiModel.streakDate = new Date(formattedDate_compare)
+                    apiModel.streakCount = apiModel.streakCount + 1;
+                } else {
+                    const formattedDate_compare = new Date(formattedDate)
+                    const compareDate = new Date(formattedDate_compare)
+                    compareDate.setDate(formattedDate_compare.getDate() - 1)
+
+                    // console.log(compareDate === apiModel.streakDate)
+                    if (compareDate.getTime() == apiModel.streakDate.getTime()) {
+                        apiModel.streakCount = apiModel.streakCount + 1;
+                        apiModel.streakDate = new Date(formattedDate)
+                    }else if(formattedDate_compare.getTime() == apiModel.streakDate.getTime()){
+                        console.log('same day')
+                    }else {
+                        apiModel.streakCount = 0;
+                    }
+                }
                 await apiModel.save();
             } else {
                 return next(createError(400, 'apiHitCount model not found for the user'))
             }
-        }else{
-            if(req.method === 'POST'){
+        } else {
+            if (req.method === 'POST') {
                 // console.log("in")
                 const split_url = req.url.split(/[/?]/)
                 const userID = split_url[1].split('_')[2]
@@ -67,7 +90,7 @@ const incrDbCount = async (userID) => {
     try {
         // console.log(userID)
         const data = await apiHitCountModel.findOne({
-            userID:userID
+            userID: userID
         })
         data.totalDBCount = data.totalDBCount + 1;
         // console.log(data.totalDBCount)
