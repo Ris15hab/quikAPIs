@@ -29,9 +29,9 @@ const Profile = () => {
   const navigate = useNavigate();
   const [name, setName] = useState("");
   const [validate, setValidate] = useState("");
-  const [badgetext, setBadgetext] = useState("Congratulations!");
+  const [badgetext, setBadgetext] = useState("My Badges!");
   const [badgedescription, setBadgedescription] = useState(
-    "You've unlocked an acheivement! Check out your new badge"
+    " Check out your badge collection here."
   );
   const [open, setOpen] = React.useState(false);
   const [profileData, setProfileData] = useState({});
@@ -281,9 +281,9 @@ const Profile = () => {
                           );
                         }}
                         onMouseLeave={() => {
-                          setBadgetext("Congratulations!");
+                          setBadgetext("My Badges!");
                           setBadgedescription(
-                            "You've unlocked an acheivement! Check out your new badge "
+                            " Check out your badge collection here. "
                           );
                         }}
                         sx={{
@@ -311,9 +311,9 @@ const Profile = () => {
                           );
                         }}
                         onMouseLeave={() => {
-                          setBadgetext("Congratulations!");
+                          setBadgetext("My Badges!");
                           setBadgedescription(
-                            "You've unlocked an acheivement! Check out your new badge "
+                            " Check out your badge collection here. "
                           );
                         }}
                         sx={{
@@ -344,9 +344,9 @@ const Profile = () => {
                           );
                         }}
                         onMouseLeave={() => {
-                          setBadgetext("Congratulations!");
+                          setBadgetext("My Badges!");
                           setBadgedescription(
-                            "You've unlocked an acheivement! Check out your new badge "
+                            " Check out your badge collection here. "
                           );
                         }}
                         sx={{
@@ -374,9 +374,9 @@ const Profile = () => {
                           );
                         }}
                         onMouseLeave={() => {
-                          setBadgetext("Congratulations!");
+                          setBadgetext("My Badges!");
                           setBadgedescription(
-                            "You've unlocked an acheivement! Check out your new badge "
+                            " Check out your badge collection here. "
                           );
                         }}
                         sx={{
@@ -406,9 +406,9 @@ const Profile = () => {
                           );
                         }}
                         onMouseLeave={() => {
-                          setBadgetext("Congratulations!");
+                          setBadgetext("My Badges!");
                           setBadgedescription(
-                            "You've unlocked an acheivement! Check out your new badge "
+                            " Check out your badge collection here. "
                           );
                         }}
                         sx={{
@@ -436,9 +436,9 @@ const Profile = () => {
                           );
                         }}
                         onMouseLeave={() => {
-                          setBadgetext("Congratulations!");
+                          setBadgetext("My Badges!");
                           setBadgedescription(
-                            "You've unlocked an acheivement! Check out your new badge "
+                            " Check out your badge collection here. "
                           );
                         }}
                         sx={{
@@ -467,9 +467,9 @@ const Profile = () => {
                           );
                         }}
                         onMouseLeave={() => {
-                          setBadgetext("Congratulations!");
+                          setBadgetext("My Badges!");
                           setBadgedescription(
-                            "You've unlocked an acheivement! Check out your new badge "
+                            " Check out your badge collection here. "
                           );
                         }}
                         sx={{
@@ -495,9 +495,9 @@ const Profile = () => {
                           );
                         }}
                         onMouseLeave={() => {
-                          setBadgetext("Congratulations!");
+                          setBadgetext("My Badges!");
                           setBadgedescription(
-                            "You've unlocked an acheivement! Check out your new badge "
+                            " Check out your badge collection here. "
                           );
                         }}
                         sx={{
@@ -527,9 +527,9 @@ const Profile = () => {
                           );
                         }}
                         onMouseLeave={() => {
-                          setBadgetext("Congratulations!");
+                          setBadgetext("My Badges!");
                           setBadgedescription(
-                            "You've unlocked an acheivement! Check out your new badge "
+                            " Check out your badge collection here. "
                           );
                         }}
                         sx={{
@@ -555,9 +555,9 @@ const Profile = () => {
                           );
                         }}
                         onMouseLeave={() => {
-                          setBadgetext("Congratulations!");
+                          setBadgetext("My Badges!");
                           setBadgedescription(
-                            "You've unlocked an acheivement! Check out your new badge "
+                            " Check out your badge collection here. "
                           );
                         }}
                         sx={{
@@ -586,9 +586,9 @@ const Profile = () => {
                           );
                         }}
                         onMouseLeave={() => {
-                          setBadgetext("Congratulations!");
+                          setBadgetext("My Badges!");
                           setBadgedescription(
-                            "You've unlocked an acheivement! Check out your new badge "
+                            " Check out your badge collection here. "
                           );
                         }}
                         sx={{
@@ -614,9 +614,9 @@ const Profile = () => {
                           );
                         }}
                         onMouseLeave={() => {
-                          setBadgetext("Congratulations!");
+                          setBadgetext("My Badges!");
                           setBadgedescription(
-                            "You've unlocked an acheivement! Check out your new badge "
+                            " Check out your badge collection here. "
                           );
                         }}
                         sx={{
@@ -641,13 +641,13 @@ const Profile = () => {
                         onMouseEnter={() => {
                           setBadgetext("Streak");
                           setBadgedescription(
-                            "Awarded to users for creating 10 documents using the website!!"
+                            `Awarded to users for 10 day streak of quikApi hits! Current Streak: ${profileData.apiHits.streakCount} Days`
                           );
                         }}
                         onMouseLeave={() => {
-                          setBadgetext("Congratulations!");
+                          setBadgetext("My Badges!");
                           setBadgedescription(
-                            "You've unlocked an acheivement! Check out your new badge "
+                            " Check out your badge collection here. "
                           );
                         }}
                         sx={{
@@ -673,9 +673,9 @@ const Profile = () => {
                           );
                         }}
                         onMouseLeave={() => {
-                          setBadgetext("Congratulations!");
+                          setBadgetext("My Badges!");
                           setBadgedescription(
-                            "You've unlocked an acheivement! Check out your new badge "
+                            " Check out your badge collection here. "
                           );
                         }}
                         sx={{
@@ -704,9 +704,9 @@ const Profile = () => {
                           );
                         }}
                         onMouseLeave={() => {
-                          setBadgetext("Congratulations!");
+                          setBadgetext("My Badges!");
                           setBadgedescription(
-                            "You've unlocked an acheivement! Check out your new badge "
+                            " Check out your badge collection here. "
                           );
                         }}
                         sx={{ background: "gray"}}
@@ -732,9 +732,9 @@ const Profile = () => {
                           );
                         }}
                         onMouseLeave={() => {
-                          setBadgetext("Congratulations!");
+                          setBadgetext("My Badges!");
                           setBadgedescription(
-                            "You've unlocked an acheivement! Check out your new badge "
+                            " Check out your badge collection here. "
                           );
                         }}
                         sx={{ background: "radial-gradient(circle, rgba(238,252,247,1) 49%, rgba(105,247,31,1) 74%, rgba(253,244,248,1) 76%, rgba(255,255,255,1) 91%)"}}
