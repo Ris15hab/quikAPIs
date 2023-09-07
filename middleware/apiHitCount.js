@@ -47,9 +47,8 @@ const apiHitCount = async (req, res, next) => {
                 }
                 //check streak
                 if (apiModel.streakCount === 0) {
-                    const formattedDate_compare = new Date(formattedDate)
                     // console.log(compareDate)
-                    apiModel.streakDate = new Date(formattedDate_compare)
+                    apiModel.streakDate = new Date(formattedDate)
                     apiModel.streakCount = apiModel.streakCount + 1;
                 } else {
                     const formattedDate_compare = new Date(formattedDate)
