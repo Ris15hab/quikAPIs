@@ -28,6 +28,18 @@
     .otp_gap{
         margin:3px !important;
     }
+    .forgot-pass{
+      margin-left:45vw !important;
+    }
+    .forgot-input{
+      margin-top:4vh;
+      width:46vw !important;
+      
+    }
+    .btn-forgot{
+      width:5vw !important;
+      margin-top: 2vh !important;
+    }
   }
 
 .input_signup_1 {
@@ -161,6 +173,51 @@
     transform: scaleX(1.4) scaleY(1.6);
     opacity: 0;
    }
+
+   .btn-forgot {
+    position: relative;
+    font-size: 15px;
+    text-transform: uppercase;
+    text-decoration: none;
+    display: inline-block;
+    padding: 1.70vh !important;
+    transition: all .2s;
+    border: none;
+    font-family: inherit;
+    font-weight: 700;
+    /* padding-left:20vw; */
+    color: white;
+    background-image:linear-gradient(144deg,#b478de, #4cb5b5 50%,#dde4e5);;
+   }
+   
+   
+   
+   .btn-forgot:active {
+    transform: translateY(-1px);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+   }
+   
+   .btn-forgot::after {
+    content: "";
+    display: inline-block;
+    height: 100%;
+    width: 100%;
+    border-radius: 100px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    transition: all .4s;
+   }
+   
+   .btn-forgot::after {
+    background-color: #fff;
+   }
+   
+   .btn-forgot:hover::after {
+    transform: scaleX(1.4) scaleY(1.6);
+    opacity: 0;
+   }   
  
 
    /* background-image: linear-gradient(144deg,#b478de, #4cb5b5 50%,#dde4e5); */
@@ -170,4 +227,25 @@
    
     box-shadow:  -9px -9px 12px #d0d0d0,
                 9px 9px 12px #ffffff;
+   }
+
+   .forgot-input {
+    margin-top:2vh !important;
+    border: none;
+    border-radius: 15px;
+    padding: 15px;
+    background-color: #e8e8e8;
+    box-shadow: 6px 6px 12px #ffffff,
+                -6px -6px 12px #c5c5c5;
+    font-size: medium;
+    font-weight: bold;
+    width:28vw;
+    float: left;
+    font-size:16px;
+    color:#5A5A5A
+   }
+   
+.forgot-input:focus {
+    outline-color: white;
+    
    }

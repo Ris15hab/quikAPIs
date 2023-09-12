@@ -1,5 +1,6 @@
 import React,{useState} from "react";
 import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 import { Link, useNavigate } from "react-router-dom";
 import "./Login.css";
@@ -10,6 +11,9 @@ import Modal from "@mui/material/Modal";
 import "react-toastify/dist/ReactToastify.css";
 import PropTypes from 'prop-types';
 import axios from "axios";
+
+
+
 
 
 function Login() {
@@ -36,7 +40,19 @@ function Login() {
   };
 
   const [open, setOpen] = React.useState(false);
+  const [forgot, setForgot] = React.useState("login");
+  const [showOtp, setShowOtp] = React.useState(false);
+  const [reset, setReset] = React.useState(false);
+  const [resetEmail, setResetEmail] = React.useState(false);
+  const [newEmail, setNewEmail] = React.useState(false);
   const [validate,setValidate]=useState('')
+  const handleReset=()=>{
+    setShowOtp(!showOtp)
+    setForgot("reset")
+    setReset(!reset)
+    setResetEmail(!resetEmail)
+    setNewEmail(!newEmail)
+  }
   const handleSubmit = async (e) => {
     if(!emailRegex.test(email)){
       console.log("correct email")
@@ -136,8 +152,78 @@ function Login() {
               className={styles}
               sx={{ height: "60vh",margin: "10vh" }}
             >
-   
-              <>
+              {
+                forgot=="reset"?(
+                  <>
+                    {
+                      resetEmail&&
+                      <>
+                      <Typography
+                      align="left"
+                      className="heading_signup"
+                      variant="h5"
+                      sx={{ fontWeight: "bold", fontFamily: "sans-serif",color:"black"}}
+                    >
+                    Enter <span style={{ color: "#37BEC1",marginBottom:"3vh" }}>Email</span>
+                    </Typography>
+                  
+                    <input value={email} onChange={(e)=>{setEmail(e.target.value)}} type="text" name="text" className="forgot-input"  autoComplete="off" />
+                    <Button variant="container" onClick={()=>setShowOtp(true)} className="btn-forgot" style={{marginTop:"1.8vh",marginLeft:"-3vw"}}>submit</Button>
+                    </>
+                    }
+                {
+                  showOtp&&<><Typography sx={{color:"black",paddingTop:"2vh",fontSize:"1.1rem",marginTop:"4vh"}}>
+                  An OTP has been sent to <span style={{color:"#37A6A9"}}>mail</span>
+                  </Typography>
+                  <Typography style={{color:"black",marginTop:"4vh",fontWeight:"bold",marginBottom:"4vh"}}>
+                  <Grid sx={{marginTop:"5vh",align:"center",paddingLeft:"5.1vw"}} className="otp_mobile">
+                  <OtpInput
+                    
+                    inputStyle={{width:"37px",height:"7vh",backgroundColor:"#e6e6e6",borderColor:"#b3b3b3",borderRadius:"10%"}}
+                    sx={{marginTop:"5vh"}}
+                    value={otp}
+                    onChange={setOtp}
+                    numInputs={6}
+                    inputMode="numeric"
+                    renderSeparator={<span className="otp_gap" style={{margin:"1rem"}}> </span>}
+                    renderInput={(props) => <input {...props} />}
+                  />
+                  </Grid>
+                  </Typography>
+                  <button className="btn" onClick={handleReset} style={{marginRight:"1vw",marginTop:"10vh"}} >Enter
+                </button>
+               
+                </>
+                }
+                 {
+                  newEmail?(
+                  <>
+
+                    <Typography
+                      align="left"
+                      className="heading_signup"
+                      variant="h5"
+                      sx={{ fontWeight: "bold", fontFamily: "sans-serif",color:"black"}}
+                    >
+                    Reset <span style={{ color: "#37BEC1",marginBottom:"3vh" }}> Password</span>
+                    </Typography>
+
+                    <input value={email} onChange={(e)=>{setEmail(e.target.value)}} type="password" name="text" className="input_signup_1" placeholder="Password" autoComplete="off" />
+
+                    <input type={show?"text":"password"} value={password} onChange={(e)=>{setPassword(e.target.value)}} name="password" className="input_signup_2" placeholder="Confirm Password" autoComplete="off">
+                    </input>
+                    <button className="btn"  style={{marginRight:"6vw",marginTop:"10vh"}} >Set
+                </button>
+                  
+                  </>
+                  ):(<></>)
+                }
+
+                
+
+                </>
+                ):(
+                  <>
               <Typography
                 // variant="body1"
                 align="left"
@@ -164,9 +250,11 @@ function Login() {
               <input type={show?"text":"password"} value={password} onChange={(e)=>{setPassword(e.target.value)}} name="password" className="input_signup_2" placeholder="Password" autoComplete="off">
               </input>
               
+              
               <Grid>
               <Grid item className="checkbox-wrapper">
-              <label >   
+             
+              <label >  
                 <input type="checkbox" onClick={handleShow} />
                 <span className="checkbox"></span>
               </label>
@@ -176,8 +264,15 @@ function Login() {
               </Grid>
               </Grid> 
               <Grid sx={{marginTop:"3vh"}}>
+             
               <button className="btn" onClick={handleSubmit} style={{marginRight:"5vw"}} >   Login
               </button>
+
+              <p className="forgot-pass" onClick={()=>{setForgot("reset")
+              setResetEmail(!resetEmail)
+                }
+            } style={{marginLeft:"15vw",marginTop:"-21.5vh",fontSize:"14px",color:"#37BEC1",cursor:"pointer"}}><u>Forgot password?</u></p> 
+
             {validate=='email'&&<Modal
                 open={open}
                 sx={{border:"none !important"}}
@@ -250,6 +345,11 @@ function Login() {
             }
               </Grid> 
               </>
+
+
+                )
+              }
+              
             </Grid>
           </Grid>
         </Grid>
