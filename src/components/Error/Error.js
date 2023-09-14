@@ -13,8 +13,8 @@ const Error = () => {
         <Typography sx={{fontFamily:"League Spartan",fontWeight:"bold",fontSize:"1.3rem",color:"gray"}}>
             Oops ! Something went wrong. <br/>
             <button className="btn-error" onClick={() => {
-                      navigate("/register");
-                    }}>Back to Signup</button>
+                      navigate("/");
+                    }}>Back to Login</button>
         </Typography>
     </div>
 

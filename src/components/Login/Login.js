@@ -98,16 +98,123 @@ function Login() {
      
     });
   };
+
+  
   const [show, setShow] = useState(false)
   const [styles, setStyles] = useState("data_signup")
   const [otp, setOtp] = useState('');
   const [succ,setSucc]=useState(true)
   const handleShow=(e)=>{
-        setShow(!show)
+    setShow(!show)
   }
   // const handleSubmit=(e)=>{
-  //   setSucc(false)
-  // }
+    //   setSucc(false)
+    // }
+    
+  //forgot password methods
+  const handleEmailSubmit = async() =>{
+    try{
+      if(!emailRegex.test(email)){
+        console.log('inin')
+        setValidate('email')
+      }else{
+        const response = await axios.post("http://localhost:8000/user/forgotPassword", {
+          email
+        });
+        if(response.status==200){
+          localStorage.setItem("token",response.data.token)
+          setValidate('otpSent')
+          setShowOtp(true)
+        }else{
+          setValidate('incorrect')
+        }
+      }
+    }catch(err){
+      setValidate('incorrect')
+      setEmail('')
+    }
+    setOpen(true);
+    setTimeout(() => {
+      setOpen(false);
+    }, 1000);
+  }
+
+  const handleOtpSubmit = async() =>{
+    try{
+      const token = localStorage.getItem("token");
+      const response = await axios.post(
+        "http://localhost:8000/user/forgotPasswordOtpVerify",{
+          otpnumber:otp
+        },
+        {
+          headers: {
+            authentication: token,
+          },
+        }
+      )
+      if(response.status == 200){
+        localStorage.setItem("token",response.data.token)
+        setValidate('otpVerified')
+        setEmail('');
+        setOtp('');
+        setShowOtp(!showOtp)
+        setForgot("reset")
+        setReset(!reset)
+        setResetEmail(!resetEmail)
+        setNewEmail(!newEmail)
+      }
+    }catch(err){
+      if(err.response.status == 401){
+        setValidate('incorrectOtp');
+        setOtp('')
+      }else{
+        setValidate('unknown')
+      }
+    }
+    setOpen(true);
+    setTimeout(() => {
+      setOpen(false);
+    }, 1000);
+  }
+
+  const handleResetSubmit = async() =>{
+    try{
+      if(email == '' || password==''){
+        setValidate('empty')
+      }else{
+        if(email==password){
+          const token = localStorage.getItem("token");
+          const response = await axios.put(
+            "http://localhost:8000/user/forgotPasswordChange",{
+              password
+            },
+            {
+              headers: {
+                authentication: token,
+              },
+            }
+          )
+          if(response){
+            setValidate('passwordReset');
+            setTimeout(() => {
+              setForgot('login')
+            }, 1500);
+          }
+        }else{
+          setValidate('NoMatch');
+        }
+      }
+    }catch(err){
+      setValidate('unknown');
+      navigate('/');
+    }
+    setEmail('');
+    setPassword('');
+    setOpen(true);
+    setTimeout(() => {
+      setOpen(false);
+    }, 1000);
+  }
 
   return (
     <div
@@ -167,16 +274,16 @@ function Login() {
                     Enter <span style={{ color: "#37BEC1",marginBottom:"3vh" }}>Email</span>
                     </Typography>
                   
-                    <input value={email} onChange={(e)=>{setEmail(e.target.value)}} type="text" name="text" className="forgot-input"  autoComplete="off" />
-                    <Button variant="container" onClick={()=>setShowOtp(true)} className="btn-forgot" style={{marginTop:"1.8vh",marginLeft:"-3vw"}}>submit</Button>
+                    <input value={email} placeholder="Your Email" onChange={(e)=>{setEmail(e.target.value)}} type="text" name="text" className="forgot-input"  autoComplete="off"/>
+                    <Button variant="container" onClick={handleEmailSubmit} className="btn-forgot" style={{marginTop:"1.8vh",marginLeft:"-3vw",borderRadius:"2px 15px 15px 2px"}}>submit</Button>
                     </>
                     }
                 {
                   showOtp&&<><Typography sx={{color:"black",paddingTop:"2vh",fontSize:"1.1rem",marginTop:"4vh"}}>
-                  An OTP has been sent to <span style={{color:"#37A6A9"}}>mail</span>
+                  An OTP has been sent to <span style={{color:"#37A6A9"}}>{email}</span>
                   </Typography>
                   <Typography style={{color:"black",marginTop:"4vh",fontWeight:"bold",marginBottom:"4vh"}}>
-                  <Grid sx={{marginTop:"5vh",align:"center",paddingLeft:"5.1vw"}} className="otp_mobile">
+                  <Grid sx={{marginTop:"7vh",align:"center",paddingLeft:"3.3vw"}} className="otp_mobile">
                   <OtpInput
                     
                     inputStyle={{width:"37px",height:"7vh",backgroundColor:"#e6e6e6",borderColor:"#b3b3b3",borderRadius:"10%"}}
@@ -190,7 +297,7 @@ function Login() {
                   />
                   </Grid>
                   </Typography>
-                  <button className="btn" onClick={handleReset} style={{marginRight:"1vw",marginTop:"10vh"}} >Enter
+                  <button className="btn" onClick={handleOtpSubmit} style={{marginRight:"1vw",marginTop:"10vh"}} >Enter
                 </button>
                
                 </>
@@ -212,7 +319,7 @@ function Login() {
 
                     <input type={show?"text":"password"} value={password} onChange={(e)=>{setPassword(e.target.value)}} name="password" className="input_signup_2" placeholder="Confirm Password" autoComplete="off">
                     </input>
-                    <button className="btn"  style={{marginRight:"6vw",marginTop:"10vh"}} >Set
+                    <button className="btn" onClick={handleResetSubmit} style={{marginRight:"6vw",marginTop:"10vh"}} >Reset
                 </button>
                   
                   </>
@@ -273,20 +380,7 @@ function Login() {
                 }
             } style={{marginLeft:"15vw",marginTop:"-21.5vh",fontSize:"14px",color:"#37BEC1",cursor:"pointer"}}><u>Forgot password?</u></p> 
 
-            {validate=='email'&&<Modal
-                open={open}
-                sx={{border:"none !important"}}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-              >
-              <Box sx={style}>
-                <Typography id="modal-modal-title" variant="h6" component="h3" sx={{margin:"1vh",fontSize:"1.2rem"}}>
-                <i className="fa-regular fa-circle-xmark" style={{color: "#37bec1",marginRight:"1vw"}}></i>
-                Enter correct email <span style={{marginRight:"1vw !important"}}></span>
-                </Typography>
-              </Box>
-            </Modal>
-            }
+            
             {validate=='correct'&&<Modal
                 open={open}
                 sx={{border:"none !important"}}
@@ -315,16 +409,20 @@ function Login() {
               </Box>
             </Modal>
             }
-            {validate=='incorrect'&&<Modal
+              </Grid> 
+              </>
+                )
+              }
+              {validate=='email'&&<Modal
                 open={open}
                 sx={{border:"none !important"}}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
               >
               <Box sx={style}>
-                <Typography id="modal-modal-title" variant="h6" component="h3" sx={{margin:"1vh",fontSize:"1.1rem"}}>
+                <Typography id="modal-modal-title" variant="h6" component="h3" sx={{margin:"1vh",fontSize:"1.2rem"}}>
                 <i className="fa-regular fa-circle-xmark" style={{color: "#37bec1",marginRight:"1vw"}}></i>
-                Invalid Login Credentials<span style={{marginRight:"1vw !important"}}></span>
+                Enter correct email <span style={{marginRight:"1vw !important"}}></span>
                 </Typography>
               </Box>
             </Modal>
@@ -343,13 +441,104 @@ function Login() {
               </Box>
             </Modal>
             }
-              </Grid> 
-              </>
-
-
-                )
-              }
-              
+            {validate=='incorrect'&&<Modal
+                open={open}
+                sx={{border:"none !important"}}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+              >
+              <Box sx={style}>
+                <Typography id="modal-modal-title" variant="h6" component="h3" sx={{margin:"1vh",fontSize:"1.1rem"}}>
+                <i className="fa-regular fa-circle-xmark" style={{color: "#37bec1",marginRight:"1vw"}}></i>
+                Invalid Login Credentials<span style={{marginRight:"1vw !important"}}></span>
+                </Typography>
+              </Box>
+            </Modal>
+            }
+            {validate=='incorrectOtp'&&<Modal
+                open={open}
+                sx={{border:"none !important"}}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+              >
+              <Box sx={style}>
+                <Typography id="modal-modal-title" variant="h6" component="h3" sx={{margin:"1vh",fontSize:"1.1rem"}}>
+                <i className="fa-regular fa-circle-xmark" style={{color: "#37bec1",marginRight:"1vw"}}></i>
+                Incorrent Otp!<span style={{marginRight:"1vw !important"}}></span>
+                </Typography>
+              </Box>
+            </Modal>
+            }
+            {validate=='NoMatch'&&<Modal
+                open={open}
+                sx={{border:"none !important"}}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+              >
+              <Box sx={style}>
+                <Typography id="modal-modal-title" variant="h6" component="h3" sx={{margin:"1vh",fontSize:"1.1rem"}}>
+                <i className="fa-regular fa-circle-xmark" style={{color: "#37bec1",marginRight:"1vw"}}></i>
+                Password and Confirm Password don't match!<span style={{marginRight:"1vw !important"}}></span>
+                </Typography>
+              </Box>
+            </Modal>
+            }
+            {validate=='empty'&&<Modal
+                open={open}
+                sx={{border:"none !important"}}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+              >
+              <Box sx={style}>
+                <Typography id="modal-modal-title" variant="h6" component="h3" sx={{margin:"1vh",fontSize:"1.1rem"}}>
+                <i className="fa-regular fa-circle-xmark" style={{color: "#37bec1",marginRight:"1vw"}}></i>
+                Please fill both fields!<span style={{marginRight:"1vw !important"}}></span>
+                </Typography>
+              </Box>
+            </Modal>
+            }
+            {validate=='otpSent'&&<Modal
+                open={open}
+                sx={{border:"none !important"}}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+              >
+              <Box sx={style}>
+                <Typography id="modal-modal-title" variant="h6" component="h3" sx={{margin:"1vh",fontSize:"1.2rem"}}>
+                <i className="fa-regular fa-circle-check" style={{color: "#37bec1",marginRight:"1vw"}}></i>
+                Otp sent! <span style={{marginRight:"1vw !important"}}></span>
+                </Typography>
+              </Box>
+            </Modal>
+            }
+            {validate=='otpVerified'&&<Modal
+                open={open}
+                sx={{border:"none !important"}}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+              >
+              <Box sx={style}>
+                <Typography id="modal-modal-title" variant="h6" component="h3" sx={{margin:"1vh",fontSize:"1.2rem"}}>
+                <i className="fa-regular fa-circle-check" style={{color: "#37bec1",marginRight:"1vw"}}></i>
+                Otp Verified <span style={{marginRight:"1vw !important"}}></span>
+                </Typography>
+              </Box>
+            </Modal>
+            }
+            {validate=='passwordReset'&&<Modal
+                open={open}
+                sx={{border:"none !important"}}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+              >
+              <Box sx={style}>
+                <Typography id="modal-modal-title" variant="h6" component="h3" sx={{margin:"1vh",fontSize:"1.2rem"}}>
+                <i className="fa-regular fa-circle-check" style={{color: "#37bec1",marginRight:"1vw"}}></i>
+                Password reset successful <span style={{marginRight:"1vw !important"}}></span>
+                </Typography>
+              </Box>
+            </Modal>
+            }
             </Grid>
           </Grid>
         </Grid>
