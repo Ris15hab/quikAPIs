@@ -147,11 +147,67 @@ const contact = async (req, res, next) => {
         SendMail(email, 'Your Inquiry Received - quikAPIs Support', body)
 
         const body2 = `<p>User Emails: ${email}<br><br>User Subject: ${subject}<br><br>User message: ${message}</p>`
-        SendMail('quikapis@gmail.com','New Response Support Update',body2 )
+        SendMail('quikapis@gmail.com', 'New Response Support Update', body2)
 
         res.status(201).json({ message: "Form data successfully added to db!" })
     }
     catch (err) {
+        next(err)
+    }
+}
+
+const forgotPassword = async (req, res, next) => {
+    try {
+        const userData = await User.findOne({ email: req.body.email })
+        if (userData) {
+            otpnumber = await generateOTP(userData._id)
+            const body = `<p>Dear ${userData.username},<br><br>Your OTP for password reset is:  <span><b><u>${otpnumber}</u></b></span><br><br>Use this code to verify your email and proceed with the password reset process.<br><br>Best regards,<br>QuikAPIs Support</p>`
+
+            SendMail(userData.email, 'Your OTP for Password Reset', body)
+            const token = await jwt.sign({ userData }, process.env.SECRET_KEY)
+            res.status(200).json({ message: "otp sent successfully!!", token })
+        } else {
+            res.status(400).json({ message: "no user with this email" })
+        }
+    } catch (err) {
+        next(err)
+    }
+}
+
+const forgotPasswordOtpVerify = async (req, res, next) => {
+    try {
+        const { otpnumber } = req.body
+        const userID = req.user.userData._id
+        const otpData = await Otp.findOne({ userID })
+        const isMatch = await bcrypt.compare(otpnumber, otpData.otp)
+        if (isMatch) {
+            const token = await jwt.sign({ userData: req.user.userData, isOtpVerified: true }, process.env.SECRET_KEY)
+            res.status(200).json({ message: "Otp verified, move on to reset password screen", token })
+        } else {
+            res.status(401).json({ message: "wrong otp entered" })
+        }
+    } catch (err) {
+        next(err)
+    }
+}
+
+const forgotPasswordChange = async (req, res, next) => {
+    try {
+        const isOtpVerified = req.user.isOtpVerified
+        if(isOtpVerified){
+            const userID = req.user.userData._id
+            const userData = await User.findOne({ _id: userID })
+            if (userData) {
+                userData.password = req.body.password || userData.password;
+                userData.save();
+                res.status(200).json({ message: "password upadated successfully, move to sign in page" })
+            } else {
+                res.status(400).json({ message: "oops an error occured" })
+            }
+        }else{
+            res.status(400).json({ message: "otp not verified" })
+        }
+    } catch (err) {
         next(err)
     }
 }
@@ -162,5 +218,8 @@ module.exports = {
     verifyOtp,
     resendOtp,
     getUserById,
-    contact
+    contact,
+    forgotPassword,
+    forgotPasswordOtpVerify,
+    forgotPasswordChange
 }
