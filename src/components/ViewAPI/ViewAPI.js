@@ -9,9 +9,6 @@ import Modal from "@mui/material/Modal";
 import Button from "@mui/material/Button";
 import axios from "axios";
 import nodata from "../../nodata.png";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import Tooltip from "@mui/material/Tooltip";
 
 const style = {
   position: "absolute",

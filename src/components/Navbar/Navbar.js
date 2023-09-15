@@ -2,7 +2,6 @@ import React,{useState} from 'react'
 import './Navbar.css'
 import Typography from '@mui/material/Typography'
 import MenuIcon from '@mui/icons-material/Menu';
-import SearchIcon from '@mui/icons-material/Search';
 import Divider from '@mui/material/Divider';
 import {useNavigate,Link} from 'react-router-dom'
 import Modal from '@mui/material/Modal';
@@ -22,9 +21,10 @@ const style = {
   pt: 2,
   px: 4,
   pb: 3,
-  border: '2px solid #e0e0e0',
+  //border: '2px solid #e0e0e0',
   borderRadius:"15px",
-  border:"none !important",
+  //
+  //border:"none !important",
   transition:" all .4s"
 };
 const style2 = {
@@ -35,12 +35,12 @@ const style2 = {
   transform: "translate(-50%, -50%)",
   width: 150,
   bgcolor: "background.paper",
-  border: "2px solid #000",
+  //border: "2px solid #000",
   boxShadow: 24,
   pt: 2,
   px: 4,
   pb: 3,
-  border: '2px solid #e0e0e0',
+  //border: '2px solid #e0e0e0',
   borderRadius:"15px",
   border:"none !important",
   transition:" all .4s"

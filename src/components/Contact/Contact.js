@@ -4,12 +4,9 @@ import Typography from '@mui/material/Typography'
 import './Contact.css'
 import Grid from '@mui/material/Grid'
 import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
 import FormControl from "@mui/material/FormControl";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import Modal from "@mui/material/Modal";
-import Checkbox from '@mui/material/Checkbox';
 import Box from "@mui/material/Box";
 import axios from 'axios';
 
@@ -20,7 +17,7 @@ const style = {
   transform: "translate(-50%, -50%)",
   width: 300,
   bgcolor: "background.paper",
-  border: "2px solid #000",
+  //border: "2px solid #000",
   boxShadow: 24,
   pt: 2,
   px: 4,
@@ -51,7 +48,7 @@ const Contact = () => {
           'authentication':token,
         }
       });
-      if(response.status==201){
+      if(response.status===201){
         setValidate('correct')
         setOpen(true)
         setTimeout(() => {
@@ -195,7 +192,7 @@ const Contact = () => {
         </Typography>
         <textarea value={text} onChange={(e)=>setText(e.target.value)} type="text" name="text" className="contact-name" style={{height:"15vh",color:"gray" , fontFamily:"League Spartan"}} />
         </div>
-        {(email!=''&&subject!=''&&text!='')?(<Typography  align="center" sx={{color:"white"}}>
+        {(email!==''&&subject!==''&&text!=='')?(<Typography  align="center" sx={{color:"white"}}>
           <button className="contact-submit" style={{marginTop:"3vh",width:"13vw",marginBottom:"10vh"}} onClick={handleSubmit}>
             {message}
           </button>
@@ -206,7 +203,7 @@ const Contact = () => {
           </button>
         </Typography>)}
       </Grid>
-      {validate=='unknown'&&<Modal
+      {validate==='unknown'&&<Modal
         open={open}
         sx={{border:"none !important"}}
         aria-labelledby="modal-modal-title"
@@ -220,7 +217,7 @@ const Contact = () => {
         </Box>
         </Modal>}
 
-        {validate=='empty'&&<Modal
+        {validate==='empty'&&<Modal
         open={open}
         sx={{border:"none !important"}}
         aria-labelledby="modal-modal-title"
@@ -234,7 +231,7 @@ const Contact = () => {
         </Box>
         </Modal>}
 
-        {validate=='correct'&&<Modal
+        {validate==='correct'&&<Modal
         open={open}
         sx={{border:"none !important"}}
         aria-labelledby="modal-modal-title"

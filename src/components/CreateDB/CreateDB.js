@@ -1,25 +1,21 @@
-import React, { useState, useEffect} from "react";
+import React, { useState} from "react";
 import Box from "@mui/material/Box";
 import Navbar from "../Navbar/Navbar";
 import "./CreateDB.css";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
-import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
+import Select from "@mui/material/Select";
 import TableBody from "@mui/material/TableBody";
-import { TableCell, Button } from "@mui/material";
+import { TableCell} from "@mui/material";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Table from "@mui/material/Table";
-import Paper from "@mui/material/Paper";
-import { ToastContainer, toast } from "react-toastify";
 import Modal from "@mui/material/Modal";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
-import debounce from 'lodash.debounce';
 
 
 
@@ -30,7 +26,7 @@ const style = {
   transform: "translate(-50%, -50%)",
   width: 300,
   bgcolor: "background.paper",
-  border: "2px solid #000",
+  //border: "2px solid #000",
   boxShadow: 24,
   pt: 2,
   px: 4,
@@ -40,22 +36,22 @@ const style = {
   transition:" all .4s"
 };
 
-const style2 = {
-  position: "absolute",
-  top: "50%",
-  left: "55%",
-  transform: "translate(-50%, -50%)",
-  width: 300,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  pt: 2,
-  px: 4,
-  pb: 3,
-  borderRadius:"15px",
-  border:"none !important",
-  transition:" all .4s"
-};
+// const style2 = {
+//   position: "absolute",
+//   top: "50%",
+//   left: "55%",
+//   transform: "translate(-50%, -50%)",
+//   width: 300,
+//   bgcolor: "background.paper",
+//   border: "2px solid #000",
+//   boxShadow: 24,
+//   pt: 2,
+//   px: 4,
+//   pb: 3,
+//   borderRadius:"15px",
+//   border:"none !important",
+//   transition:" all .4s"
+// };
 
 const CreateDB = () => {
   const [preview, setPreview] = React.useState(false);
@@ -64,7 +60,7 @@ const CreateDB = () => {
   const [name, setName] = React.useState('');
   const [description, setDescription] = React.useState('');  
   const [open, setOpen] = React.useState(false);
-  const [disabled, setDisabled] = React.useState(true);
+  
 
   const handleGenerate = async () => {
     
@@ -210,7 +206,7 @@ const CreateDB = () => {
   };
   const handleSubmit = (e) => {
 
-    if(inpval.name.length!=0 && inpval.type.length!=0 && inpval.required.length!=0 && inpval.unique.length!=0){
+    if(inpval.name.length!==0 && inpval.type.length!==0 && inpval.required.length!==0 && inpval.unique.length!==0){
       const space = /\s/.test(inpval.name);
       const special=/^[a-zA-Z0-9_]+$/.test(inpval.name)
       if(space || !special){
@@ -254,7 +250,7 @@ const CreateDB = () => {
     setFinal(final.filter((v, i) => i !== index));
     // console.log(final);
     // console.log("hiii " + final.length)
-    if(final.length==1){setPreview(false)}
+    if(final.length===1){setPreview(false)}
   };
 
   return (
@@ -493,7 +489,7 @@ const CreateDB = () => {
             >
               <i className="fa-solid fa-plus" style={{ color: "#37BEC1" }}></i>
             </button>
-            {validate=='name_space'&&<Modal
+            {validate==='name_space'&&<Modal
                 open={open}
                 sx={{border:"none !important"}}
                 aria-labelledby="modal-modal-title"
@@ -577,7 +573,7 @@ const CreateDB = () => {
         </TableContainer></>):(" ")
       
          }
-      {name.length==0||description.length==0||!preview?
+      {name.length===0||description.length===0||!preview?
       (
         <>
         <button
@@ -609,7 +605,7 @@ const CreateDB = () => {
       )
       }
        
-      {validate=='empty'&&<Modal
+      {validate==='empty'&&<Modal
           open={open}
           sx={{border:"none !important"}}
           aria-labelledby="modal-modal-title"
@@ -639,7 +635,7 @@ const CreateDB = () => {
           </Box>
         </Modal>} */}
 
-        {validate=='correct'&&<Modal
+        {validate==='correct'&&<Modal
           open={open}
           sx={{border:"none !important"}}
           aria-labelledby="modal-modal-title"
@@ -653,7 +649,7 @@ const CreateDB = () => {
           </Box>
         </Modal>}
 
-        {validate=='unknown'&&<Modal
+        {validate==='unknown'&&<Modal
           open={open}
           sx={{border:"none !important"}}
           aria-labelledby="modal-modal-title"
@@ -667,7 +663,7 @@ const CreateDB = () => {
           </Box>
         </Modal>}
 
-        {validate=='whitespace'&&<Modal
+        {validate==='whitespace'&&<Modal
           open={open}
           sx={{border:"none !important"}}
           aria-labelledby="modal-modal-title"

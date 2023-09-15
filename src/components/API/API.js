@@ -3,7 +3,6 @@ import Navbar from "../Navbar/Navbar";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import Divider from '@mui/material/Divider';
 import './API.css'
 import copy from "copy-to-clipboard";
 import Tooltip from '@mui/material/Tooltip';
@@ -19,7 +18,6 @@ const style_modal_popup = {
   transform: "translate(-50%, -50%)",
   width: 300,
   bgcolor: "background.paper",
-  border: "2px solid #000",
   boxShadow: 24,
   pt: 2,
   px: 4,
@@ -86,7 +84,7 @@ useEffect(()=>{
   }
 
   fetchData();
-},[])
+},[])   //id
 
 
   const handleTooltipClose = () => {
@@ -138,8 +136,8 @@ useEffect(()=>{
 
           <Grid item xs={10} lg={10} md={10}>
         <Typography align="left" className="api_heading" sx={{fontFamily: "League Spartan",
-                  color:"gray",
-                  fontFamily:"League Spartan",
+                  //color:"gray",
+                  //fontFamily:"League Spartan",
                   fontSize: "1.1rem",
                   marginTop:"1rem",
                   marginLeft:"2rem",
@@ -189,8 +187,8 @@ useEffect(()=>{
 
         <Grid item xs={10} lg={10} md={10}>
         <Typography align="left" className="api_heading" sx={{fontFamily: "League Spartan",
-                  color:"gray",
-                  fontFamily:"League Spartan",
+                  //color:"gray",
+                  //fontFamily:"League Spartan",
                   fontSize: "1.1rem",
                   marginTop:"1rem",
                   marginLeft:"2rem",
@@ -239,8 +237,8 @@ useEffect(()=>{
 
         <Grid item xs={10} lg={10} md={10}>
         <Typography align="left" className="api_heading" sx={{fontFamily: "League Spartan",
-                  color:"gray",
-                  fontFamily:"League Spartan",
+                  //color:"gray",
+                  //fontFamily:"League Spartan",
                   fontSize: "1.1rem",
                   marginTop:"1rem",
                   marginLeft:"2rem",
@@ -289,8 +287,8 @@ useEffect(()=>{
 
         <Grid item xs={10} lg={10} md={10}>
         <Typography align="left" className="api_heading" sx={{fontFamily: "League Spartan",
-                  color:"gray",
-                  fontFamily:"League Spartan",
+                  //color:"gray",
+                  //fontFamily:"League Spartan",
                   fontSize: "1.1rem",
                   marginTop:"1rem",
                   marginLeft:"2rem",
@@ -339,8 +337,7 @@ useEffect(()=>{
         
         <Grid item xs={10} lg={10} md={10}>
         <Typography align="left" className="api_heading" sx={{fontFamily: "League Spartan",
-                  color:"gray",
-                  fontFamily:"League Spartan",
+                  // color:"gray",
                   fontSize: "1.1rem",
                   marginTop:"1rem",
                   marginLeft:"2rem",
@@ -402,7 +399,7 @@ useEffect(()=>{
 
         
       </Grid>
-        {validate=='unknown'&&<Modal
+        {validate==='unknown'&&<Modal
           open={open_modal_popup}
           sx={{border:"none !important"}}
           aria-labelledby="modal-modal-title"

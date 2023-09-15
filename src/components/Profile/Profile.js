@@ -7,7 +7,7 @@ import Box from "@mui/material/Box";
 import axios from "axios";
 import Chart from "react-apexcharts";
 import Modal from "@mui/material/Modal";
-import { useNavigate } from "react-router-dom";
+
 
 const style = {
   position: "absolute",
@@ -26,7 +26,7 @@ const style = {
 };
 
 const Profile = () => {
-  const navigate = useNavigate();
+  
   const [name, setName] = useState("");
   const [validate, setValidate] = useState("");
   const [badgetext, setBadgetext] = useState("My Badges!");
@@ -718,7 +718,7 @@ const Profile = () => {
                             fontSize: "24px",
                             marginTop: "2.3vh",
                             color: "#594a48",
-                            color: "#594a48",
+                            
                           }}
                         ></i>
                       </Typography>
@@ -968,7 +968,7 @@ const Profile = () => {
             </Grid>
           </>
         )}
-        {validate == "unknown" && (
+        {validate === "unknown" && (
           <Modal
             open={open}
             sx={{ border: "none !important" }}

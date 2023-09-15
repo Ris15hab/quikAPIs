@@ -172,7 +172,7 @@ const HowToUse = () => {
             <Typography align="left" sx={{fontFamily:"League Spartan",fontSize:"1.1rem",marginBottom:"0.2rem",marginTop:"5vh"}} className="step2">
             As the owner of the database, you have full control over your data.
             </Typography>
-            <Typography align="left" sx={{fontFamily:"League Spartan",fontSize:"1.1rem",marginBottom:"0.2rem",marginBottom:"2vh"}} className="step2">
+            <Typography align="left" sx={{fontFamily:"League Spartan",fontSize:"1.1rem",marginBottom:"2vh"}} className="step2">
             1) Use the provided options to add, delete, or edit data in your database.
             </Typography>
             <Grid container>
@@ -187,11 +187,11 @@ const HowToUse = () => {
             2) Similarly, click on the collection to edit or delete your data.<br/>
             3) Remember to refresh the database after adding new databases for updates to take effect.
             </Typography>
-            <Typography align="center" sx={{fontFamily:"League Spartan",fontSize:"1.2rem",marginBottom:"0.2rem",marginTop:"7vh",marginBottom:"7vh",fontWeight:"bold"}} className="step3">
+            <Typography align="center" sx={{fontFamily:"League Spartan",fontSize:"1.2rem",marginTop:"7vh",marginBottom:"7vh",fontWeight:"bold"}} className="step3">
             Congratulations! You've successfully created your own database with fully functional APIs and integrated them into your React website.<br/> Now you have a full-stack project of your own!
             </Typography>
 
-          {validate=='imageone'&&<Modal
+          {validate==='imageone'&&<Modal
           open={open}
           sx={{border:"none !important"}}
           aria-labelledby="modal-modal-title"
@@ -203,7 +203,7 @@ const HowToUse = () => {
             </Box>
           </Modal>}
 
-          {validate=='imagetwo'&&<Modal
+          {validate==='imagetwo'&&<Modal
           open={open}
           sx={{border:"none !important"}}
           aria-labelledby="modal-modal-title"
@@ -215,7 +215,7 @@ const HowToUse = () => {
             </Box>
           </Modal>}
 
-          {validate=='imagethree'&&<Modal
+          {validate==='imagethree'&&<Modal
           open={open}
           sx={{border:"none !important"}}
           aria-labelledby="modal-modal-title"
@@ -227,7 +227,7 @@ const HowToUse = () => {
             </Box>
           </Modal>}
 
-          {validate=='imagefour'&&<Modal
+          {validate==='imagefour'&&<Modal
           open={open}
           sx={{border:"none !important"}}
           aria-labelledby="modal-modal-title"

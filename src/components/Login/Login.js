@@ -6,10 +6,8 @@ import { Link, useNavigate } from "react-router-dom";
 import "./Login.css";
 import Typography from "@mui/material/Typography";
 import OtpInput from 'react-otp-input';
-import { ToastContainer, toast } from "react-toastify";
 import Modal from "@mui/material/Modal";
 import "react-toastify/dist/ReactToastify.css";
-import PropTypes from 'prop-types';
 import axios from "axios";
 
 
@@ -29,7 +27,7 @@ function Login() {
     transform: "translate(-50%, -50%)",
     width: 250,
     bgcolor: "background.paper",
-    border: "2px solid #000",
+    //border: "2px solid #000",
     boxShadow: 24,
     pt: 2,
     px: 4,
@@ -46,19 +44,19 @@ function Login() {
   const [resetEmail, setResetEmail] = React.useState(false);
   const [newEmail, setNewEmail] = React.useState(false);
   const [validate,setValidate]=useState('')
-  const handleReset=()=>{
-    setShowOtp(!showOtp)
-    setForgot("reset")
-    setReset(!reset)
-    setResetEmail(!resetEmail)
-    setNewEmail(!newEmail)
-  }
+  // const handleReset=()=>{
+  //   setShowOtp(!showOtp)
+  //   setForgot("reset")
+  //   setReset(!reset)
+  //   setResetEmail(!resetEmail)
+  //   setNewEmail(!newEmail)
+  // }
   const handleSubmit = async (e) => {
     if(!emailRegex.test(email)){
       console.log("correct email")
       setValidate('email')
     }
-    else if(password.length==0){
+    else if(password.length===0){
       setValidate('password')
     }
     else{
@@ -67,7 +65,7 @@ function Login() {
           email,
           password,
         });
-        if(response.status == 200){
+        if(response.status === 200){
           localStorage.setItem("token",response.data.token)
           setValidate('correct')
           setTimeout(() => {
@@ -92,18 +90,12 @@ function Login() {
     }, 1000);
   };
 
-  const showToastMessage = () => {
-    toast.success("Success! Databse created", {
-      position: toast.POSITION.TOP_RIGHT,
-     
-    });
-  };
+
 
   
   const [show, setShow] = useState(false)
   const [styles, setStyles] = useState("data_signup")
   const [otp, setOtp] = useState('');
-  const [succ,setSucc]=useState(true)
   const handleShow=(e)=>{
     setShow(!show)
   }
@@ -121,7 +113,7 @@ function Login() {
         const response = await axios.post("http://localhost:8000/user/forgotPassword", {
           email
         });
-        if(response.status==200){
+        if(response.status===200){
           localStorage.setItem("token",response.data.token)
           setValidate('otpSent')
           setShowOtp(true)
@@ -152,7 +144,7 @@ function Login() {
           },
         }
       )
-      if(response.status == 200){
+      if(response.status === 200){
         localStorage.setItem("token",response.data.token)
         setValidate('otpVerified')
         setEmail('');
@@ -164,7 +156,7 @@ function Login() {
         setNewEmail(!newEmail)
       }
     }catch(err){
-      if(err.response.status == 401){
+      if(err.response.status === 401){
         setValidate('incorrectOtp');
         setOtp('')
       }else{
@@ -179,10 +171,10 @@ function Login() {
 
   const handleResetSubmit = async() =>{
     try{
-      if(email == '' || password==''){
+      if(email === '' || password===''){
         setValidate('empty')
       }else{
-        if(email==password){
+        if(email===password){
           const token = localStorage.getItem("token");
           const response = await axios.put(
             "http://localhost:8000/user/forgotPasswordChange",{
@@ -260,7 +252,7 @@ function Login() {
               sx={{ height: "60vh",margin: "10vh" }}
             >
               {
-                forgot=="reset"?(
+                forgot==="reset"?(
                   <>
                     {
                       resetEmail&&
@@ -381,7 +373,7 @@ function Login() {
             } style={{marginLeft:"15vw",marginTop:"-21.5vh",fontSize:"14px",color:"#37BEC1",cursor:"pointer"}}><u>Forgot password?</u></p> 
 
             
-            {validate=='correct'&&<Modal
+            {validate==='correct'&&<Modal
                 open={open}
                 sx={{border:"none !important"}}
                 aria-labelledby="modal-modal-title"
@@ -395,7 +387,7 @@ function Login() {
               </Box>
             </Modal>
             }
-            {validate=='password'&&<Modal
+            {validate==='password'&&<Modal
                 open={open}
                 sx={{border:"none !important"}}
                 aria-labelledby="modal-modal-title"
@@ -413,7 +405,7 @@ function Login() {
               </>
                 )
               }
-              {validate=='email'&&<Modal
+              {validate==='email'&&<Modal
                 open={open}
                 sx={{border:"none !important"}}
                 aria-labelledby="modal-modal-title"
@@ -427,7 +419,7 @@ function Login() {
               </Box>
             </Modal>
             }
-            {validate=='unknown'&&<Modal
+            {validate==='unknown'&&<Modal
                 open={open}
                 sx={{border:"none !important"}}
                 aria-labelledby="modal-modal-title"
@@ -441,7 +433,7 @@ function Login() {
               </Box>
             </Modal>
             }
-            {validate=='incorrect'&&<Modal
+            {validate==='incorrect'&&<Modal
                 open={open}
                 sx={{border:"none !important"}}
                 aria-labelledby="modal-modal-title"
@@ -455,7 +447,7 @@ function Login() {
               </Box>
             </Modal>
             }
-            {validate=='incorrectOtp'&&<Modal
+            {validate==='incorrectOtp'&&<Modal
                 open={open}
                 sx={{border:"none !important"}}
                 aria-labelledby="modal-modal-title"
@@ -469,7 +461,7 @@ function Login() {
               </Box>
             </Modal>
             }
-            {validate=='NoMatch'&&<Modal
+            {validate==='NoMatch'&&<Modal
                 open={open}
                 sx={{border:"none !important"}}
                 aria-labelledby="modal-modal-title"
@@ -483,7 +475,7 @@ function Login() {
               </Box>
             </Modal>
             }
-            {validate=='empty'&&<Modal
+            {validate==='empty'&&<Modal
                 open={open}
                 sx={{border:"none !important"}}
                 aria-labelledby="modal-modal-title"
@@ -497,7 +489,7 @@ function Login() {
               </Box>
             </Modal>
             }
-            {validate=='otpSent'&&<Modal
+            {validate==='otpSent'&&<Modal
                 open={open}
                 sx={{border:"none !important"}}
                 aria-labelledby="modal-modal-title"
@@ -511,7 +503,7 @@ function Login() {
               </Box>
             </Modal>
             }
-            {validate=='otpVerified'&&<Modal
+            {validate==='otpVerified'&&<Modal
                 open={open}
                 sx={{border:"none !important"}}
                 aria-labelledby="modal-modal-title"
@@ -525,7 +517,7 @@ function Login() {
               </Box>
             </Modal>
             }
-            {validate=='passwordReset'&&<Modal
+            {validate==='passwordReset'&&<Modal
                 open={open}
                 sx={{border:"none !important"}}
                 aria-labelledby="modal-modal-title"

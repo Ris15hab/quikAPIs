@@ -9,7 +9,7 @@ import Email from './email.png'
 import OtpInput from 'react-otp-input';
 import Modal from "@mui/material/Modal";
 import "react-toastify/dist/ReactToastify.css";
-import PropTypes from 'prop-types';
+
 import axios from "axios";
 
 
@@ -36,21 +36,21 @@ function Register() {
     px: 4,
     pb: 3,
     borderRadius:"15px",
-    border:"none !important",
+    //border:"none !important",
     transition:" all .4s"
   };
   const [open, setOpen] = React.useState(false);
   const [validate,setValidate]=useState('')
 
   const handleOpen = async (e) => {
-    if(name.length==0){
+    if(name.length===0){
       setValidate('name')
     }
     else if(!emailRegex.test(email)){
       // console.log("correct email")
       setValidate('email')
     }
-    else if(password.length==0){
+    else if(password.length===0){
       setValidate('password')
     }
 
@@ -61,7 +61,7 @@ function Register() {
           email,
           password,
         });
-        if(response.status==201){
+        if(response.status===201){
           localStorage.setItem("token",response.data.id)
           setValidate('otp_sent')
           setSucc(false)
@@ -128,7 +128,7 @@ function Register() {
         const response = await axios.post("http://localhost:8000/user/resendOtp", {
         _id:token
       });
-      if(response.status==200){
+      if(response.status===200){
         localStorage.setItem("token",response.data._id)
         setValidate('otp_sent')
       }else{
@@ -171,7 +171,7 @@ function Register() {
         otpnumber:otp,
         userID:token
       });
-      if(response.status==200){
+      if(response.status===200){
         localStorage.setItem("token",response.data.token)
         setValidate('correct');
         setTimeout(() => {
@@ -276,7 +276,7 @@ function Register() {
               <Grid sx={{marginTop:"3vh"}}>
               <button className="btn" style={{marginRight:"5vw"}} onClick={handleOpen}> Register
               </button>
-              {validate=='email'&&<Modal
+              {validate==='email'&&<Modal
                 open={open}
                 sx={{border:"none !important"}}
                 aria-labelledby="modal-modal-title"
@@ -290,7 +290,7 @@ function Register() {
               </Box>
             </Modal>
             }
-            {validate=='name'&&<Modal
+            {validate==='name'&&<Modal
                 open={open}
                 sx={{border:"none !important"}}
                 aria-labelledby="modal-modal-title"
@@ -305,7 +305,7 @@ function Register() {
             </Modal>
             }
             
-            {validate=='password'&&<Modal
+            {validate==='password'&&<Modal
                 open={open}
                 sx={{border:"none !important"}}
                 aria-labelledby="modal-modal-title"
@@ -320,7 +320,7 @@ function Register() {
             </Modal>
             }
 
-            {validate=='incorrect_email'&&<Modal
+            {validate==='incorrect_email'&&<Modal
                 open={open}
                 sx={{border:"none !important"}}
                 aria-labelledby="modal-modal-title"
@@ -335,7 +335,7 @@ function Register() {
             </Modal>
             }
 
-            {validate=='unknown'&&<Modal
+            {validate==='unknown'&&<Modal
                     open={open}
                     sx={{border:"none !important"}}
                     aria-labelledby="modal-modal-title"
@@ -354,7 +354,7 @@ function Register() {
               </>
               ):(
                 <>
-                {validate=='otp_sent'&&<Modal
+                {validate==='otp_sent'&&<Modal
                     open={open}
                     sx={{border:"none !important"}}
                     aria-labelledby="modal-modal-title"
@@ -369,7 +369,7 @@ function Register() {
                 </Modal>
                 }
 
-                {validate=='unknown'&&<Modal
+                {validate==='unknown'&&<Modal
                     open={open}
                     sx={{border:"none !important"}}
                     aria-labelledby="modal-modal-title"
@@ -384,7 +384,7 @@ function Register() {
                 </Modal>
                 }
 
-                {validate=='incorrect_otp'&&<Modal
+                {validate==='incorrect_otp'&&<Modal
                     open={open}
                     sx={{border:"none !important"}}
                     aria-labelledby="modal-modal-title"
@@ -400,7 +400,7 @@ function Register() {
                 }
 
 
-                {validate=='correct'&&<Modal
+                {validate==='correct'&&<Modal
                     open={open}
                     sx={{border:"none !important"}}
                     aria-labelledby="modal-modal-title"

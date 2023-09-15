@@ -4,14 +4,12 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import './Collection.css'
-import copy from "copy-to-clipboard";
 import Tooltip from '@mui/material/Tooltip';
 import Button from '@mui/material/Button'
 import Modal from '@mui/material/Modal';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import nodata from '../../nodata.png'
-import { useNavigate } from 'react-router-dom';
 import TextField from '@mui/material/TextField';
 
 const style = {
@@ -45,7 +43,7 @@ const style_modal_popup = {
   transform: "translate(-50%, -50%)",
   width: 300,
   bgcolor: "background.paper",
-  border: "2px solid #000",
+  //border: "2px solid #000",
   boxShadow: 24,
   pt: 2,
   px: 4,
@@ -57,7 +55,7 @@ const style_modal_popup = {
 
 
 const Collection = () => {
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
   const {id} = useParams();
   const [validate,setValidate]=useState('');
   const [userid,setUserid]=useState('');
@@ -522,7 +520,7 @@ const Collection = () => {
           </>)}
          
         </Grid> 
-        {validate=='unknown'&&<Modal
+        {validate==='unknown'&&<Modal
           open={open_modal_popup}
           sx={{border:"none !important"}}
           aria-labelledby="modal-modal-title"
@@ -535,7 +533,7 @@ const Collection = () => {
             </Typography>
           </Box>
         </Modal>} 
-        {validate=='uniqueError'&&<Modal
+        {validate==='uniqueError'&&<Modal
           open={open_modal_popup}
           sx={{border:"none !important"}}
           aria-labelledby="modal-modal-title"
@@ -548,7 +546,7 @@ const Collection = () => {
             </Typography>
           </Box>
         </Modal>}
-        {validate=='requiredError'&&<Modal
+        {validate==='requiredError'&&<Modal
           open={open_modal_popup}
           sx={{border:"none !important"}}
           aria-labelledby="modal-modal-title"
@@ -561,7 +559,7 @@ const Collection = () => {
             </Typography>
           </Box>
         </Modal>}
-        {validate=='add_submit'&&<Modal
+        {validate==='add_submit'&&<Modal
           open={open_modal_popup}
           sx={{border:"none !important"}}
           aria-labelledby="modal-modal-title"
@@ -574,7 +572,7 @@ const Collection = () => {
             </Typography>
           </Box>
         </Modal>} 
-        {validate=='delete_submit'&&<Modal
+        {validate==='delete_submit'&&<Modal
           open={open_modal_popup}
           sx={{border:"none !important"}}
           aria-labelledby="modal-modal-title"
@@ -587,7 +585,7 @@ const Collection = () => {
             </Typography>
           </Box>
         </Modal>} 
-        {validate=='update_submit'&&<Modal
+        {validate==='update_submit'&&<Modal
           open={open_modal_popup}
           sx={{border:"none !important"}}
           aria-labelledby="modal-modal-title"
@@ -600,7 +598,7 @@ const Collection = () => {
             </Typography>
           </Box>
         </Modal>} 
-        {validate=='drop_submit'&&<Modal
+        {validate==='drop_submit'&&<Modal
           open={open_modal_popup}
           sx={{border:"none !important"}}
           aria-labelledby="modal-modal-title"
