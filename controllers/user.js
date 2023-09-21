@@ -13,12 +13,12 @@ const badges = require('../models/badges')
 const register = async (req, res, next) => {
     try {
         const { username, email, password } = req.body;
-        const emailCheck = await User.findOne({ email, isVerified: true })
+        const emailCheck = await User.findOne({ email })
         if (emailCheck) {
             if (emailCheck.isVerified) {
                 return next(createError(400, 'Email Already Exists'))
             } else {
-                await User.deleteOne({ email })
+                await User.findByIdAndDelete({ _id:emailCheck._id })
             }
         }
         const user = new User({
