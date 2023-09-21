@@ -45,7 +45,8 @@ const getDataById = async(req,res,next)=>{
     try{
         const {_id} = req.query
         if(!_id){
-            return next(createError(400, "Please send ID of the data as '_id'"))
+            // return next(createError(400, "Please send ID of the data as '_id'"))
+            res.status(400).json({ message: "Please send ID of the data as '_id'" })
         }
 
         const nameofthemodel = req.url.split('/')[1];
@@ -55,7 +56,9 @@ const getDataById = async(req,res,next)=>{
         if(data){
             res.status(200).json({data})
         }else{
-            return next(createError(400, "No data entry found with this id! Orelse try sending ID as '_id'"))
+            // return next(createError(400, "No data entry found with this id! Orelse try sending ID as '_id'"))
+            res.status(400).json({ message: "No data entry found with this id! Orelse try sending ID as '_id'" })
+
         }
     }catch(err){
         next(err)
@@ -66,7 +69,8 @@ const updateDataById = async(req,res,next)=>{
     try{
         const{_id} = req.query
         if(!_id){
-            return next(createError(400, "Please send ID of the data as '_id'"))
+            // return next(createError(400, "Please send ID of the data as '_id'"))
+            res.status(400).json({ message: "Please send ID of the data as '_id'" })
         }
         const nameofthemodel = req.url.split('/')[1];
         const userIDoftheuser = nameofthemodel.split('_')[2];
@@ -95,7 +99,8 @@ const deleteDataById = async(req,res,next) =>{
     try{
         const{_id} = req.query
         if(!_id){
-            return next(createError(400, "Please send ID of the data as '_id'"))
+            // return next(createError(400, "Please send ID of the data as '_id'"))
+            res.status(400).json({ message: "Please send ID of the data as '_id'" })
         }
         const nameofthemodel = req.url.split('/')[1];
         const userIDoftheuser = nameofthemodel.split('_')[2];

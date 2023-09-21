@@ -85,7 +85,8 @@ const getUserDBCollection = async (req, res, next) => {
             res.status(200).json({ name: userDB[0].modelName, response })
         } else {
             // console.log(here)
-            return next(createError(404, 'user database not found'))
+            // return next(createError(404, 'user database not found'))
+            res.status(400).json({message:"user database not found"})
         }
     } catch (err) {
         next(err)

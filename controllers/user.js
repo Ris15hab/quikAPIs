@@ -16,9 +16,10 @@ const register = async (req, res, next) => {
         const emailCheck = await User.findOne({ email })
         if (emailCheck) {
             if (emailCheck.isVerified) {
-                return next(createError(400, 'Email Already Exists'))
+                // return next(createError(400, 'Email Already Exists'))
+                res.status(400).json({ message: "Email Already Exists" })
             } else {
-                await User.findByIdAndDelete({ _id:emailCheck._id })
+                await User.findByIdAndDelete({ email })
             }
         }
         const user = new User({
@@ -194,7 +195,7 @@ const forgotPasswordOtpVerify = async (req, res, next) => {
 const forgotPasswordChange = async (req, res, next) => {
     try {
         const isOtpVerified = req.user.isOtpVerified
-        if(isOtpVerified){
+        if (isOtpVerified) {
             const userID = req.user.userData._id
             const userData = await User.findOne({ _id: userID })
             if (userData) {
@@ -204,7 +205,7 @@ const forgotPasswordChange = async (req, res, next) => {
             } else {
                 res.status(400).json({ message: "oops an error occured" })
             }
-        }else{
+        } else {
             res.status(400).json({ message: "otp not verified" })
         }
     } catch (err) {
