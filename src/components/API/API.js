@@ -39,22 +39,22 @@ const API = () => {
   const [openDel, setOpenDel] = React.useState(false);
   const [openGet, setOpenGet] = React.useState(false);
   const [openGetById, setOpenGetById] = React.useState(false);
-  const [open, setOpen] = React.useState(false);
+  // const [open, setOpen] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const [name, setName] = useState('')
-  const [copiedtext, setCopiedtext] = useState('')
+  // const [copiedtext, setCopiedtext] = useState('')
   const [add, setAdd] = useState('')
   const [get, setGet] = useState('')
   const [put, setPut] = useState('')
   const [del, setDel] = useState('')
   const [getById, setGetById] = useState('')
 
-  const copyToClipboard = () => {
-    copy(api);
-    setTimeout(() => {
-      setOpen(false)
-    }, 1000);
-}
+//   const copyToClipboard = () => {
+//     copy(api);
+//     setTimeout(() => {
+//       setOpen(false)
+//     }, 1000);
+// }
 
 useEffect(()=>{
   const fetchData = async()=>{
@@ -84,12 +84,10 @@ useEffect(()=>{
   }
 
   fetchData();
-},[])   //id
+},[id])   //id
 
 
   const handleTooltipClose = () => {
-    
-    
   };
   return (
     <>

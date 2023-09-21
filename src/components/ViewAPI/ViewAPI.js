@@ -33,21 +33,21 @@ const ViewAPI = () => {
   const [open, setOpen] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const [datadb, setDatadb] = useState([]);
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  // const [anchorEl, setAnchorEl] = React.useState(null);
   const [dbdel,setDbdel]=useState(false)
   const [idDb,setIdDb] = useState('')
   const [refresh, setRefresh] = useState(false)
 
   const handleDeleteClose = () => setDbdel(false);
 
-  const handleMenu = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
+  // const handleMenu = (event) => {
+  //   setAnchorEl(event.currentTarget);
+  // };
   
 
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  // const handleClose = () => {
+  //   setAnchorEl(null);
+  // };
 
   const handleDbDelete = async (idDb) =>{
     try{

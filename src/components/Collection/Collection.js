@@ -303,7 +303,7 @@ const Collection = () => {
       }
     }
     fetchData();
-  },[refresh])
+  },[refresh,id])
 
   // console.log(datadb)
   return (

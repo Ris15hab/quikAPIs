@@ -9,7 +9,7 @@ const Error = () => {
     const navigate = useNavigate(); 
   return (
     <div>
-        <img src={Errorr} alt="no image to see here" className="error-img" style={{height:"70vh"}} />
+        <img src={Errorr} alt="unable to render" className="error-img" style={{height:"70vh"}} />
         <Typography sx={{fontFamily:"League Spartan",fontWeight:"bold",fontSize:"1.3rem",color:"gray"}}>
             Oops ! Something went wrong. <br/>
             <button className="btn-error" onClick={() => {
