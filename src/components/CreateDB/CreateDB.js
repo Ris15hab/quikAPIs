@@ -87,7 +87,7 @@ const CreateDB = () => {
       // try {
       //   // const token = localStorage.getItem('token');
       //   // const response = await axios.post(
-      //   //   "http://localhost:8000/crud/createcrud",
+      //   //   "https://quikapis-backend.onrender.com/crud/createcrud",
       //   //   {
       //   //     modelName: name,
       //   //     modelDescription: description,
@@ -114,7 +114,7 @@ const CreateDB = () => {
       //   // When you want to make a POST request
       //   debouncedAxiosRequest({
       //     method: 'post',
-      //     url: 'http://localhost:8000/crud/createcrud',
+      //     url: 'https://quikapis-backend.onrender.com/crud/createcrud',
       //     data: {
       //       modelName: name,
       //       modelDescription: description,
@@ -144,7 +144,7 @@ const CreateDB = () => {
           setRequest(true)
           const token = localStorage.getItem('token');
           const response = await axios.post(
-            "http://localhost:8000/crud/createcrud",
+            "https://quikapis-backend.onrender.com/crud/createcrud",
             {
               modelName: name,
               modelDescription: description,

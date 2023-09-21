@@ -61,7 +61,7 @@ useEffect(()=>{
     try{
       setLoading(true)
       const token = localStorage.getItem('token')
-      const result = await axios.get("http://localhost:8000/userDB/getApiById?_id="+id,{
+      const result = await axios.get("https://quikapis-backend.onrender.com/userDB/getApiById?_id="+id,{
           headers: {
             'authentication':token,
           }

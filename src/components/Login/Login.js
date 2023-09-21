@@ -61,7 +61,7 @@ function Login() {
     }
     else{
       try{
-        const response = await axios.post("http://localhost:8000/user/login", {
+        const response = await axios.post("https://quikapis-backend.onrender.com/user/login", {
           email,
           password,
         });
@@ -110,7 +110,7 @@ function Login() {
         console.log('inin')
         setValidate('email')
       }else{
-        const response = await axios.post("http://localhost:8000/user/forgotPassword", {
+        const response = await axios.post("https://quikapis-backend.onrender.com/user/forgotPassword", {
           email
         });
         if(response.status===200){
@@ -135,7 +135,7 @@ function Login() {
     try{
       const token = localStorage.getItem("token");
       const response = await axios.post(
-        "http://localhost:8000/user/forgotPasswordOtpVerify",{
+        "https://quikapis-backend.onrender.com/user/forgotPasswordOtpVerify",{
           otpnumber:otp
         },
         {
@@ -177,7 +177,7 @@ function Login() {
         if(email===password){
           const token = localStorage.getItem("token");
           const response = await axios.put(
-            "http://localhost:8000/user/forgotPasswordChange",{
+            "https://quikapis-backend.onrender.com/user/forgotPasswordChange",{
               password
             },
             {

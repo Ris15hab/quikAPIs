@@ -54,7 +54,7 @@ const ViewAPI = () => {
       setDbdel(false)
       setLoading(true)
       const token = localStorage.getItem('token')
-      const result = await axios.delete("http://localhost:8000/crud/deletecrud?_id="+idDb,{
+      const result = await axios.delete("https://quikapis-backend.onrender.com/crud/deletecrud?_id="+idDb,{
           headers: {
             'authentication':token,
           }
@@ -84,7 +84,7 @@ const ViewAPI = () => {
         setLoading(true);
         const token = localStorage.getItem("token");
         const response = await axios.get(
-          "http://localhost:8000/userDB/getUserDB",
+          "https://quikapis-backend.onrender.com/userDB/getUserDB",
           {
             headers: {
               authentication: token,

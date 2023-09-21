@@ -91,7 +91,7 @@ const Collection = () => {
   const handleAddOpen = async (e) => {
     try{
       const token = localStorage.getItem('token')
-      const result = await axios.get("http://localhost:8000/guiCRUD/getFields?_id="+id,{
+      const result = await axios.get("https://quikapis-backend.onrender.com/guiCRUD/getFields?_id="+id,{
           headers: {
             'authentication':token,
           }
@@ -112,7 +112,7 @@ const Collection = () => {
     try{
       setUserid(data._id)
       const token = localStorage.getItem('token')
-      const result = await axios.get("http://localhost:8000/guiCRUD/getFields?_id="+id,{
+      const result = await axios.get("https://quikapis-backend.onrender.com/guiCRUD/getFields?_id="+id,{
           headers: {
             'authentication':token,
           }
@@ -140,7 +140,7 @@ const Collection = () => {
   const handleAddSubmit = async(e)=>{
     try{
       const token = localStorage.getItem('token')
-      const result = await axios.get("http://localhost:8000/userDB/getApiById?_id="+id,{
+      const result = await axios.get("https://quikapis-backend.onrender.com/userDB/getApiById?_id="+id,{
           headers: {
             'authentication':token,
           }
@@ -181,7 +181,7 @@ const Collection = () => {
   const handleCloseDeleteSubmit = async(iddoc)=>{
     try{
       const token = localStorage.getItem('token')
-      const result = await axios.get("http://localhost:8000/userDB/getApiById?_id="+id,{
+      const result = await axios.get("https://quikapis-backend.onrender.com/userDB/getApiById?_id="+id,{
           headers: {
             'authentication':token,
           }
@@ -215,7 +215,7 @@ const Collection = () => {
     try{
       
       const token = localStorage.getItem('token')
-      const result = await axios.get("http://localhost:8000/userDB/getApiById?_id="+id,{
+      const result = await axios.get("https://quikapis-backend.onrender.com/userDB/getApiById?_id="+id,{
           headers: {
             'authentication':token,
           }
@@ -255,7 +255,7 @@ const Collection = () => {
   const handleDropSubmit = async(e)=>{
     try{
       const token = localStorage.getItem('token')
-      const result = await axios.delete("http://localhost:8000/guiCRUD/dropAll?_id="+id,{
+      const result = await axios.delete("https://quikapis-backend.onrender.com/guiCRUD/dropAll?_id="+id,{
           headers: {
             'authentication':token,
           }
@@ -283,7 +283,7 @@ const Collection = () => {
       try{
         setLoading(true)
         const token = localStorage.getItem('token')
-          const result = await axios.get("http://localhost:8000/userDB/getUserDBCollection?_id="+id,{
+          const result = await axios.get("https://quikapis-backend.onrender.com/userDB/getUserDBCollection?_id="+id,{
               headers: {
                 'authentication':token,
               }

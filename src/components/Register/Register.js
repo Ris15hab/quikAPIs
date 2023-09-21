@@ -56,7 +56,7 @@ function Register() {
 
     else{
       try{
-        const response = await axios.post("http://localhost:8000/user/register", {
+        const response = await axios.post("https://quikapis-backend.onrender.com/user/register", {
           username:name,
           email,
           password,
@@ -125,7 +125,7 @@ function Register() {
       try{
         clearTimer(getDeadTime());
         const token = localStorage.getItem('token');
-        const response = await axios.post("http://localhost:8000/user/resendOtp", {
+        const response = await axios.post("https://quikapis-backend.onrender.com/user/resendOtp", {
         _id:token
       });
       if(response.status===200){
@@ -167,7 +167,7 @@ function Register() {
   const handleSubmit = async(e)=>{
     try{
       const token = localStorage.getItem('token');
-      const response = await axios.post("http://localhost:8000/user/verifyOtp", {
+      const response = await axios.post("https://quikapis-backend.onrender.com/user/verifyOtp", {
         otpnumber:otp,
         userID:token
       });

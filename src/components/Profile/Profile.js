@@ -106,7 +106,7 @@ const Profile = () => {
           setLoading(true);
           const token = localStorage.getItem("token");
           const response = await axios.get(
-            "http://localhost:8000/profilePage/getInfo",
+            "https://quikapis-backend.onrender.com/profilePage/getInfo",
             {
               headers: {
                 authentication: token,

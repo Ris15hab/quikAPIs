@@ -39,7 +39,7 @@ const Contact = () => {
   const handleSubmit=async(e)=>{
     try{
       const token = localStorage.getItem('token')
-      const response = await axios.post("http://localhost:8000/user/contact", {
+      const response = await axios.post("https://quikapis-backend.onrender.com/user/contact", {
         email,
         subject,
         message:text
@@ -75,7 +75,7 @@ const Contact = () => {
         setEmail('')
       }else{
         const token = localStorage.getItem('token')
-        const response = await axios.get("http://localhost:8000/user/getUserById",{
+        const response = await axios.get("https://quikapis-backend.onrender.com/user/getUserById",{
             headers: {
               'authentication':token,
             }
