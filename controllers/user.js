@@ -19,7 +19,7 @@ const register = async (req, res, next) => {
                 // return next(createError(400, 'Email Already Exists'))
                 res.status(400).json({ message: "Email Already Exists" })
             } else {
-                await User.findByIdAndDelete({ email })
+                await User.deleteOne({ email })
             }
         }
         const user = new User({
