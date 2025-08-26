@@ -84,3 +84,19 @@ http://localhost:8800
 ```
 
 ## 🔗 API Endpoints
+
+| Method | Endpoint              | Description                  |
+|--------|-----------------------|------------------------------|
+| **POST**   | `/addData`            | Insert new record into DB    |
+| **GET**    | `/getData`            | Retrieve all records         |
+| **GET**    | `/getDataById?_id=`   | Retrieve record by ID        |
+| **PUT**    | `/updateDataById`     | Update existing record by ID |
+| **DELETE** | `/deleteDataById`     | Delete record by ID          |
+
+## 🏆 Publication
+This project is published in the Journal of Computational Analysis and Applications, Vol. 33, No. 4, 2024.
+
+## 👨‍💻 Contributors
+
+- [Rishab Pendam](https://github.com/Ris15hab)
+- [Mahek Upadhye](https://github.com/mahekupadhye31) 
