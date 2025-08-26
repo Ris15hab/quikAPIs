@@ -48,7 +48,7 @@ It empowers frontend developers, students, and non-technical users to build comp
 Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/QuikAPIs.git
+git clone https://github.com/Ris15hab/QuikAPIs.git
 cd QuikAPIs
 ```
 Install Dependencies
